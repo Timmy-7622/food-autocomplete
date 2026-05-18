@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <title>餐點自動補全</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <style>
+      body {
+        font-family: Arial, "Microsoft JhengHei", sans-serif;
+        background: #f5f7fb;
+        padding: 40px;
+      }
+      .box {
+        width: 420px;
+        position: relative;
+        margin: 0 auto;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 16px;
+      }
+      input {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+      }
+      .list {
+        position: absolute;
+        width: 100%;
+        border: 1px solid #ddd;
+        background: #fff;
+        max-height: 260px;
+        overflow-y: auto;
+        border-radius: 10px;
+        margin-top: 6px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        z-index: 10;
+      }
+      .item {
+        padding: 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+      }
+      .item:hover {
+        background: #eef6ff;
+      }
+      .food-name {
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .food-category {
+        font-size: 13px;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="box">
+      <input
+        type="text"
+        v-model="keyword"
+        @input="search"
+        placeholder="請輸入餐點名稱"
+        style="width: 100%; padding: 8px"
+      />
+      <div class="list" v-if="results.length > 0">
+        <div
+          class="item"
+          v-for="item in results"
+          :key="item.id"
+          @click="select(item)"
+        >
+          <div class="food-name">{{ item.name }}</div>
+          <div calss="food-category">{{ item.category }}</div>
+          <div class="food-description">{{ item.description }}</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            keyword: "",
+            results: [],
+          };
+        },
+        methods: {
+          search() {
+            if (this.keyword.trim() === "") {
+              this.results = [];
+              return;
+            }
+            fetch(`/foodcos/search?keyword=${this.keyword}`)
+              .then((res) => res.json())
+              .then((data) => {
+                this.results = data;
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          },
+          select(item) {
+            alert("您已選擇:" + item.name);
+            this.keyword = item.name;
+            this.results = [];
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
