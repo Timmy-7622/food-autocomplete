@@ -1,0 +1,298 @@
+       body {
+        font-family: Arial, "Microsoft JhengHei", sans-serif;
+        background: #f5f7fb;
+        padding: 40px;
+      }
+      .box {
+        width: 420px;
+        position: relative;
+        margin: 0 auto;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 16px;
+      }
+      input {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+      }
+      .list {
+        position: absolute;
+        width: 100%;
+        border: 1px solid #ddd;
+        background: #fff;
+        max-height: 260px;
+        overflow-y: auto;
+        border-radius: 10px;
+        margin-top: 6px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        z-index: 10;
+      }
+      .item {
+        padding: 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+      }
+      .item:hover {
+        background: #eef6ff;
+      }
+      .food-name {
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .food-category {
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .screen {
+        width: 900px;
+        margin: 40px auto;
+        padding: 8px;
+        background: white;
+        border: 3px solid #222;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .legend {
+        width: 700px;
+
+        margin: 20px auto;
+
+        display: flex;
+
+        justify-content: center;
+
+        gap: 30px;
+
+        align-items: center;
+      }
+      .legend-box {
+        width: 25px;
+        height: 25px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 6px;
+
+        margin-right: 8px;
+
+        border: 2px solid #666;
+      }
+      .seat-area {
+        width: 400px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 10px;
+      }
+      .selected-box {
+        background: #4a90e2;
+      }
+
+      .available-box {
+        background: white;
+      }
+
+      .sold-box {
+        background: #ff5c8a;
+      }
+
+      .wheelchair-box {
+        color: blue;
+      }
+      .seat-map {
+        width: 1000px;
+
+        margin: auto;
+      }
+      /* 每一排 */
+
+      .seat-row {
+
+        display: flex;
+
+        align-items: center;
+
+        margin-bottom: 10px;
+      }
+      /* 左右排號 */
+
+      .row-label {
+
+        width: 30px;
+
+        font-weight: bold;
+
+        font-size: 22px;
+
+        color: #666;
+      }
+
+      /* 座位 */
+
+      .seat {
+
+        width: 38px;
+        height: 38px;
+
+        border: 2px solid #666;
+
+        border-radius: 6px;
+
+        background: white;
+
+        margin-right: 6px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        transition: 0.2s;
+      }
+
+      .seat:hover {
+        background: #ddd;
+      }
+
+      /* 狀態 */
+
+      .seat.selected {
+        background: #4a90e2;
+        color: white;
+      }
+
+      .seat.sold {
+        background: #ff5c8a;
+      }
+
+      .seat.wheelchair {
+        border-color: blue;
+        color: blue;
+      }
+
+      /* 走道 */
+
+      .aisleAfter4 {
+        margin-right: 30px;
+      }
+
+      .aisleAfter16 {
+        margin-right: 30px;
+      }
+
+      .seat:hover {
+        background: #ddd;
+      }
+
+      .seat.selected {
+        background: #4a90e2;
+        color: white;
+      }
+      /* Modal 背景 */
+
+      .modal-overlay {
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background: rgba(0, 0, 0, 0.5);
+
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        z-index: 999;
+      }
+
+      /* Modal 本體 */
+
+      .modal-box {
+
+        width: 420px;
+
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 40px;
+
+        text-align: center;
+
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+
+      /* X icon */
+
+      .modal-icon {
+
+        font-size: 60px;
+
+        color: #ff6b6b;
+
+        margin-bottom: 20px;
+      }
+
+      .modal-box h2 {
+
+        font-size: 36px;
+
+        margin-bottom: 20px;
+      }
+
+      .modal-box p {
+
+        font-size: 22px;
+
+        color: #666;
+
+        margin-bottom: 30px;
+      }
+
+      .modal-btn {
+
+        padding: 12px 40px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background: #4a90e2;
+
+        color: white;
+
+        font-size: 20px;
+
+        cursor: pointer;
+      }
+
+      .modal-btn:hover {
+
+        background: #357bd8;
+      }

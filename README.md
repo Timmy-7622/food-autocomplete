@@ -104,8 +104,6 @@ Oracle Database
 - autocomplete 下拉選單
 - hover 效果
 - focus 效果
-- keyboard navigation
-- debounce
 - click outside close
 
 ---
