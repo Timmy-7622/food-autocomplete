@@ -11,7 +11,18 @@ createApp({
       modalMessage: "",
     };
   },
+  // 計算後的資料 filter->篩選
+  computed: {
+    selectedSeats() {
+      return this.seats.filter((seat) => seat.status === "selected");
+    },
+
+    totalPrice() {
+      return this.selectedSeats.length * 360;
+    },
+  },
   methods: {
+    //生成row 1~20的座位
     getSeatsByRow(row) {
       return this.seats.filter((seat) => seat.row === row);
     },
@@ -25,6 +36,7 @@ createApp({
         this.showModal = true;
         return;
       }
+      //selected true = available false = selected
       seat.status = seat.status === "selected" ? "available" : "selected";
     },
     search() {
@@ -33,6 +45,7 @@ createApp({
         this.showList = false;
         return;
       }
+      //Spring Boot API => AJAX / Fetch API
       fetch(`/foodcos/search?keyword=${this.keyword}`)
         .then((res) => res.json())
         .then((data) => {
@@ -46,6 +59,7 @@ createApp({
     select(item) {
       alert("您已選擇:" + item.name);
       this.keyword = item.name;
+      //清空搜尋解果
       this.results = [];
       this.showList = false;
     },

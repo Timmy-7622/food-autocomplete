@@ -16,7 +16,7 @@
           placeholder="請輸入餐點名稱"
           style="width: 100%; padding: 8px"
         />
-        <div class="list" v-if="showList &&results.length > 0">
+        <div class="list" v-if="showList && results.length > 0">
           <div
             class="item"
             v-for="item in results"
@@ -32,42 +32,67 @@
       <div class="legend">
         <div><span class="legend-box selected-box"></span>您的座位</div>
         <div><span class="legend-box available-box"></span>可選</div>
-        <div><span class="legend-box wheelchair-box">♿</span>輪椅座(需至影城購買)</div>
+        <div>
+          <span class="legend-box wheelchair-box">♿</span>輪椅座(需至影城購買)
+        </div>
         <div><span class="legend-box sold-box"></span>已售</div>
       </div>
       <!-- ⭐ 銀幕 -->
       <div class="screen">銀幕 Screen</div>
-      <!-- ⭐ 座位區 -->
-      <div class="seat-map">
-  <div class="seat-row" v-for="row in seatRows" :key="row">
-    <div class="row-label">{{ row }}</div>
-    <div
-      class="seat"
-      v-for="seat in getSeatsByRow(row)"
-      :key="seat.id"
-      :class="[
+      <div class="booking-layout">
+        <!-- ⭐ 座位區 -->
+        <div class="seat-map">
+          <div class="seat-row" v-for="row in seatRows" :key="row">
+            <div class="row-label">{{ row }}</div>
+
+            <div
+              class="seat"
+              v-for="seat in getSeatsByRow(row)"
+              :key="seat.id"
+              :class="[
         seat.status,
         { aisleAfter4: seat.number === 4, aisleAfter16: seat.number === 16 }
       ]"
-      @click="selectSeat(seat)"
-    >
-      <span v-if="seat.status === 'wheelchair'">♿</span>
-      <span v-else>{{ seat.number }}</span>
-    </div>
+              @click="selectSeat(seat)"
+            >
+              <span v-if="seat.status === 'wheelchair'">♿</span>
+              <span v-else>{{ seat.number }}</span>
+            </div>
 
-    <div class="row-label">{{ row }}</div>
-  </div>
-</div>
-<div v-if="showModal" class="modal-overlay">
-      <div class="modal-box">
-        <div class="modal-icaon">
-          ✖
+            <div class="row-label">{{ row }}</div>
+          </div>
         </div>
-        <h2>提醒您</h2>
-        <p>{{ modalMessage }}</p>
-        <button class="modal-btn" @click="showModal = false">
-        OK
-        </button>
+
+        <div class="cart-panel">
+          <h3>購物清單</h3>
+          <p v-if="selectedSeats.length === 0">尚未選擇座位</p>
+          <div v-else>
+            <div class="cart-seat-list">
+              <span
+                class="selected-seat-tag"
+                v-for="seat in selectedSeats"
+                :key="seat.id"
+              >
+                {{ seat.id }}
+              </span>
+            </div>
+
+            <p>票數: {{ selectedSeats.length }} 張</p>
+            <p>單價: 360元</p>
+            <p>總金額: {{ totalPrice}} 元</p>
+
+            <button class="checkout-btn">確認訂票</button>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="showModal" class="modal-overlay">
+        <div class="modal-box">
+          <div class="modal-icon">✖</div>
+          <h2>提醒您</h2>
+          <p>{{ modalMessage }}</p>
+          <button class="modal-btn" @click="showModal = false">OK</button>
+        </div>
       </div>
     </div>
     <script src="./autocomplete.js"></script>
