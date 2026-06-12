@@ -284,7 +284,7 @@
         padding: 16px;
         background-color: white;
         border-radius: 15px;
-        text-align: center;;
+        text-align: center;
       }
       .selected-seat-tag {
         display: inline-block;
@@ -330,4 +330,13 @@
       }
       .checkout-btn:hover {
         background: #357bd8;
+      }
+      .modal-box p {
+        white-space: pre-line;
+      }
+      .modal-icon.success {
+        color: #2ecc71;
+      }
+      .modal-icon.error {
+        color: #e74c3c;
       }

@@ -24,7 +24,7 @@
             @click="select(item)"
           >
             <div class="food-name">{{ item.name }}</div>
-            <div calss="food-category">{{ item.category }}</div>
+            <div class="food-category">{{ item.category }}</div>
             <div class="food-description">{{ item.description }}</div>
           </div>
         </div>
@@ -81,14 +81,18 @@
             <p>單價: 360元</p>
             <p>總金額: {{ totalPrice}} 元</p>
 
-            <button class="checkout-btn">確認訂票</button>
+            <button class="checkout-btn" @click="confirmBooking">
+              確認訂票
+            </button>
           </div>
         </div>
       </div>
 
       <div v-if="showModal" class="modal-overlay">
         <div class="modal-box">
-          <div class="modal-icon">✖</div>
+          <div class="modal-icon" :class="modalType">
+            {{ modalType === 'success' ? '✓' : '✖' }}
+          </div>
           <h2>提醒您</h2>
           <p>{{ modalMessage }}</p>
           <button class="modal-btn" @click="showModal = false">OK</button>
