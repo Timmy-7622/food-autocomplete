@@ -8,6 +8,16 @@
   </head>
   <body>
     <div id="app">
+      <div class="hero">
+        <div class="navbar">
+          <h1>MovieDay</h1>
+          <div class="navlinks">
+            <a>電影介紹</a>
+            <a>最新消息</a>
+            <a>關於影城</a>
+          </div>
+        </div>
+      </div>
       <div class="box" ref="searchBox">
         <input
           type="text"
@@ -86,6 +96,33 @@
             </button>
           </div>
         </div>
+      </div>
+      <button class="history-btn" @click="loadOrders">
+        {{ showOrders ? "收合歷史訂單" : "查看歷史訂單" }}
+      </button>
+
+      <div class="order-list" v-if="showOrders && orders.length > 0">
+        <h3>歷史訂單</h3>
+
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>訂單編號</th>
+              <th>座位</th>
+              <th>票數</th>
+              <th>金額</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="order in orders" :key="order.orderNo">
+              <td>{{ order.orderNo }}</td>
+              <td>{{ order.seats }}</td>
+              <td>{{ order.ticketCount }}</td>
+              <td>{{ order.totalPrice }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div v-if="showModal" class="modal-overlay">

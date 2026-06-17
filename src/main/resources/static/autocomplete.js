@@ -10,6 +10,8 @@ createApp({
       showModal: false,
       modalMessage: "",
       modalType: "error",
+      orders: [],
+      showOrders: false,
     };
   },
   // 計算後的資料 filter->篩選
@@ -23,6 +25,29 @@ createApp({
     },
   },
   methods: {
+    loadSoldSeatsOnStart() {
+      fetch("http://localhost:18080/booking/list")
+        .then((response) => response.json())
+        .then((data) => {
+          this.orders = data;
+          this.searchSoldSeatsFormOrders();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    searchSoldSeatsFormOrders() {
+      this.orders.forEach((order) => {
+        const seatIds = order.seats.split(",");
+
+        seatIds.forEach((seatId) => {
+          const seat = this.seats.find((s) => s.id === seatId);
+          if (seat) {
+            seat.status = "sold";
+          }
+        });
+      });
+    },
     //生成row 1~20的座位
     getSeatsByRow(row) {
       return this.seats.filter((seat) => seat.row === row);
@@ -117,11 +142,14 @@ createApp({
         this.totalPrice +
         "元";
 
-      this.selectedSeats.forEach((seat) => {
-        seat.status = "sold";
+      this.seats.forEach((seat) => {
+        if (seat.status === "selected") {
+          seat.status = "sold";
+        }
       });
-      console.log("目前 selectedSeats:", this.selectedSeats);
-      console.log("全部 seats:", this.seats);
+
+      localStorage.setItem("seats", JSON.stringify(this.seats));
+      this.modalMessage = "訂票成功";
       this.showModal = true;
 
       console.log(this.modalMessage);
@@ -130,6 +158,9 @@ createApp({
       if (!this.$refs.searchBox.contains(event.target)) {
         this.showList = false;
       }
+    },
+    loadOrders() {
+      this.showOrders = !this.showOrders;
     },
   },
   mounted() {
@@ -157,5 +188,11 @@ createApp({
       const seat = this.seats.find((s) => s.id === id);
       if (seat) seat.status = "wheelchair";
     });
+
+    const savedSeats = localStorage.getItem("seats");
+    if (savedSeats) {
+      this.seats = JSON.parse(savedSeats);
+    }
+    this.loadSoldSeatsOnStart();
   },
 }).mount("#app");
