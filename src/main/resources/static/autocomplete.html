@@ -12,91 +12,166 @@
         <div class="navbar">
           <h1>MovieDay</h1>
           <div class="navlinks">
+            <a>線上訂票</a>
             <a>電影介紹</a>
             <a>最新消息</a>
             <a>關於影城</a>
           </div>
         </div>
       </div>
-      <div class="box" ref="searchBox">
-        <input
-          type="text"
-          v-model="keyword"
-          @input="search"
-          placeholder="請輸入餐點名稱"
-          style="width: 100%; padding: 8px"
-        />
-        <div class="list" v-if="showList && results.length > 0">
-          <div
-            class="item"
-            v-for="item in results"
-            :key="item.id"
-            @click="select(item)"
+      <!-- ===================================================================================================== -->
+      <div class="step-bar">
+        <div class="step-line"></div>
+        <div class="step-item" :class="{ active: currentStep === 1 }">
+          <span>1</span>
+          <p>選擇票種</p>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item" :class="{ active: currentStep === 2 }">
+          <span>2</span>
+          <p>選擇座位</p>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item" :class="{ active: currentStep === 3 }">
+          <span>3</span>
+          <p>訂單與付款</p>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item" :class="{ active: currentStep === 4 }">
+          <span>4</span>
+          <p>訂單完成</p>
+        </div>
+      </div>
+      <!-- ===================================================================================================== -->
+      <!-- ======================================currentStep1 Start==============================================-->
+      <div v-if="currentStep === 1" class="session-section">
+        <h2>場次資訊</h2>
+        <div class="session-card" v-for="session in sessions" :key="session.id">
+        <!-- 左邊:電影海報 -->
+          <div class="poster-area">
+            <img :src="session.poster" class="movie-poster">
+          </div>  
+        <!--中間: 電影資訊 -->
+          <div class="movie-info">
+              <h2>{{ session.movieName }}</h2>
+              <p>{{ session.englishName }}</p>
+              <p>上映日期：{{ session.date }}</p>
+              <p>導演：{{ session.director }}</p>
+              <p>片長：{{ session.duration }}</p>
+              <p>分級：{{ session.rating }}</p>
+              <p>影城: {{ session.cinema}}</p>
+              <p>{{ session.language }}</p>
+          </div>
+        <!-- 右邊:場次 -->
+         <div class="time-area">
+          <div 
+            class="format-block"
+            v-for="format in session.formats"
+            :key="format.language"
+            >
+          <p class="language-text">{{ format.language }}</p>
+          <button
+            class="time-btn"
+            v-for="time in format.times"
+            :key="time"
+            @click="selectSession(session,format,time)"
           >
-            <div class="food-name">{{ item.name }}</div>
-            <div class="food-category">{{ item.category }}</div>
-            <div class="food-description">{{ item.description }}</div>
+            {{ time }}
+          </button>
+
           </div>
         </div>
       </div>
-      <div class="legend">
-        <div><span class="legend-box selected-box"></span>您的座位</div>
-        <div><span class="legend-box available-box"></span>可選</div>
-        <div>
-          <span class="legend-box wheelchair-box">♿</span>輪椅座(需至影城購買)
-        </div>
-        <div><span class="legend-box sold-box"></span>已售</div>
-      </div>
-      <!-- ⭐ 銀幕 -->
-      <div class="screen">銀幕 Screen</div>
-      <div class="booking-layout">
-        <!-- ⭐ 座位區 -->
-        <div class="seat-map">
-          <div class="seat-row" v-for="row in seatRows" :key="row">
-            <div class="row-label">{{ row }}</div>
-
+      <!-- ===================================== currentStep1 End ============================================== -->
+      <!-- ======================================輸入框 Start============================================ -->
+      <div v-if="currentStep === 3">
+        <div class="box" ref="searchBox">
+          <input
+            type="text"
+            v-model="keyword"
+            @input="search"
+            placeholder="請輸入餐點名稱"
+            style="width: 100%; padding: 8px"
+          />
+          <div class="list" v-if="showList && results.length > 0">
             <div
-              class="seat"
-              v-for="seat in getSeatsByRow(row)"
-              :key="seat.id"
-              :class="[
+              class="item"
+              v-for="item in results"
+              :key="item.id"
+              @click="select(item)"
+            >
+              <div class="food-name">{{ item.name }}</div>
+              <div class="food-category">{{ item.category }}</div>
+              <div class="food-description">{{ item.description }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ======================================輸入框 End============================================ -->
+      <!-- ======================================座位區 Start============================================ -->
+      <div v-if="currentStep === 2">
+        <div class="legend">
+          <div><span class="legend-box selected-box"></span>您的座位</div>
+          <div><span class="legend-box available-box"></span>可選</div>
+          <div>
+            <span class="legend-box wheelchair-box">♿</span
+            >輪椅座(需至影城購買)
+          </div>
+          <div><span class="legend-box sold-box"></span>已售</div>
+        </div>
+        <!-- ⭐ 銀幕 -->
+        <div class="screen">銀幕 Screen</div>
+
+        <div class="booking-layout">
+          <!-- ⭐ 座位區 -->
+          <div class="seat-map">
+            <div class="seat-row" v-for="row in seatRows" :key="row">
+              <div class="row-label">{{ row }}</div>
+
+              <div
+                class="seat"
+                v-for="seat in getSeatsByRow(row)"
+                :key="seat.id"
+                :class="[
         seat.status,
         { aisleAfter4: seat.number === 4, aisleAfter16: seat.number === 16 }
       ]"
-              @click="selectSeat(seat)"
-            >
-              <span v-if="seat.status === 'wheelchair'">♿</span>
-              <span v-else>{{ seat.number }}</span>
-            </div>
-
-            <div class="row-label">{{ row }}</div>
-          </div>
-        </div>
-
-        <div class="cart-panel">
-          <h3>購物清單</h3>
-          <p v-if="selectedSeats.length === 0">尚未選擇座位</p>
-          <div v-else>
-            <div class="cart-seat-list">
-              <span
-                class="selected-seat-tag"
-                v-for="seat in selectedSeats"
-                :key="seat.id"
+                @click="selectSeat(seat)"
               >
-                {{ seat.id }}
-              </span>
+                <span v-if="seat.status === 'wheelchair'">♿</span>
+                <span v-else>{{ seat.number }}</span>
+              </div>
+
+              <div class="row-label">{{ row }}</div>
             </div>
+          </div>
 
-            <p>票數: {{ selectedSeats.length }} 張</p>
-            <p>單價: 360元</p>
-            <p>總金額: {{ totalPrice}} 元</p>
+          <div class="cart-panel">
+            <h3>購物清單</h3>
+            <p v-if="selectedSeats.length === 0">尚未選擇座位</p>
+            <div v-else>
+              <div class="cart-seat-list">
+                <span
+                  class="selected-seat-tag"
+                  v-for="seat in selectedSeats"
+                  :key="seat.id"
+                >
+                  {{ seat.id }}
+                </span>
+              </div>
 
-            <button class="checkout-btn" @click="confirmBooking">
-              確認訂票
-            </button>
+              <p>票數: {{ selectedSeats.length }} 張</p>
+              <p>單價: 360元</p>
+              <p>總金額: {{ totalPrice}} 元</p>
+
+              <button class="checkout-btn" @click="confirmBooking">
+                確認訂票
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <!-- ======================================座位區 End============================================ -->
       <button class="history-btn" @click="loadOrders">
         {{ showOrders ? "收合歷史訂單" : "查看歷史訂單" }}
       </button>
@@ -132,7 +207,7 @@
           </div>
           <h2>提醒您</h2>
           <p>{{ modalMessage }}</p>
-          <button class="modal-btn" @click="showModal = false">OK</button>
+          <button class="modal-btn" @click="closeModal">OK</button>
         </div>
       </div>
     </div>

@@ -408,5 +408,108 @@
       .history-table tr:hover {
         background: #f5f7fb;
       }
+      /* =================================================================Step Start=========================================================== */
+      .step-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+      .step-item {
+        width: 120px;
+        text-aligin: center;
+      }
+      .step-item span {
+        width: 45px;
+        height: 45px;
+        border: 1px solid #777;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-weight: bold;
+      }
+      .step-item p {
+        margin-top: 2px;
+        font-weight: bold;
+      }
 
+      .step-item.active span {
+        background: #ffd000;
+        color: black;
+        border-color: #ffd000;
+      }
 
+      .step-item.active p {
+        color: #ffd000;
+      }
+
+      .step-line {
+        width: 120px;
+        height: 1px;
+        background: #777;
+      }
+      /* ===============================================================  Step END ============================================================*/
+      
+      /* ==============================================  場次資訊 Start ======================================================================= */
+      .session-card {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+        background: #252525;
+        border-radius: 12px;
+        padding: 35px;
+        width: 1100px;
+        margin: 0 auto;
+      }
+
+      .poster-area {
+        width: 260px;
+        flex-shrink: 0;
+      }
+
+      .movie-poster {
+        width: 260px;
+        height: 390px;
+        object-fit: cover;
+        object-position: left;
+        border-radius: 8px;
+      }
+
+      .movie-info {
+        width: 330px;
+        color: white;
+        flex-shrink: 0;
+      }
+      .movie-info h2 {
+        color: #3696f6;
+        margin-top: 0;
+      }
+      .time-area {
+        width: 480px;
+        color: white;
+      }
+
+      .language-text {
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .time-btn {
+        width: 100px;
+        height: 44px;
+        margin: 8px;
+        background: transparent;
+        color: white;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .time-btn:hover {
+        border-color: #ffd000;
+        color: #ffd000;
+      }
+
+      /* ==============================================  場次資訊 End ========================================================================= */
