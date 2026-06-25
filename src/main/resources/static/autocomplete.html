@@ -19,6 +19,7 @@
           </div>
         </div>
       </div>
+
       <!-- ===================================================================================================== -->
       <div class="step-bar">
         <div class="step-line"></div>
@@ -45,40 +46,61 @@
       <!-- ===================================================================================================== -->
       <!-- ======================================currentStep1 Start==============================================-->
       <div v-if="currentStep === 1" class="session-section">
-        <h2>場次資訊</h2>
+        <div class="section-title">
+          <div class="title-en">
+            <span class="red-dot"></span>
+            <span>SESSION TIMES</span>
+          </div>
+          <div class="title-zh">場次資訊</div>
+        </div>
         <div class="session-card" v-for="session in sessions" :key="session.id">
-        <!-- 左邊:電影海報 -->
-          <div class="poster-area">
-            <img :src="session.poster" class="movie-poster">
-          </div>  
-        <!--中間: 電影資訊 -->
-          <div class="movie-info">
+          <div class="card-content">
+            <!-- 左邊:電影海報 -->
+            <div class="poster-area">
+              <img :src="session.poster" class="movie-poster" />
+            </div>
+            <!--中間: 電影資訊 -->
+            <div class="movie-info">
+              <div class="rating-badge" :class="getRatingClass(session.rating)">
+                {{ session.rating }}
+              </div>
               <h2>{{ session.movieName }}</h2>
               <p>{{ session.englishName }}</p>
               <p>上映日期：{{ session.date }}</p>
               <p>導演：{{ session.director }}</p>
               <p>片長：{{ session.duration }}</p>
-              <p>分級：{{ session.rating }}</p>
+              <!-- <p>分級：{{ session.rating }}</p> -->
               <p>影城: {{ session.cinema}}</p>
               <p>{{ session.language }}</p>
-          </div>
-        <!-- 右邊:場次 -->
-         <div class="time-area">
-          <div 
-            class="format-block"
-            v-for="format in session.formats"
-            :key="format.language"
-            >
-          <p class="language-text">{{ format.language }}</p>
-          <button
-            class="time-btn"
-            v-for="time in format.times"
-            :key="time"
-            @click="selectSession(session,format,time)"
-          >
-            {{ time }}
-          </button>
-
+            </div>
+            <!-- 右邊:場次 -->
+            <div class="time-area">
+              <div
+                class="format-block"
+                v-for="format in session.formats"
+                :key="format.language"
+              >
+                <p class="language-text">{{ format.language }}</p>
+                <button
+                  class="time-btn"
+                  v-for="time in format.times"
+                  :key="time"
+                  @click="selectSession(session,format,time)"
+                >
+                  {{ time }}
+                </button>
+              </div>
+              <div class="preview-actions">
+                <button class="preview-btn" @click="openSeatPreview">
+                  QUICK VIEW<br />
+                  預覽座位
+                </button>
+                <button class="buy-btn">
+                  BUY TICKET<br />
+                  前往訂票
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -110,39 +132,41 @@
       <!-- ======================================輸入框 End============================================ -->
       <!-- ======================================座位區 Start============================================ -->
       <div v-if="currentStep === 2">
-        <div class="legend">
-          <div><span class="legend-box selected-box"></span>您的座位</div>
-          <div><span class="legend-box available-box"></span>可選</div>
-          <div>
-            <span class="legend-box wheelchair-box">♿</span
-            >輪椅座(需至影城購買)
+        <div class="seat-map-container">
+          <div class="legend">
+            <div><span class="legend-box selected-box"></span>您的座位</div>
+            <div><span class="legend-box available-box"></span>可選</div>
+            <div>
+              <span class="legend-box wheelchair-box">♿</span
+              >輪椅座(需至影城購買)
+            </div>
+            <div><span class="legend-box sold-box"></span>已售</div>
           </div>
-          <div><span class="legend-box sold-box"></span>已售</div>
-        </div>
-        <!-- ⭐ 銀幕 -->
-        <div class="screen">銀幕 Screen</div>
+          <!-- ⭐ 銀幕 -->
+          <div class="screen">銀幕 Screen</div>
 
-        <div class="booking-layout">
-          <!-- ⭐ 座位區 -->
-          <div class="seat-map">
-            <div class="seat-row" v-for="row in seatRows" :key="row">
-              <div class="row-label">{{ row }}</div>
+          <div class="booking-layout">
+            <!-- ⭐ 座位區 -->
+            <div class="seat-map">
+              <div class="seat-row" v-for="row in seatRows" :key="row">
+                <div class="row-label">{{ row }}</div>
 
-              <div
-                class="seat"
-                v-for="seat in getSeatsByRow(row)"
-                :key="seat.id"
-                :class="[
+                <div
+                  class="seat"
+                  v-for="seat in getSeatsByRow(row)"
+                  :key="seat.id"
+                  :class="[
         seat.status,
         { aisleAfter4: seat.number === 4, aisleAfter16: seat.number === 16 }
       ]"
-                @click="selectSeat(seat)"
-              >
-                <span v-if="seat.status === 'wheelchair'">♿</span>
-                <span v-else>{{ seat.number }}</span>
-              </div>
+                  @click="clickSeat(seat)"
+                >
+                  <span v-if="seat.status === 'wheelchair'">♿</span>
+                  <span v-else>{{ seat.number }}</span>
+                </div>
 
-              <div class="row-label">{{ row }}</div>
+                <div class="row-label">{{ row }}</div>
+              </div>
             </div>
           </div>
 
@@ -172,9 +196,10 @@
         </div>
       </div>
       <!-- ======================================座位區 End============================================ -->
-      <button class="history-btn" @click="loadOrders">
+      <div v-if="currentStep === 4"></div>
+      <!-- <button class="history-btn" @click="loadOrders">
         {{ showOrders ? "收合歷史訂單" : "查看歷史訂單" }}
-      </button>
+      </button> -->
 
       <div class="order-list" v-if="showOrders && orders.length > 0">
         <h3>歷史訂單</h3>
@@ -210,6 +235,54 @@
           <button class="modal-btn" @click="closeModal">OK</button>
         </div>
       </div>
+
+      <!-- ======================================先讓 Modal 能跳出來 S============================================ -->
+      <div v-if="showSeatPreview" class="seat-preview-overlay">
+        <div class="seat-preview-box">
+          <div class="section-titleⅠ">
+            <div class="title-enⅠ">
+              <span class="blue-dotⅠ"></span>
+              <span>QUICK VIEW</span>
+            </div>
+            <div class="title-zhⅠ">座位預覽</div>
+          </div>
+
+          <div class="legend">
+            <div><span class="legend-box available-box"></span>可選</div>
+            <div>
+              <span class="legend-box wheelchair-box">♿</span
+              >輪椅座(需至影城購買)
+            </div>
+            <div><span class="legend-box sold-box"></span>已售</div>
+          </div>
+          <!-- ⭐ 銀幕 -->
+          <div class="screen">銀幕 Screen</div>
+          <div class="seat-map preview-seat-map">
+            <div class="seat-row" v-for="row in seatRows" :key="row">
+              <div class="row-label">{{ row }}</div>
+
+              <div
+                class="seat"
+                v-for="seat in getSeatsByRow(row)"
+                :key="seat.id"
+                :class="[
+                  seat.status,
+                  { aisleAfter4: seat.number === 4, aisleAfter16: seat.number === 16 }
+                ]"
+              >
+                <span v-if="seat.status === 'wheelchair'">♿</span>
+                <span v-else>{{ seat.number }}</span>
+              </div>
+
+              <div class="row-label">{{ row }}</div>
+            </div>
+          </div>
+
+          <button class="modal-btn" @click="closeSeatPreview">關閉</button>
+        </div>
+      </div>
+
+      <!-- ======================================先讓 Modal 能跳出來 E============================================ -->
     </div>
     <script src="./autocomplete.js"></script>
   </body>

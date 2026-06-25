@@ -2,7 +2,7 @@
         margin: 0;
         padding: 0;
         font-family: Arial, "Microsoft JhengHei", sans-serif;
-        background: #0a0c0f;
+        background: #252525;
        
       }
       .box {
@@ -453,15 +453,47 @@
       /* ===============================================================  Step END ============================================================*/
       
       /* ==============================================  場次資訊 Start ======================================================================= */
-      .session-card {
+      .session-section {
+        width:90%;
+        max-width: 1500px;
+        margin: 60px auto;
+      }
+      .section-title {
+        margin-bottom: 35px;
+
+      }
+      .title-en {
         display: flex;
-        gap: 40px;
-        align-items: flex-start;
+        align-items: center;
+        gap:10px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .red-dot {
+        width: 6px;
+        height: 6px;
+        background: #e53935;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .title-zh {
+        margin-left: 16px;
+        margin-top: 8px;
+        color: #e53935;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .session-card {
         background: #252525;
         border-radius: 12px;
         padding: 35px;
-        width: 1100px;
-        margin: 0 auto;
+        margin: 30px;
+      }
+      .card-content {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
       }
 
       .poster-area {
@@ -511,5 +543,137 @@
         border-color: #ffd000;
         color: #ffd000;
       }
+      .rating-badge {
+        display: inline-block;
+        color: #000;
+        font-weight:bold;
+        padding:8px 18px;
+        border-radius:2px;
+        margin-bottom:8px;
+      }
+      .rating-g {
+        background: #82c341;
+      }
+      .rating-p {
+        background: #4ea6ff;
+      }
+      .rating-p12 {
+        background: #ff9800;
+      }
+      .rating-p15 {
+        background: #ff5722;
+      }
+      .rating-r {
+        background: #d32f2f;
+        color: white;
+      }
 
       /* ==============================================  場次資訊 End ========================================================================= */
+      /* ==============================================  預覽座位 S =========================================================================== */
+      .section-titleⅠ {
+        margin-bottom: 35px;
+
+      }
+      .title-enⅠ {
+        display: flex;
+        align-items: center;
+        gap:10px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .blue-dotⅠ {
+        width: 6px;
+        height: 6px;
+        background: #5c76eb;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .title-zhⅠ {
+        margin-left: 16px;
+        margin-top: 8px;
+        color: #5c76eb;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .seat-preview-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        z-index: 9999;
+      }
+
+      .seat-preview-box {
+        width: 1200px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #252525;
+        color: white;
+        border-radius: 16px;
+        padding: 30px;
+      }
+
+      .seat-preview-box .seat {
+        color:black;
+      }
+      .seat-preview-box .screen {
+        width: 750px;
+        margin: 30px auto 40px;
+        color:#000;
+      }
+
+      .preview-btn {
+        width: 180px;
+        height: 58px;
+        margin: 35px;
+        border: 1px solid #2b8cff;
+        background: transparent;
+        color: white;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: .25s;
+        cursor: pointer;
+      }
+
+      .preview-btn:hover {
+         background:#2b8cff;
+         transform: translateY(-2px);
+         box-shadow:0 6px 18px rgba(43,140,255,.35);
+         color:white;
+      }
+
+      .buy-btn {
+        width: 180px;
+        height: 58px;
+        margin: 35px;
+        border: 1px solid  #5f9fd6;;
+        background: transparent;
+        color: white;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: .25s;
+        cursor: pointer;
+      }
+
+      .buy-btn:hover {
+         background: #5f9fd6;;
+         transform: translateY(-2px);
+         box-shadow:0 6px 18px rgba(43,140,255,.35);
+         color:white;
+      }
+
+      .preview-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      /* ==============================================  預覽座位 E ======================================================================= */

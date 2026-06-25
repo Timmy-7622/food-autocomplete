@@ -13,6 +13,8 @@ createApp({
       orders: [],
       showOrders: false,
       currentStep: 1,
+      showSeatPreview: false,
+      seatPreviewMode: false,
       bookingInfo: {
         movieName: "",
         cinema: "",
@@ -25,32 +27,7 @@ createApp({
         ticketCount: 0,
       },
 
-      sessions: [
-        {
-          id: 1,
-          movieName: "名偵探柯南 高速公路的墮天使",
-          englishName:
-            "Detective Conan the Movie : Fallen Angel of the Highway",
-          poster: "images/conan.jpg",
-          cinema: "泰順店",
-          date: "2026-06-24",
-          weekday: "星期三",
-          rating: "普遍級",
-          duration: "109分鐘",
-          director: "蓬井隆弘",
-
-          formats: [
-            {
-              language: "數位/中文",
-              times: ["13:30"],
-            },
-            {
-              language: "數位/日語",
-              times: ["10:30", "12:40", "14:50", "17:00", "19:10", "21:20"],
-            },
-          ],
-        },
-      ],
+      sessions: [],
     };
   },
   // 計算後的資料 filter->篩選
@@ -64,6 +41,41 @@ createApp({
     },
   },
   methods: {
+    openSeatPreview() {
+      this.seatPreviewMode = true;
+      this.showSeatPreview = true;
+    },
+    closeSeatPreview() {
+      this.showSeatPreview = false;
+      this.seatPreviewMode = false;
+    },
+    clickSeat(seat) {
+      if (this.seatPreviewMode) {
+        return;
+      }
+      this.selectSeat(seat);
+    },
+    getRatingClass(rating) {
+      switch (rating) {
+        case "普遍級":
+          return "rating-g";
+
+        case "保護級":
+          return "rating-p";
+
+        case "輔12級":
+          return "rating-p12";
+
+        case "輔15級":
+          return "rating-p15";
+
+        case "限制級":
+          return "rating-r";
+
+        default:
+          return "";
+      }
+    },
     selectSession(session, format, time) {
       this.bookingInfo.movieName = session.movieName;
       this.bookingInfo.englishName = session.englishName;
@@ -211,6 +223,10 @@ createApp({
       console.log(this.modalMessage);
     },
     closeWhenClickOutSide(event) {
+      if (!this.$refs.searchBox) {
+        return;
+      }
+
       if (!this.$refs.searchBox.contains(event.target)) {
         this.showList = false;
       }
@@ -220,6 +236,14 @@ createApp({
     },
   },
   mounted() {
+    fetch("http://localhost:18080/sessions")
+      .then((response) => response.json())
+      .then((data) => {
+        this.sessions = data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     document.addEventListener("click", this.closeWhenClickOutSide);
 
     const rows = ["A", "B", "C", "D", "E", "F", "G"];
