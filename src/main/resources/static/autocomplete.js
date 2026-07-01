@@ -12,22 +12,34 @@ createApp({
       modalType: "error",
       orders: [],
       showOrders: false,
+      currentPage: "session",
       currentStep: 1,
       showSeatPreview: false,
       seatPreviewMode: false,
       bookingInfo: {
         movieName: "",
+        englishName: "",
+        poster: "",
         cinema: "",
         date: "",
         weekday: "",
         language: "",
         time: "",
         seats: [],
-        totalPrice: 0,
-        ticketCount: 0,
       },
-
       sessions: [],
+      packageTicket: [
+        { name: "單人套票", price: 330, count: 0, seatCount: 1 },
+        { name: "雙人套票", price: 640, count: 0, seatCount: 2 },
+        { name: "學生套票", price: 310, count: 0, seatCount: 1 },
+      ],
+
+      tickets: [
+        { name: "全票", price: 350, count: 0, seatCount: 1 },
+        { name: "優待票", price: 330, count: 0, seatCount: 1 },
+        { name: "敬老票", price: 175, count: 0, seatCount: 1 },
+        { name: "愛心票", price: 175, count: 0, seatCount: 1 },
+      ],
     };
   },
   // 計算後的資料 filter->篩選
@@ -35,12 +47,71 @@ createApp({
     selectedSeats() {
       return this.seats.filter((seat) => seat.status === "selected");
     },
-
+    allTickets() {
+      return [...this.packageTicket, ...this.tickets];
+    },
+    selectTickets() {
+      return this.allTickets.filter((ticket) => ticket.count > 0);
+    },
+    totalTicketCount() {
+      let totalTicket = 0;
+      for (const ticket of this.allTickets) {
+        totalTicket += ticket.count * ticket.seatCount;
+      }
+      return totalTicket;
+    },
     totalPrice() {
-      return this.selectedSeats.length * 360;
+      let totalPrice = 0;
+      for (const ticket of this.allTickets) {
+        totalPrice += ticket.count * ticket.price;
+      }
+      return totalPrice;
+    },
+    serviceFee() {
+      return this.totalTicketCount * 20;
+    },
+    finalTotalPrice() {
+      return this.totalPrice + this.serviceFee;
     },
   },
   methods: {
+    goSeatStep() {
+      if (totalTicket === 0) {
+        this.modalType = "error";
+        this.modalMessage = "請選擇票種再繼續";
+        this.showModal = true;
+        return;
+      }
+
+      this.bookingInfo.ticketCount = this.totalTicketCount;
+      this.bookingInfo.totalPrice = this.totalPrice;
+      this.currentStep = 2;
+    },
+    increaseTicket(ticket) {
+      ticket.count++;
+    },
+    decreaseTicket(ticket) {
+      if (ticket.count > 0) {
+        ticket.count--;
+      }
+    },
+    goTicketStep(session) {
+      if (!this.bookingInfo.time) {
+        this.modalType = "error";
+        this.modalMessage = "請先選擇場次時間";
+        this.showModal = true;
+        return;
+      }
+      this.bookingInfo.poster = session.poster;
+      this.bookingInfo.movieName = session.movieName;
+      this.bookingInfo.englishName = session.englishName;
+      this.bookingInfo.cinema = session.cinema;
+      this.bookingInfo.date = session.date;
+      this.bookingInfo.weekday = session.weekday;
+
+      this.currentPage = "booking";
+      this.currentStep = 1;
+    },
     openSeatPreview() {
       this.seatPreviewMode = true;
       this.showSeatPreview = true;

@@ -569,6 +569,354 @@
       }
 
       /* ==============================================  場次資訊 End ========================================================================= */
+      /* ==============================================  currentStep1 S ====================================================================== */
+      .section-titleⅡ {
+        margin-bottom: 35px;
+        margin-left: 200px;
+        margin-bottom: 70px;
+
+      }
+      .title-enⅡ {
+        display: flex;
+        align-items: center;
+        gap:10px;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+      }
+      .orange-dotⅡ {
+        width: 6px;
+        height: 6px;
+        background: rgb(211, 78, 6);
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .title-zhⅡ {
+        margin-left: 16px;
+        margin-top: 8px;
+        color: rgb(211, 78, 6);
+        font-size: 20px;
+        font-weight: bold;
+      }
+      
+      .summary-detail-item {
+        margin-bottom: 50px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #7A6A56;
+        font-size: 17px;
+        white-space: nowrap;
+      }
+      .summary-icon {
+        font-size: 25px;
+        width: 24px;
+        color: #7A6A56;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .movie-title-block {
+        text-align: center;
+        margin-bottom: 45px;
+      }
+      .movie-title-block h2 {
+        margin: 0 0 8px;
+        font-size: 26px
+      }
+      .movie-title-block p {
+
+        color: #aaa;
+      }
+      .booking-info-area h2 {
+        margin-top: 0;
+        font-size: 20px;
+        color: white;
+      }
+      .booking-info-area > p {
+        font-size: 13px;
+        color: #aaa;
+        margin-bottom: 40px;
+      }
+      .booking-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 32px;
+        column-gap: 60px;
+      }
+      .booking-detail-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        font-size: 17px;
+        white-space: nowrap;
+      }
+      .detail-icon {
+        font-size: 25px;
+        width: 24px;
+        color: rgb(211, 78, 6);
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .time-tag {
+        display: inline-block;
+        padding: 6px 14px;
+        background: #111;
+        border: 1px solid #444;
+        border-radius: 4px;
+      }
+      .booking-top {
+        display: grid;
+        grid-template-columns: 200px 1fr 420px;
+        width: 70%;
+        max-width: 1100px;
+        margin: 40px auto;
+        background: #181818;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .booking-poster-area {
+         width: 260px;
+      }
+      .booking-poster {
+        width: 200px;
+        height: 280px;
+        object-fit: cover;
+        object-position: left;
+      }
+      .booking-info-area {
+        padding: 30px 50px;
+        color: white;
+        border-right: 3px dashed #333;
+      }
+      .order-summary {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px 30px;
+        color:white;
+      }
+      .summary-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        font-size: 15px;
+        margin-bottom: 25px;
+      }
+      .section-titleⅢ {
+        margin-top: 150px;
+        margin-left: 200px;
+        margin-bottom: 70px;
+
+      }
+      .title-enⅢ {
+        display: flex;
+        align-items: center;
+        gap:10px;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+      }
+      .blue-dotⅢ {
+        width: 6px;
+        height: 6px;
+        background: #4D95D6;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .title-zhⅢ {
+        margin-left: 16px;
+        margin-top: 8px;
+        color: #4D95D6;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .ticket-category {
+        max-width: none;
+        /* 上右下左 */
+        margin: 0 0 32px 0;
+        color: white;
+        flex-shrink: 0;
+      }
+      .ticket-table {
+        background: #d0d0d0;
+        padding: 16px;
+      }
+      .ticket-row {
+        display: grid;
+        grid-template-columns: 160px 120px 40px 40px 40px 120px;
+        align-items: center;
+        column-gap: 12px;
+        margin-bottom: 18px;
+        color: #111;
+      }
+      .ticket-name {
+        color: #e53935;
+        font-weight: bold;
+      }
+      .ticket-price,
+      .ticket-subtotal {
+        color: #e53935
+      }
+      .ticket-btn {
+        width: 32px;
+        height: 32px;
+        border: 1px solid #777;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        font-size: 18px;
+      }
+      .ticket-btn-plus {
+        color:#e53935;
+        width: 32px;
+        height: 32px;
+        border: 1px solid #777;
+        background: transparent;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 50%;
+      }
+      .ticket-count {
+        text-align:center;
+        font-weight: bold;
+      }
+      .ticket-header {
+        height: 35px;
+        background: #1773b6;
+        color:white;
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .ticket-headerⅠ {
+        height: 35px;
+        background: rgb(80, 128, 164);
+        color:white;
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .ticket-table-head {
+        height: 28px;
+        background: #8b8b8b;
+        color: white;
+        display: grid;
+        grid-template-columns: 170px 170px 120px 70px;
+        align-items: center;
+        padding: 0px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .ticket-table-head span:first-child{
+        margin-left: -5px;
+      }
+      .ticket-select-area {
+        width: 70%;
+        max-width: 1100px;
+        margin: 40px auto;
+        display: grid;
+        grid-template-columns: 620px 1fr;
+        gap:40px;
+        align-items: start;
+
+      }
+      .ticket-left {
+        width: 100%;
+      }
+      .ticket-notice {
+        border: 1px solid #666;
+        border-radius: 8px;
+        padding: 32px 36px;
+        color: white;
+        min-height: 260px;
+      }
+      .notice-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 24px;
+      }
+      .notice-title i {
+        color: white;
+        font-size: 24px;
+      }
+      .notice-list {
+        margin: 0;
+        padding-left: 22px;
+        line-height: 1.8;
+        font-size: 15px;
+      }
+      .ticket-actions {
+        width: 70%;
+        max-width: 1100px;
+        margin: 50px auto 80px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+      }
+      .back-btn,
+      .next-btn {
+        width: 180px;
+        height: 52px;
+        border: none;
+        border-radius: 6px;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .back-btn {
+        background: #5f76b8;
+        color: #111;
+      }
+
+      .next-btn {
+        background: #f29a84;
+        color: #111;
+      }
+      .summary-list {
+        margin-bottom: 22px;
+      }
+      .summary-ticket-row {
+        display: grid;
+        grid-template-columns: 1fr 20px 35px 20px 90px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .summary-ticket-row span:last-child {
+        text-align: right;
+      }
+      /* .summary-total {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #4a4a4a;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        column-gap: 18px;
+        align-items: center;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+      } */
+      .summary-total {
+        width: 60%;
+        padding: 3px 5px;
+        background: #4a4a4a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      /* ==============================================  currentStep1 E ====================================================================== */
       /* ==============================================  預覽座位 S =========================================================================== */
       .section-titleⅠ {
         margin-bottom: 35px;

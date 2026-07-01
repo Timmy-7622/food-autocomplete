@@ -5,6 +5,7 @@
     <title>餐點自動補全</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <link rel="stylesheet" href="./autocomplete.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   </head>
   <body>
     <div id="app">
@@ -20,32 +21,8 @@
         </div>
       </div>
 
-      <!-- ===================================================================================================== -->
-      <div class="step-bar">
-        <div class="step-line"></div>
-        <div class="step-item" :class="{ active: currentStep === 1 }">
-          <span>1</span>
-          <p>選擇票種</p>
-        </div>
-        <div class="step-line"></div>
-        <div class="step-item" :class="{ active: currentStep === 2 }">
-          <span>2</span>
-          <p>選擇座位</p>
-        </div>
-        <div class="step-line"></div>
-        <div class="step-item" :class="{ active: currentStep === 3 }">
-          <span>3</span>
-          <p>訂單與付款</p>
-        </div>
-        <div class="step-line"></div>
-        <div class="step-item" :class="{ active: currentStep === 4 }">
-          <span>4</span>
-          <p>訂單完成</p>
-        </div>
-      </div>
-      <!-- ===================================================================================================== -->
-      <!-- ======================================currentStep1 Start==============================================-->
-      <div v-if="currentStep === 1" class="session-section">
+      <!-- ======================================currentSession Start==============================================-->
+      <div v-if="currentPage === 'session'" class="session-section">
         <div class="section-title">
           <div class="title-en">
             <span class="red-dot"></span>
@@ -95,7 +72,7 @@
                   QUICK VIEW<br />
                   預覽座位
                 </button>
-                <button class="buy-btn">
+                <button class="buy-btn" @click="goTicketStep(session)">
                   BUY TICKET<br />
                   前往訂票
                 </button>
@@ -104,34 +81,225 @@
           </div>
         </div>
       </div>
-      <!-- ===================================== currentStep1 End ============================================== -->
-      <!-- ======================================輸入框 Start============================================ -->
-      <div v-if="currentStep === 3">
-        <div class="box" ref="searchBox">
-          <input
-            type="text"
-            v-model="keyword"
-            @input="search"
-            placeholder="請輸入餐點名稱"
-            style="width: 100%; padding: 8px"
-          />
-          <div class="list" v-if="showList && results.length > 0">
-            <div
-              class="item"
-              v-for="item in results"
-              :key="item.id"
-              @click="select(item)"
+      <!-- ===================================== currentSession End ============================================== -->
+      <!-- ======================================currentStep1 S===================================================-->
+      <div
+        v-if="currentPage === 'booking' && currentStep === 1"
+        class="ticket-session"
+      >
+        <div class="section-titleⅡ">
+          <div class="title-enⅡ">
+            <span class="orange-dotⅡ"></span>
+            <span>ONLINE TICKET</span>
+          </div>
+          <div class="title-zhⅡ">選擇票種</div>
+        </div>
+        <!-- ===================================================================================================== -->
+        <div class="step-bar" v-if="currentPage === 'booking'">
+          <div class="step-line"></div>
+          <div class="step-item" :class="{ active: currentStep === 1 }">
+            <span>1</span>
+            <p>選擇票種</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" :class="{ active: currentStep === 2 }">
+            <span>2</span>
+            <p>選擇座位</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" :class="{ active: currentStep === 3 }">
+            <span>3</span>
+            <p>訂單與付款</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" :class="{ active: currentStep === 4 }">
+            <span>4</span>
+            <p>訂單完成</p>
+          </div>
+        </div>
+        <!-- ===================================================================================================== -->
+
+        <div class="ticket-layout">
+
+            <div class="booking-top">
+              <div class="booking-poster-area">
+                <img :src="bookingInfo.poster" class="booking-poster" />
+              </div>
+
+            
+              <div class="booking-info-area">
+                <div class="movie-title-block">
+                <h2>{{ bookingInfo.movieName}}</h2>
+                <p>{{ bookingInfo.englishName }}</p>
+                </div>
+            <div class="booking-detail-grid">   
+              <div class="booking-detail-item">
+                <span class="detail-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <span>影城: {{ bookingInfo.cinema }}</span>
+              </div>
+              <div class="booking-detail-item">
+                <span class="detail-icon">
+                  <i class="fa-solid fa-calendar-days"></i>
+                </span>
+                <span>日期：{{ bookingInfo.date }} {{ bookingInfo.weekday }}</span>
+              </div>
+              <div class="booking-detail-item">
+                <span class="detail-icon">
+                  <i class="fa-solid fa-video"></i>
+                </span>
+                <span class="time-tag">{{ bookingInfo.time }}</span>
+                <span>{{ bookingInfo.language }}</span>
+              </div>
+              <div class="booking-detail-item">
+                <span class="detail-icon">
+                  <i class="fa-solid fa-couch"></i>
+                </span>
+                <span>請先選擇座位</span>
+              </div>
+            </div>   
+              </div>
+
+            <div class="order-summary">
+              <div class="summary-detail-item">
+                <span class="summary-icon">
+                  <i class="fa-solid fa-ticket-simple"></i>
+                </span>
+                <span>ORDER SUMMARY</span>
+              </div>
+            
+            <div class="summary-list">
+              <div
+                 class="summary-row"
+                 v-for="ticket in selectTickets"
+                 :key="ticket.name"
+                 >
+                  <span>{{ ticket.name }}</span>
+                  <span>X</span>
+                  <span>{{ ticket.count }}</span>
+                  <span>=</span>
+                  <span>NT$ {{ ticket.price * ticket.count }}</span>
+              </div>
+
+              <div class="summary-ticket-row" v-if="totalTicketCount > 0">
+                <span>網路訂票手續費</span>
+                <span>X</span>
+                <span>{{ totalTicketCount }}</span>
+                <span>=</span>
+                <span>NT$ {{ serviceFee }}</span>
+              </div>
+            </div>
+
+              <div class="summary-total">
+                <span>TICKETS TOTAL :</span>
+                <span>NT$ {{ totalPrice }}</span>
+              </div>
+
+            </div>
+
+            </div>
+
+
+            <div class="section-titleⅢ">
+              <div class="title-enⅢ">
+                <span class="blue-dotⅢ"></span>
+                <span>CHOOSE YOUR TICKET</span>
+              </div>
+                <div class="title-zhⅢ">請選擇票種與張數</div>
+            </div>
+  
+  <div class="ticket-select-area">          
+    <div class="ticket-left">
+      <div class="ticket-category">    
+          <!-- 藍色 -->
+          <div class="ticket-headerⅠ">
+              <i class="fa-solid fa-ticket"></i>
+              優惠套票
+          </div>   
+          <!-- 灰色 -->
+          <div class="ticket-table">
+              <!-- 深灰 -->
+              <div class="ticket-table-head">
+                  <span>票種</span>
+                  <span>單價</span>
+                  <span>數量</span>
+                  <span>小計</span>
+              </div> 
+
+              
+          <div
+              class="ticket-row"
+              v-for="ticket in packageTicket"
+              :key="ticket.name"
             >
-              <div class="food-name">{{ item.name }}</div>
-              <div class="food-category">{{ item.category }}</div>
-              <div class="food-description">{{ item.description }}</div>
+              <span class="ticket-name">{{ ticket.name }}</span>
+              <span class="ticket-price">NT$ {{ ticket.price }}</span>
+              <button class="ticket-btn" @click="decreaseTicket(ticket)">－</button>
+              <span class="ticket-count">{{ ticket.count }}</span>
+              <button class="ticket-btn-plus" @click="increaseTicket(ticket)">＋</button>
+              <span class="ticket-subtotal">NT$ {{ ticket.price * ticket.count}}</span>
             </div>
           </div>
         </div>
-      </div>
-      <!-- ======================================輸入框 End============================================ -->
-      <!-- ======================================座位區 Start============================================ -->
-      <div v-if="currentStep === 2">
+
+        <div class="ticket-category">    
+          <!-- 藍色 -->
+          <div class="ticket-header">
+              <i class="fa-solid fa-ticket"></i>
+              一般票種
+          </div>   
+          <!-- 灰色 -->
+          <div class="ticket-table">
+              <!-- 深灰 -->
+              <div class="ticket-table-head">
+                  <span>票種</span>
+                  <span>單價</span>
+                  <span>數量</span>
+                  <span>小計</span>
+              </div> 
+
+              
+          <div
+              class="ticket-row"
+              v-for="ticket in tickets"
+              :key="ticket.name"
+            >
+              <span class="ticket-name">{{ ticket.name }}</span>
+              <span class="ticket-price">NT$ {{ ticket.price }}</span>
+              <button class="ticket-btn" @click="decreaseTicket(ticket)">－</button>
+              <span class="ticket-count">{{ ticket.count }}</span>
+              <button class="ticket-btn-plus" @click="increaseTicket(ticket)">＋</button>
+              <span class="ticket-subtotal">NT$ {{ ticket.price * ticket.count}}</span>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="ticket-notice">
+            <div class="notice-title">
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+
+            <ol class="notice-list">
+              <li>未滿 2 歲且不佔位之兒童無需購票，可免費入場觀賞。</li>
+              <li>若交易內含餐飲品項，須至購票影城櫃檯領取電影票與餐點。</li>
+              <li>網路訂票每張票需加收 NT$20 手續費。</li>
+              <li>片長 150 分鐘以上之電影需加價 NT$20。</li>
+              <li>為維護顧客權益，惡意佔位或影響他人正常訂位使用者，影城保有取消訂位之權利。</li>
+            </ol>
+        </div>
+  </div>    
+            <div class="ticket-actions">
+              <button class="back-btn" @click="currentPage = 'session'">← BACK</button>
+
+
+              <button class="next-btn" @click="goSeatStep">NEXT →</button>
+            </div>
+          </div>   
+            
+      <!-- ======================================currentStep1 E===================================================-->
+      <!-- ======================================座位區 Start====================================================== -->
+      <div v-if="currentPage === 'booking' && currentStep === 2">
         <div class="seat-map-container">
           <div class="legend">
             <div><span class="legend-box selected-box"></span>您的座位</div>
@@ -195,7 +363,32 @@
           </div>
         </div>
       </div>
-      <!-- ======================================座位區 End============================================ -->
+      <!-- ======================================座位區 End======================================================== -->
+      <!-- ======================================輸入框 Start====================================================== -->
+      <div v-if="currentPage === 'booking' && currentStep === 3">
+        <div class="box" ref="searchBox">
+          <input
+            type="text"
+            v-model="keyword"
+            @input="search"
+            placeholder="請輸入餐點名稱"
+            style="width: 100%; padding: 8px"
+          />
+          <div class="list" v-if="showList && results.length > 0">
+            <div
+              class="item"
+              v-for="item in results"
+              :key="item.id"
+              @click="select(item)"
+            >
+              <div class="food-name">{{ item.name }}</div>
+              <div class="food-category">{{ item.category }}</div>
+              <div class="food-description">{{ item.description }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ======================================輸入框 End============================================ -->
       <div v-if="currentStep === 4"></div>
       <!-- <button class="history-btn" @click="loadOrders">
         {{ showOrders ? "收合歷史訂單" : "查看歷史訂單" }}
