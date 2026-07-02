@@ -261,9 +261,15 @@
       }
 
       .step-item.active span {
-        background: #ffd000;
+        background: #ffc61a;
         color: black;
         border-color: #ffd000;
+      }
+
+      .step-item.completed span {
+        background: #ffc61a;
+        border-color: #ffd000;
+        color: black;
       }
 
       .step-item.active p {

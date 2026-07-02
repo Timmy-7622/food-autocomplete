@@ -48,7 +48,7 @@ createApp({
       return this.totalTicketCount - this.selectedSeats.length;
     },
     selectSeatText() {
-      if (this.selectedSeats === 0) {
+      if (this.selectedSeats.length === 0) {
         return "";
       }
       // this.selectedSeats是一個陣列，陣列沒有id個屬性所以要用map去一個一個取出來
@@ -96,6 +96,15 @@ createApp({
       this.bookingInfo.ticketCount = this.totalTicketCount;
       this.bookingInfo.totalPrice = this.totalPrice;
       this.currentStep = 2;
+    },
+    goFoodStep() {
+      if (this.remainingSeatCount > 0) {
+        this.modalType = "error";
+        this.modalMessage = "請先完成座位選擇";
+        this.showModal = true;
+        return;
+      }
+      this.currentStep = 3;
     },
     increaseTicket(ticket) {
       ticket.count++;
