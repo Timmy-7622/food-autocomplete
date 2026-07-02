@@ -51,148 +51,6 @@
         font-size: 13px;
         margin-top: 4px;
       }
-      .screen {
-        width: 750px;
-        margin: 40px auto;
-        padding: 8px;
-        background: white;
-        border: 3px solid #222;
-        border-radius: 20px;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-         margin-left: 250px;
-      }
-      .legend {
-        color: white;
-        width: 700px;
-
-        margin: 20px auto;
-
-        display: flex;
-
-        justify-content: center;
-
-        gap: 30px;
-
-        align-items: center;
-      }
-      .legend-box {
-        width: 25px;
-        height: 25px;
-        
-
-        display: inline-flex;
-        /* 上下align-items,左右justify-content */
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 6px;
-
-        margin-right: 8px;
-
-        border: 2px solid #666;
-      }
-      .selected-box {
-        background: #4a90e2;
-      }
-
-      .available-box {
-        background: white;
-      }
-
-      .sold-box {
-        background: #ff5c8a;
-      }
-
-      .seat-map {
-        width: 1000px;
-
-        margin: auto;
-      }
-      /* 每一排 */
-
-      .seat-row {
-
-        display: flex;
-
-        align-items: center;
-
-        margin-bottom: 10px;
-      }
-      /* 左右排號 */
-
-      .row-label {
-
-        width: 30px;
-
-        font-weight: bold;
-
-        font-size: 22px;
-
-        color: #666;
-      }
-
-      /* 座位 */
-
-      .seat {
-
-        width: 40px;
-        height: 40px;
-
-        border: 2px solid #666;
-
-        border-radius: 6px;
-
-        background: white;
-
-        margin-right: 6px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        cursor: pointer;
-
-        font-size: 16px;
-
-        transition: 0.2s;
-      }
-
-      .seat:hover {
-        background: #ddd;
-      }
-
-      /* 狀態 */
-
-      .seat.selected {
-        background: #4a90e2;
-        color: white;
-      }
-
-      .seat.sold {
-        background: #ff5c8a;
-      }
-
-      .seat.wheelchair {
-        border-color: blue;
-      }
-
-      /* 走道 */
-
-      .aisleAfter4 {
-        margin-right: 90px;
-      }
-
-      .aisleAfter16 {
-        margin-right: 90px;
-      }
-
-      .seat:hover {
-        background: #ddd;
-      }
 
       /* Modal 背景 */
 
@@ -290,15 +148,6 @@
         border-radius: 15px;
         text-align: center;
       }
-      .selected-seat-tag {
-        display: inline-block;
-        background: #4a90e2;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 8px;
-        margin: 4px;
-        font-weight: bold;
-      }
 
       .booking-layout {
         width: 1500px;
@@ -307,33 +156,9 @@
         gap: 30px;
         align-items: flex-start;
       }
-      .cart-panel {
-        width: 300px;
-        min-height: 300px;
-        background:white;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 0px 20px rgba(0, 0, 0, 0.12);
-      }
       .cart-panel h3 {
         text-align: center;
         margin-bottom: 5px;
-      }
-      .cart-seat-list {
-        margin-bottom: 10px;
-      }
-      .checkout-btn {
-        width: 100%;
-        padding: 12px; 
-        background: #4a90e2;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-     
-      }
-      .checkout-btn:hover {
-        background: #357bd8;
       }
       .modal-box p {
         white-space: pre-line;
@@ -885,8 +710,8 @@
         margin-bottom: 22px;
       }
       .summary-ticket-row {
-        display: grid;
-        grid-template-columns: 1fr 20px 35px 20px 90px;
+        display: flex;
+        gap: 12px;
         align-items: center;
         margin-bottom: 8px;
       }
@@ -917,6 +742,181 @@
         font-weight: bold;
       }
       /* ==============================================  currentStep1 E ====================================================================== */
+      /* =================================================================Step2 S=========================================================== */
+      .screen {
+        width: 750px;
+        margin: 40px auto;
+        padding: 8px;
+        background: white;
+        border: 3px solid #222;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .legend {
+        color: white;
+        width: 700px;
+
+        margin: 20px auto;
+
+        display: flex;
+
+        justify-content: center;
+
+        gap: 30px;
+
+        align-items: center;
+      }
+      .legend-box {
+        width: 25px;
+        height: 25px;
+        
+
+        display: inline-flex;
+        /* 上下align-items,左右justify-content */
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 6px;
+
+        margin-right: 8px;
+
+        border: 2px solid #666;
+      }
+      .selected-box {
+        background: #4a90e2;
+      }
+
+      .available-box {
+        background: white;
+      }
+
+      .sold-box {
+        background: #ff5c8a;
+      }
+
+      .seat-map {
+        width: fit-content;
+        margin: 0 auto;
+      }
+      /* 每一排 */
+
+      .seat-row {
+
+        display: flex;
+
+        align-items: center;
+
+        margin-bottom: 10px;
+      }
+      /* 左右排號 */
+
+      .row-label {
+
+        width: 30px;
+
+        font-weight: bold;
+
+        font-size: 22px;
+
+        color: #666;
+      }
+
+      /* 座位 */
+
+      .seat {
+
+        width: 40px;
+        height: 40px;
+
+        border: 2px solid #666;
+
+        border-radius: 6px;
+
+        background: white;
+
+        margin-right: 6px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        transition: 0.2s;
+      }
+
+      .seat:hover {
+        background: #ddd;
+      }
+
+      /* 狀態 */
+
+      .seat.selected {
+        background: #4a90e2;
+        color: white;
+      }
+
+      .seat.sold {
+        background: #ff5c8a;
+      }
+
+      .seat.wheelchair {
+        border-color: blue;
+      }
+
+      /* 走道 */
+
+      .aisleAfter4 {
+        margin-right: 90px;
+      }
+
+      .aisleAfter16 {
+        margin-right: 90px;
+      }
+
+      .seat:hover {
+        background: #ddd;
+      }
+      .remaining-seat-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 3px 8px rgba(0,0,0,.25);
+        background: #f5bf18;
+        color: #1f1f1f;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-weight: bold;
+        margin-right: 310px;
+      }
+      .remaining-seat-box i {
+        font-size: 20px;
+      }
+      .remaining-label {
+        font-size: 18px;
+      }
+      .remaining-count {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .remaining-unit {
+        font-size: 18px;
+      }
+      .seat-header{
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+        align-items: baseline;
+      }
+      /* =================================================================Step2 E=========================================================== */
       /* ==============================================  預覽座位 S =========================================================================== */
       .section-titleⅠ {
         margin-bottom: 35px;
@@ -973,7 +973,7 @@
       .seat-preview-box .screen {
         width: 750px;
         margin: 30px auto 40px;
-        color:#000;
+        color: #000;
       }
 
       .preview-btn {

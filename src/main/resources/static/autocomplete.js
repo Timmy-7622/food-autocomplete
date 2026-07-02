@@ -44,6 +44,16 @@ createApp({
   },
   // 計算後的資料 filter->篩選
   computed: {
+    remainingSeatCount() {
+      return this.totalTicketCount - this.selectedSeats.length;
+    },
+    selectSeatText() {
+      if (this.selectedSeats === 0) {
+        return "";
+      }
+      // this.selectedSeats是一個陣列，陣列沒有id個屬性所以要用map去一個一個取出來
+      return this.selectedSeats.map((seat) => seat.id).join("、");
+    },
     selectedSeats() {
       return this.seats.filter((seat) => seat.status === "selected");
     },
@@ -76,7 +86,7 @@ createApp({
   },
   methods: {
     goSeatStep() {
-      if (totalTicket === 0) {
+      if (this.totalTicketCount === 0) {
         this.modalType = "error";
         this.modalMessage = "請選擇票種再繼續";
         this.showModal = true;
@@ -192,6 +202,15 @@ createApp({
       return this.seats.filter((seat) => seat.row === row);
     },
     selectSeat(seat) {
+      if (
+        seat.status === "available" &&
+        this.selectedSeats.length >= this.totalTicketCount
+      ) {
+        this.modalType = "error";
+        this.modalMessage = "已無待選座位數";
+        this.showModal = true;
+        return;
+      }
       if (seat.status === "sold") {
         this.modalType = "error";
         this.modalMessage = "不能選取這個座位,請重新選取";
@@ -230,69 +249,69 @@ createApp({
       this.results = [];
       this.showList = false;
     },
-    confirmBooking() {
-      if (this.selectedSeats.length === 0) {
-        this.modalType = "error";
-        this.modalMessage = "請先選擇座位";
-        this.showModal = true;
-        return;
-      }
+    // confirmBooking() {
+    //   if (this.selectedSeats.length === 0) {
+    //     this.modalType = "error";
+    //     this.modalMessage = "請先選擇座位";
+    //     this.showModal = true;
+    //     return;
+    //   }
 
-      const seatText = this.selectedSeats.map((seat) => seat.id).join("、");
-      const now = new Date();
-      const orderNo =
-        "T" +
-        now.getFullYear() +
-        String(now.getMonth() + 1).padStart(2, "0") +
-        String(now.getDate()).padStart(2, "0") +
-        String(now.getHours()).padStart(2, "0") +
-        String(now.getMinutes()).padStart(2, "0") +
-        String(now.getSeconds()).padStart(2, "0");
+    //   const seatText = this.selectedSeats.map((seat) => seat.id).join("、");
+    //   const now = new Date();
+    //   const orderNo =
+    //     "T" +
+    //     now.getFullYear() +
+    //     String(now.getMonth() + 1).padStart(2, "0") +
+    //     String(now.getDate()).padStart(2, "0") +
+    //     String(now.getHours()).padStart(2, "0") +
+    //     String(now.getMinutes()).padStart(2, "0") +
+    //     String(now.getSeconds()).padStart(2, "0");
 
-      const bookingData = {
-        orderNo: orderNo,
-        seats: this.selectedSeats.map((seat) => seat.id),
-        ticketCount: this.selectedSeats.length,
-        totalPrice: this.totalPrice,
-      };
-      fetch("http://localhost:18080/booking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("後端回傳:", data);
-        });
+    //   const bookingData = {
+    //     orderNo: orderNo,
+    //     seats: this.selectedSeats.map((seat) => seat.id),
+    //     ticketCount: this.selectedSeats.length,
+    //     totalPrice: this.totalPrice,
+    //   };
+    //   fetch("http://localhost:18080/booking", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(bookingData),
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log("後端回傳:", data);
+    //     });
 
-      this.modalType = "success";
-      this.modalMessage =
-        "訂票成功\n" +
-        "座位:" +
-        "訂單編號:" +
-        orderNo +
-        "\n" +
-        seatText +
-        "\n" +
-        "票數:" +
-        this.selectedSeats.length +
-        "張\n" +
-        "總金額:" +
-        this.totalPrice +
-        "元";
+    //   this.modalType = "success";
+    //   this.modalMessage =
+    //     "訂票成功\n" +
+    //     "座位:" +
+    //     "訂單編號:" +
+    //     orderNo +
+    //     "\n" +
+    //     seatText +
+    //     "\n" +
+    //     "票數:" +
+    //     this.selectedSeats.length +
+    //     "張\n" +
+    //     "總金額:" +
+    //     this.totalPrice +
+    //     "元";
 
-      this.seats.forEach((seat) => {
-        if (seat.status === "selected") {
-          seat.status = "sold";
-        }
-      });
+    //   this.seats.forEach((seat) => {
+    //     if (seat.status === "selected") {
+    //       seat.status = "sold";
+    //     }
+    //   });
 
-      localStorage.setItem("seats", JSON.stringify(this.seats));
-      this.modalMessage = "訂票成功";
-      this.showModal = true;
+    //   localStorage.setItem("seats", JSON.stringify(this.seats));
+    //   this.modalMessage = "訂票成功";
+    //   this.showModal = true;
 
-      console.log(this.modalMessage);
-    },
+    //   console.log(this.modalMessage);
+    // },
     closeWhenClickOutSide(event) {
       if (!this.$refs.searchBox) {
         return;
