@@ -27,6 +27,7 @@ createApp({
         time: "",
         seats: [],
       },
+      agreeTerms: false,
       sessions: [],
       packageTicket: [
         { name: "單人套票", price: 330, count: 0, seatCount: 1 },
@@ -40,6 +41,18 @@ createApp({
         { name: "敬老票", price: 175, count: 0, seatCount: 1 },
         { name: "愛心票", price: 175, count: 0, seatCount: 1 },
       ],
+      buyer: {
+        name: "",
+        phone: "",
+        email: "",
+      },
+      invoice: {
+        type: "cloud",
+        carrier: "member",
+        mobileBarcode: "",
+        companyName: "",
+        companyTaxId: "",
+      },
     };
   },
   // 計算後的資料 filter->篩選
@@ -85,6 +98,15 @@ createApp({
     },
   },
   methods: {
+    checkoutOrder() {
+      if (!this.agreeTerms) {
+        this.modalType = "error";
+        this.modalMessage = "請勾選閱讀並同意訂票須知";
+        this.showModal = true;
+        return;
+      }
+      this.currentStep = 4;
+    },
     goSeatStep() {
       if (this.totalTicketCount === 0) {
         this.modalType = "error";

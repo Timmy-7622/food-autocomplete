@@ -205,7 +205,7 @@
 
             <div class="summary-total">
               <span>TICKETS TOTAL :</span>
-              <span>NT$ {{ totalPrice }}</span>
+              <span>NT$ {{ finalTotalPrice }}</span>
             </div>
           </div>
         </div>
@@ -336,7 +336,7 @@
           </div>
           <!-- ======================================currentStep1 E===================================================-->
         </div>
-        <!-- ======================================座位區 Start====================================================== -->
+        <!-- ======================================currentStep2 S====================================================== -->
         <div v-if="currentStep === 2" class="ticket-session">
           <div class="seat-header">
             <div class="section-titleⅢ">
@@ -391,18 +391,107 @@
               </div>
             </div>
             <div class="ticket-actions">
-              <button class="back-btn" @click="currentPage = 'session'">
-                ← BACK
-              </button>
+              <button class="back-btn" @click="currentStep = 1">← BACK</button>
 
               <button class="next-btn" @click="goFoodStep">NEXT →</button>
             </div>
           </div>
-          <!-- ======================================座位區 End======================================================== -->
+          <!-- ======================================currentStep2 E======================================================== -->
         </div>
-        <!-- ======================================輸入框 Start====================================================== -->
-        <div v-if="currentStep === 3">
-          <div class="box" ref="searchBox">
+        <!-- ========================================currentStep3 S========================================================= -->
+
+        <div v-if="currentStep === 3" class="checkout-section">
+          <div class="section-titleⅢ">
+            <div class="title-enⅢ">
+              <span class="blue-dotⅢ"></span>
+              <span>CHECK INFORMATION</span>
+            </div>
+            <div class="title-zhⅢ">請確認購票人資訊</div>
+          </div>
+          <div class="checkout-form">
+            <h3>請確認購票資訊:</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>會員姓名</label>
+                <input type="text" v-model="buyer.name" />
+              </div>
+
+              <div class="form-group">
+                <label>手機號碼</label>
+                <input type="text" v-model="buyer.phone" />
+              </div>
+
+              <div class="form-group">
+                <label>電子信箱</label>
+                <input type="text" v-model="buyer.email" />
+              </div>
+            </div>
+            <h3>請選擇電子發票開立方式:</h3>
+            <p class="invoice-note">
+              <i class="fa-solid fa-circle-info"></i>
+              電影票票價內含娛樂稅，不另開統一發票。訂單含餐點之套餐，餐點部分統一發票將由影城於取票時一併交付；平台手續費將另行開立電子發票。
+            </p>
+
+            <div class="form-row invoice-row">
+              <div class="form-group">
+                <label>電子發票處理方式</label>
+                <select v-model="invoice.type">
+                  <option value="cloud">雲端發票</option>
+                  <option value="company">公司統編</option>
+                </select>
+              </div>
+
+              <div class="form-group" v-if="invoice.type === 'cloud'">
+                <label>請選擇載具類型</label>
+                <select v-model="invoice.carrier">
+                  <option value="member">
+                    會員載具(中獎發票將寄至電子信箱)
+                  </option>
+                  <option value="mobile">手機條碼</option>
+                </select>
+              </div>
+              <div
+                class="form-group"
+                v-if="invoice.type === 'cloud' && invoice.carrier === 'mobile'"
+              >
+                <label>請輸入您的手機條碼</label>
+                <input
+                  type="text"
+                  v-model="invoice.mobileBarcode"
+                  placeholder="/+7個字元"
+                />
+              </div>
+
+              <div class="form-group" v-if="invoice.type === 'company'">
+                <label>發票抬頭</label>
+                <input
+                  type="text"
+                  v-model="invoice.companyName"
+                  placeholder="公司抬頭名稱"
+                />
+              </div>
+              <div class="form-group" v-if="invoice.type === 'company'">
+                <label>統一編號</label>
+                <input
+                  type="text"
+                  v-model="invoice.companyTaxId"
+                  placeholder="統一編號"
+                />
+              </div>
+            </div>
+            <label class="agree-row">
+              <input type="checkbox" v-model="agreeTerms" />
+              <span>我已經閱讀並同意 線上訂票須知 及 電影分級制度說明</span>
+            </label>
+            <div class="ticket-actions">
+              <button class="back-btn" @click="currentStep = 2">← BACK</button>
+
+              <button class="next-btn" @click="checkoutOrder">CHECKOUT</button>
+            </div>
+          </div>
+
+          <!-- <div class="box" ref="searchBox">
             <input
               type="text"
               v-model="keyword"
@@ -422,9 +511,9 @@
                 <div class="food-description">{{ item.description }}</div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
-        <!-- ======================================輸入框 End============================================ -->
+        <!-- ===========================================currentStep3 E=========================================================== -->
         <div v-if="currentStep === 4"></div>
         <!-- <button class="history-btn" @click="loadOrders">
         {{ showOrders ? "收合歷史訂單" : "查看歷史訂單" }}

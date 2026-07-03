@@ -242,7 +242,7 @@
       }
       .step-item {
         width: 120px;
-        text-aligin: center;
+        text-align: center;
       }
       .step-item span {
         width: 45px;
@@ -921,7 +921,94 @@
         margin-bottom: 35px;
         align-items: baseline;
       }
-      /* =================================================================Step2 E=========================================================== */
+      /* =================================================================Step2 E============================================================= */
+      /* =================================================================Step3 S============================================================= */
+      .checkout-section {
+        width: 70%;
+        max-width: 1100px;
+        margin: 80px auto;
+        color: white;
+      }
+      .checkout-section .section-titleⅢ {
+        margin: 0 0 70px 0;
+      }
+      .checkout-form {
+        margin-top: 15px;
+      }
+      .checkout-form h3 {
+        font-size: 18px;
+        margin: 30px 0 18px;  
+        color: white;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 24px;
+      }
+      .invoice-row {
+        grid-template-columns: repeat(3,1fr);
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #ffd000;
+        font-size: 15px;
+        font-weight: bold;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        height: 46px;
+        box-sizing: border-box;
+        background: #3a3a3a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0 14px;
+        margin-bottom: 24px;
+        outline: none;
+      }
+      .form-group input:focus,
+      .form-group select:focus{
+        border: 1px solid white;
+        box-shadow: 0 0 0 2px rgba(255, 208, 0, 0.2);
+      }
+      .invoice-note {
+        align-items: flex-start;
+        display: flex;
+        gap: 12px;
+        color: #ddd;
+        font-size: 14px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+      .invoice-note i {
+        color: #a6ce39;
+        font-size: 22px;
+        margin-top: 3px;
+      }
+      .invoice-note {
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .agree-row {
+        width: 70%;
+        max-width: 1100px;
+        margin: 36px 0 0 0px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+      }
+      .agree-row input {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      /* =================================================================Step3 E============================================================= */
       /* ==============================================  預覽座位 S =========================================================================== */
       .section-titleⅠ {
         margin-bottom: 35px;
