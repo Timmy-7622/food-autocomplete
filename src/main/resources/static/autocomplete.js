@@ -105,6 +105,25 @@ createApp({
         this.showModal = true;
         return;
       }
+      if (this.invoice.type === "company") {
+        if (
+          !this.invoice.companyName.trim() ||
+          !this.invoice.companyTaxId.trim()
+        ) {
+          this.modalType = "error";
+          this.modalMessage = "請填寫公司抬頭與統一編號";
+          this.showModal = true;
+          return;
+        }
+      }
+      if (this.invoice.type === "cloud" && this.invoice.carrier === "mobile") {
+        if (!this.invoice.mobileBarcode.trim()) {
+          this.modalType = "error";
+          this.modalMessage = "請填寫手機載具條碼";
+          this.showModal = true;
+          return;
+        }
+      }
       this.currentStep = 4;
     },
     goSeatStep() {
