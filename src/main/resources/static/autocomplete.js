@@ -53,6 +53,15 @@ createApp({
         companyName: "",
         companyTaxId: "",
       },
+      payment: {
+        cardNumber: "",
+        rawCardNumber: "",
+        cardholderName: "",
+        expMonth: "",
+        expYear: "",
+        cvv: "",
+      },
+      paymentCompleted: false,
     };
   },
   // 計算後的資料 filter->篩選
@@ -98,6 +107,63 @@ createApp({
     },
   },
   methods: {
+    confirmPayment() {
+      if (!this.payment.rawCardNumber.length !== 16) {
+        this.modalType = "error";
+        this.modalMessage = "信用卡號必須為16碼";
+        this.showModal = true;
+        return;
+      }
+      if (!this.payment.cardholderName) {
+        this.modalType = "error";
+        this.modalMessage = "請輸入持卡人姓名";
+        this.showModal = true;
+        return;
+      }
+      const month = Number(this.payment.expMonth);
+      if (month < 1 || month > 12) {
+        this.modalType = "error";
+        this.modalMessage = "請輸入有效月份";
+        this.showModal = true;
+        return;
+      }
+      if (!this.payment.expYear) {
+        this.modalType = "error";
+        this.modalMessage = "請輸入有效年份";
+        this.showModal = true;
+        return;
+      }
+      if (!/^\d{3}$/.test(this.payment.cvv)) {
+        this.modalType = "error";
+        this.modalMessage = "CVV必須為3碼數字";
+        this.showModal = true;
+        return;
+      }
+      this.paymentCompleted = true;
+    },
+    formatCardNumber(event) {
+      let value = event.target.value;
+
+      //移除所有非數字 (正規表示式)
+      value = value.replace(/\D/g, "");
+      //最多保留16碼 slice() 的意思是：擷取一部分的字串
+      value = value.slice(0, 16);
+      //保存數字
+      this.payment.rawCardNumber = value;
+      //每4碼加一個空格
+      this.payment.cardNumber = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+    },
+    maskCardNumber() {
+      const value = this.payment.rawCardNumber;
+      if (value.length !== 16) {
+        return;
+      }
+      this.payment.cardNumber = "•••• •••• •••• " + value.slice(-4);
+    },
+    showCardNumber() {
+      const value = this.payment.rawCardNumber;
+      this.payment.cardNumber = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+    },
     checkoutOrder() {
       if (!this.agreeTerms) {
         this.modalType = "error";

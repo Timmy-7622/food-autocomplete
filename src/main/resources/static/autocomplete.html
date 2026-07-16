@@ -119,7 +119,7 @@
             :class="{ active: currentStep === 4, completed: currentStep > 4 }"
           >
             <span>{{ currentStep > 4 ? "✓" : "4" }}</span>
-            <p>訂單完成</p>
+            <p>{{ paymentCompleted ? "訂單完成" : "確認付款"}}</p>
           </div>
         </div>
         <!-- ===================================================================================================== -->
@@ -400,94 +400,100 @@
         </div>
         <!-- ========================================currentStep3 S========================================================= -->
 
-        <div v-if="currentStep === 3" class="checkout-section">
-          <div class="section-titleⅢ">
-            <div class="title-enⅢ">
-              <span class="blue-dotⅢ"></span>
+        <div v-if="currentStep === 3">
+          <div class="section-titleⅣ">
+            <div class="title-enⅣ">
+              <span class="blue-dotⅣ"></span>
               <span>CHECK INFORMATION</span>
             </div>
-            <div class="title-zhⅢ">請確認購票人資訊</div>
+            <div class="title-zhⅣ">請確認購票人資訊</div>
           </div>
-          <div class="checkout-form">
-            <h3>請確認購票資訊:</h3>
+          <div class="checkout-section">
+            <div class="checkout-form">
+              <h3>請確認購票資訊:</h3>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label>會員姓名</label>
-                <input type="text" v-model="buyer.name" />
-              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>會員姓名</label>
+                  <input type="text" v-model="buyer.name" />
+                </div>
 
-              <div class="form-group">
-                <label>手機號碼</label>
-                <input type="text" v-model="buyer.phone" />
-              </div>
+                <div class="form-group">
+                  <label>手機號碼</label>
+                  <input type="text" v-model="buyer.phone" />
+                </div>
 
-              <div class="form-group">
-                <label>電子信箱</label>
-                <input type="text" v-model="buyer.email" />
+                <div class="form-group">
+                  <label>電子信箱</label>
+                  <input type="text" v-model="buyer.email" />
+                </div>
               </div>
-            </div>
-            <h3>請選擇電子發票開立方式:</h3>
-            <p class="invoice-note">
-              <i class="fa-solid fa-circle-info"></i>
-              電影票票價內含娛樂稅，不另開統一發票。訂單含餐點之套餐，餐點部分統一發票將由影城於取票時一併交付；平台手續費將另行開立電子發票。
-            </p>
+              <h3>請選擇電子發票開立方式:</h3>
+              <p class="invoice-note">
+                <i class="fa-solid fa-circle-info"></i>
+                電影票票價內含娛樂稅，不另開統一發票。訂單含餐點之套餐，餐點部分統一發票將由影城於取票時一併交付；平台手續費將另行開立電子發票。
+              </p>
 
-            <div class="form-row invoice-row">
-              <div class="form-group">
-                <label>電子發票處理方式</label>
-                <select v-model="invoice.type">
-                  <option value="cloud">雲端發票</option>
-                  <option value="company">公司統編</option>
-                </select>
-              </div>
+              <div class="form-row invoice-row">
+                <div class="form-group">
+                  <label>電子發票處理方式</label>
+                  <select v-model="invoice.type">
+                    <option value="cloud">雲端發票</option>
+                    <option value="company">公司統編</option>
+                  </select>
+                </div>
 
-              <div class="form-group" v-if="invoice.type === 'cloud'">
-                <label>請選擇載具類型</label>
-                <select v-model="invoice.carrier">
-                  <option value="member">
-                    會員載具(中獎發票將寄至電子信箱)
-                  </option>
-                  <option value="mobile">手機條碼</option>
-                </select>
-              </div>
-              <div
-                class="form-group"
-                v-if="invoice.type === 'cloud' && invoice.carrier === 'mobile'"
-              >
-                <label>請輸入您的手機條碼</label>
-                <input
-                  type="text"
-                  v-model="invoice.mobileBarcode"
-                  placeholder="/+7個字元"
-                />
-              </div>
+                <div class="form-group" v-if="invoice.type === 'cloud'">
+                  <label>請選擇載具類型</label>
+                  <select v-model="invoice.carrier">
+                    <option value="member">
+                      會員載具(中獎發票將寄至電子信箱)
+                    </option>
+                    <option value="mobile">手機條碼</option>
+                  </select>
+                </div>
+                <div
+                  class="form-group"
+                  v-if="invoice.type === 'cloud' && invoice.carrier === 'mobile'"
+                >
+                  <label>請輸入您的手機條碼</label>
+                  <input
+                    type="text"
+                    v-model="invoice.mobileBarcode"
+                    placeholder="/+7個字元"
+                  />
+                </div>
 
-              <div class="form-group" v-if="invoice.type === 'company'">
-                <label>發票抬頭</label>
-                <input
-                  type="text"
-                  v-model="invoice.companyName"
-                  placeholder="公司抬頭名稱"
-                />
+                <div class="form-group" v-if="invoice.type === 'company'">
+                  <label>發票抬頭</label>
+                  <input
+                    type="text"
+                    v-model="invoice.companyName"
+                    placeholder="公司抬頭名稱"
+                  />
+                </div>
+                <div class="form-group" v-if="invoice.type === 'company'">
+                  <label>統一編號</label>
+                  <input
+                    type="text"
+                    v-model="invoice.companyTaxId"
+                    placeholder="統一編號"
+                  />
+                </div>
               </div>
-              <div class="form-group" v-if="invoice.type === 'company'">
-                <label>統一編號</label>
-                <input
-                  type="text"
-                  v-model="invoice.companyTaxId"
-                  placeholder="統一編號"
-                />
-              </div>
-            </div>
-            <label class="agree-row">
-              <input type="checkbox" v-model="agreeTerms" />
-              <span>我已經閱讀並同意 線上訂票須知 及 電影分級制度說明</span>
-            </label>
-            <div class="ticket-actions">
-              <button class="back-btn" @click="currentStep = 2">← BACK</button>
+              <label class="agree-row">
+                <input type="checkbox" v-model="agreeTerms" />
+                <span>我已經閱讀並同意 線上訂票須知 及 電影分級制度說明</span>
+              </label>
+              <div class="ticket-actions">
+                <button class="back-btn" @click="currentStep = 2">
+                  ← BACK
+                </button>
 
-              <button class="next-btn" @click="checkoutOrder">CHECKOUT</button>
+                <button class="next-btn" @click="checkoutOrder">
+                  CHECKOUT
+                </button>
+              </div>
             </div>
           </div>
 
@@ -515,17 +521,99 @@
         </div>
         <!-- ===========================================currentStep3 E=========================================================== -->
         <!-- ===========================================currentStep4 S=========================================================== -->
-        <div v-if="currentStep === 4" class="checkout-section"></div>
-        <div class="payment-card">
-          <div class="section-titleⅢ">
-            <div class="title-enⅢ">
-              <span class="blue-dotⅢ"></span>
-              <span>PAYMENT INFORMATION</span>
+        <div v-if="currentStep === 4">
+          <div v-if="!paymentCompleted">
+            <div class="section-titleⅣ">
+              <div class="title-enⅣ">
+                <span class="blue-dotⅣ"></span>
+                <span>PAYMENT INFORMATION</span>
+              </div>
+              <div class="title-zhⅣ">付款資訊</div>
             </div>
-            <div class="title-zhⅢ">付款資訊</div>
+            <div class="checkout-section">
+              <div class="payment-card">
+                <div class="payment-title">
+                  <span class="orange-dotⅡ"></span>
+                  PAYMENT INFORMATION
+                </div>
+                <div class="payment-content">
+                  <div class="payment-group">
+                    <label>付款方式</label>
+                    <label class="payment-radio">
+                      <input type="radio" />
+                      信用卡
+                    </label>
+                  </div>
+                  <div class="payment-group payment-card-number">
+                    <label>信用卡號</label>
+                    <label class="payment-radio">
+                      <input
+                        type="text"
+                        v-model="payment.cardNumber"
+                        @input="formatCardNumber"
+                        @blur="maskCardNumber"
+                        @focus="showCardNumber"
+                        maxlength="19"
+                        inputmode="numeric"
+                        placeholder="0000 0000 0000 0000"
+                      />
+                    </label>
+                  </div>
+                  <div class="payment-group payment-holder">
+                    <label>持卡人姓名</label>
+                    <input
+                      type="text"
+                      v-model="payment.cardholderName"
+                      placeholder="請輸入持卡人姓名"
+                    />
+                  </div>
+                  <div class="payment-row">
+                    <div class="payment-group">
+                      <label>有效月份</label>
+                      <input
+                        type="text"
+                        v-model="payment.expMonth"
+                        maxlength="2"
+                        inputmode="numeric"
+                        placeholder="MM"
+                      />
+                    </div>
+                    <div class="payment-group">
+                      <label>有效年分</label>
+                      <input
+                        type="text"
+                        v-model="payment.expYear"
+                        maxlength="2"
+                        inputmode="numeric"
+                        placeholder="YY"
+                      />
+                    </div>
+                    <div class="payment-group">
+                      <label>CVV</label>
+                      <input
+                        type="password"
+                        v-model="payment.cvv"
+                        maxlength="3"
+                        inputmode="numeric"
+                        placeholder="123"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="payment-action">
+              <button class="back-btn" @click="currentStep = 3">← BACK</button>
+
+              <button class="next-btn" @click="confirmPayment">確認付款</button>
+            </div>
           </div>
-          <div class="payment-content"></div>
+          <div v-else>
+            <h2>訂單完成</h2>
+            <p>付款成功，座位已為您保留</p>
+          </div>
         </div>
+
         <!-- ===========================================currentStep4 E=========================================================== -->
         <!-- ===========================================modal-overlay S=========================================================== -->
         <div v-if="showModal" class="modal-overlay">
