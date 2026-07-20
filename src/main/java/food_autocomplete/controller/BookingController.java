@@ -26,16 +26,49 @@ public class BookingController {
     public Map<String, Object> booking(@RequestBody BookingDTO dto) {
         System.out.println("===========接收到訂單=============");
         System.out.println(dto.getOrderNo());
+        System.out.println(dto.getMovieName());
+        System.out.println(dto.getCinema());
+        System.out.println(dto.getMovieDate());
+        System.out.println(dto.getMovieTime());
+
         System.out.println(dto.getSeats());
         System.out.println(dto.getTicketCount());
+
+        System.out.println(dto.getTicketPrice());
+        System.out.println(dto.getServiceFee());
         System.out.println(dto.getTotalPrice());
+
+        System.out.println(dto.getBuyerName());
+        System.out.println(dto.getBuyerPhone());
+        System.out.println(dto.getBuyerEmail());
+
+        System.out.println(dto.getInvoiceType());
+        System.out.println(dto.getInvoiceCarrier());
+        System.out.println(dto.getMobileBarcode());
+        System.out.println(dto.getCompanyName());
 
         BookingOrder order = new BookingOrder();
         order.setOrderNo(dto.getOrderNo());
-        order.setSeats(String.join(",", dto.getSeats()));
+
+        order.setMovieName(dto.getMovieName());
+        order.setCinema(dto.getCinema());
+        order.setMovieDate(dto.getMovieDate());
+        order.setMovieTime(dto.getMovieTime());
+
+        order.setSeats(dto.getSeats());
         order.setTicketCount(dto.getTicketCount());
+        order.setTicketPrice(dto.getTicketPrice());
+        order.setServiceFee(dto.getServiceFee());
         order.setTotalPrice(dto.getTotalPrice());
-        order.setCreateTime(new Date());
+
+        order.setBuyerName(dto.getBuyerName());
+        order.setBuyerPhone(dto.getBuyerPhone());
+        order.setBuyerEmail(dto.getBuyerEmail());
+
+        order.setInvoiceType(dto.getInvoiceType());
+        order.setInvoiceCarrier(dto.getInvoiceCarrier());
+        order.setMobileBarcode(dto.getMobileBarcode());
+        order.setCompanyName(dto.getCompanyName());
 
         System.out.println("準備存資料庫");
         bookingOrderRepository.save(order);

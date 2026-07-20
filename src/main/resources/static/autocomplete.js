@@ -62,6 +62,7 @@ createApp({
         cvv: "",
       },
       paymentCompleted: false,
+      orderNo: "",
     };
   },
   // 計算後的資料 filter->篩選
@@ -107,39 +108,86 @@ createApp({
     },
   },
   methods: {
+    generateOrderNo() {
+      const now = new Date();
+      return (
+        "MK" +
+        now.getFullYear() +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        String(now.getDate()).padStart(2, "0") +
+        String(now.getHours()).padStart(2, "0") +
+        String(now.getMinutes()).padStart(2, "0") +
+        String(now.getSeconds()).padStart(2, "0")
+      );
+    },
+    showPaymentError(message) {
+      this.modalType = "error";
+      this.modalMessage = message;
+      this.showModal = true;
+    },
     confirmPayment() {
-      if (!this.payment.rawCardNumber.length !== 16) {
-        this.modalType = "error";
-        this.modalMessage = "信用卡號必須為16碼";
-        this.showModal = true;
+      if (this.payment.rawCardNumber.length !== 16) {
+        this.showPaymentError("信用卡號必須為 16 碼");
         return;
       }
-      if (!this.payment.cardholderName) {
-        this.modalType = "error";
-        this.modalMessage = "請輸入持卡人姓名";
-        this.showModal = true;
+      if (!this.payment.cardholderName.trim()) {
+        this.showPaymentError("請輸入持卡人姓名");
         return;
       }
       const month = Number(this.payment.expMonth);
-      if (month < 1 || month > 12) {
-        this.modalType = "error";
-        this.modalMessage = "請輸入有效月份";
-        this.showModal = true;
+
+      if (!/^\d{2}$/.test(this.payment.expMonth) || month < 1 || month > 12) {
+        this.showPaymentError("有效月份請輸入 01～12");
         return;
       }
-      if (!this.payment.expYear) {
-        this.modalType = "error";
-        this.modalMessage = "請輸入有效年份";
-        this.showModal = true;
+      if (!/^\d{2}$/.test(this.payment.expYear)) {
+        this.showPaymentError("有效年份必須為 2 碼數字");
         return;
       }
       if (!/^\d{3}$/.test(this.payment.cvv)) {
-        this.modalType = "error";
-        this.modalMessage = "CVV必須為3碼數字";
-        this.showModal = true;
+        this.showPaymentError("CVV 必須為 3 碼數字");
         return;
       }
-      this.paymentCompleted = true;
+      this.orderNo = this.generateOrderNo();
+      console.log(this.orderNo);
+
+      const bookingData = {
+        orderNo: this.orderNo,
+
+        movieName: this.bookingInfo.movieName,
+        cinema: this.bookingInfo.cinema,
+        date: this.bookingInfo.date,
+        time: this.bookingInfo.time,
+
+        seats: this.selectedSeats.map((seat) => seat.id),
+        ticketCount: this.totalTicketCount,
+
+        ticketPrice: this.totalPrice,
+        serviceFee: this.serviceFee,
+        totalPrice: this.finalTotalPrice,
+
+        buyerName: this.buyer.name,
+        buyerPhone: this.buyer.phone,
+        buyerEmail: this.buyer.email,
+
+        invoiceType: this.invoice.type,
+        invoiceCarrier: this.invoice.carrier,
+        mobileBarcode: this.invoice.mobileBarcode,
+        companyName: this.invoice.companyName,
+        companyTaxId: this.invoice.companyTaxId,
+
+        paymentMethod: "credit",
+        paymentStatus: "paid",
+      };
+
+      fetch("http://localhost:18080/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      console.log("準備送到後端的訂單資料：", bookingData);
+      // this.paymentCompleted = true;
     },
     formatCardNumber(event) {
       let value = event.target.value;
@@ -166,27 +214,20 @@ createApp({
     },
     checkoutOrder() {
       if (!this.agreeTerms) {
-        this.modalType = "error";
-        this.modalMessage = "請勾選閱讀並同意訂票須知";
-        this.showModal = true;
+        this.showPaymentError("請勾選閱讀並同意訂票須知");
         return;
       }
-      if (this.invoice.type === "company") {
-        if (
-          !this.invoice.companyName.trim() ||
-          !this.invoice.companyTaxId.trim()
-        ) {
-          this.modalType = "error";
-          this.modalMessage = "請填寫公司抬頭與統一編號";
-          this.showModal = true;
-          return;
-        }
+      if (
+        this.invoice.type === "company" &&
+        (!this.invoice.companyName.trim() || !this.invoice.companyTaxId.trim())
+      ) {
+        this.showPaymentError("請填寫公司抬頭與統一編號");
+        return;
       }
+
       if (this.invoice.type === "cloud" && this.invoice.carrier === "mobile") {
         if (!this.invoice.mobileBarcode.trim()) {
-          this.modalType = "error";
-          this.modalMessage = "請填寫手機載具條碼";
-          this.showModal = true;
+          this.showPaymentError("請填寫手機載具條碼");
           return;
         }
       }
@@ -194,9 +235,7 @@ createApp({
     },
     goSeatStep() {
       if (this.totalTicketCount === 0) {
-        this.modalType = "error";
-        this.modalMessage = "請選擇票種再繼續";
-        this.showModal = true;
+        this.showPaymentError("請選擇票種再繼續");
         return;
       }
 
@@ -206,9 +245,7 @@ createApp({
     },
     goFoodStep() {
       if (this.remainingSeatCount > 0) {
-        this.modalType = "error";
-        this.modalMessage = "請先完成座位選擇";
-        this.showModal = true;
+        this.showPaymentError("請先完成座位選擇");
         return;
       }
       this.currentStep = 3;
@@ -223,9 +260,7 @@ createApp({
     },
     goTicketStep(session) {
       if (!this.bookingInfo.time) {
-        this.modalType = "error";
-        this.modalMessage = "請先選擇場次時間";
-        this.showModal = true;
+        this.showPaymentError("請先選擇場次時間");
         return;
       }
       this.bookingInfo.poster = session.poster;
@@ -322,20 +357,14 @@ createApp({
         seat.status === "available" &&
         this.selectedSeats.length >= this.totalTicketCount
       ) {
-        this.modalType = "error";
-        this.modalMessage = "已無待選座位數";
-        this.showModal = true;
+        this.showPaymentError("已無待選座位數");
         return;
       }
       if (seat.status === "sold") {
-        this.modalType = "error";
-        this.modalMessage = "不能選取這個座位,請重新選取";
-        this.showModal = true;
+        this.showPaymentError("不能選取這個座位,請重新選取");
         return;
       } else if (seat.status === "wheelchair") {
-        this.modalType = "error";
-        this.modalMessage = "需至實體櫃台購買";
-        this.showModal = true;
+        this.showPaymentError("需至實體櫃台購買");
         return;
       }
       //selected true = available false = selected
