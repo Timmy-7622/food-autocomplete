@@ -149,15 +149,13 @@ createApp({
         return;
       }
       this.orderNo = this.generateOrderNo();
-      console.log(this.orderNo);
-
       const bookingData = {
         orderNo: this.orderNo,
 
         movieName: this.bookingInfo.movieName,
         cinema: this.bookingInfo.cinema,
-        date: this.bookingInfo.date,
-        time: this.bookingInfo.time,
+        movieDate: this.bookingInfo.date,
+        movieTime: this.bookingInfo.time,
 
         seats: this.selectedSeats.map((seat) => seat.id),
         ticketCount: this.totalTicketCount,
@@ -258,7 +256,7 @@ createApp({
         ticket.count--;
       }
     },
-    goTicketStep(session) {
+    goTicketStep(session, time) {
       if (!this.bookingInfo.time) {
         this.showPaymentError("請先選擇場次時間");
         return;

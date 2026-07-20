@@ -1,6 +1,5 @@
 package food_autocomplete.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -16,7 +15,7 @@ public class BookingOrder {
     @Column(name = "ORDER_NO")
     private String orderNo;
 
-    @Column(name = "MOVIENAME")
+    @Column(name = "MOVIE_NAME")
     private String movieName;
 
     @Column(name = "CINEMA")
@@ -29,18 +28,18 @@ public class BookingOrder {
     private String movieTime;
 
     @Column(name = "SEATS")
-    private List<String> seats;
+    private String seats;
 
-    @Column(name = "TICKETCOUNT")
+    @Column(name = "TICKET_COUNT")
     private Integer ticketCount;
 
     @Column(name = "TICKETPRICE")
     private Integer ticketPrice;
 
     @Column(name = "SERVICEFEE")
-    private Integer ServiceFee;
+    private Integer serviceFee;
 
-    @Column(name = "TOTALPRICE")
+    @Column(name = "TOTAL_PRICE")
     private Integer totalPrice;
 
     @Column(name = "BUYERNAME")
@@ -84,7 +83,7 @@ public class BookingOrder {
         return movieTime;
     }
 
-    public List<String> getSeats() {
+    public String getSeats() {
         return seats;
     }
 
@@ -97,7 +96,7 @@ public class BookingOrder {
     }
 
     public Integer getServiceFee() {
-        return ServiceFee;
+        return serviceFee;
     }
 
     public Integer getTotalPrice() {
@@ -152,7 +151,7 @@ public class BookingOrder {
         this.movieTime = movieTime;
     }
 
-    public void setSeats(List<String> seats) {
+    public void setSeats(String seats) {
         this.seats = seats;
     }
 
@@ -165,7 +164,7 @@ public class BookingOrder {
     }
 
     public void setServiceFee(Integer serviceFee) {
-        ServiceFee = serviceFee;
+        this.serviceFee = serviceFee;
     }
 
     public void setTotalPrice(Integer totalPrice) {

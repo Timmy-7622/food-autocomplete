@@ -1,6 +1,5 @@
 package food_autocomplete.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class BookingController {
         order.setMovieDate(dto.getMovieDate());
         order.setMovieTime(dto.getMovieTime());
 
-        order.setSeats(dto.getSeats());
+        order.setSeats(String.join((","), dto.getSeats()));
         order.setTicketCount(dto.getTicketCount());
         order.setTicketPrice(dto.getTicketPrice());
         order.setServiceFee(dto.getServiceFee());

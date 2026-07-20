@@ -13,7 +13,7 @@ public class BookingDTO {
     private Integer ticketCount;
 
     private Integer ticketPrice;
-    private Integer ServiceFee;
+    private Integer serviceFee;
     private Integer totalPrice;
 
     private String buyerName;
@@ -62,7 +62,7 @@ public class BookingDTO {
     }
 
     public Integer getServiceFee() {
-        return ServiceFee;
+        return serviceFee;
     }
 
     public Integer getTotalPrice() {
@@ -142,7 +142,7 @@ public class BookingDTO {
     }
 
     public void setServiceFee(Integer serviceFee) {
-        ServiceFee = serviceFee;
+        this.serviceFee = serviceFee;
     }
 
     public void setTotalPrice(Integer totalPrice) {
