@@ -74,8 +74,8 @@ public class BookingController {
         System.out.println("存資料庫完成");
 
         Map<String, Object> result = new HashMap<>();
-        result.put("status", "succes");
-        result.put("mesage", "訂票成功");
+        result.put("status", "success");
+        result.put("message", "訂票成功");
         result.put("orderNo", dto.getOrderNo());
 
         return result;

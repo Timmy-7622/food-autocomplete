@@ -182,10 +182,24 @@ createApp({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
-      });
+      })
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            throw new Error("訂單儲存失敗");
+          }
+          return response.json();
+        })
+        .then((result) => {
+          console.log("後端回傳結果:", result);
+          this.orderNo = result.orderNo;
+          this.paymentCompleted = true;
+        })
+        .catch((error) => {
+          this.showPaymentError("付款失敗,請稍後再試");
+        });
 
       console.log("準備送到後端的訂單資料：", bookingData);
-      // this.paymentCompleted = true;
     },
     formatCardNumber(event) {
       let value = event.target.value;
