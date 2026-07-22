@@ -108,6 +108,46 @@ createApp({
     },
   },
   methods: {
+    goMovieList() {
+      this.resetBooking();
+      this.currentPage = "session";
+    },
+    resetBooking() {
+      this.tickets.forEach((ticket) => {
+        ticket.count = 0;
+      });
+      this.packageTicket.forEach((ticket) => {
+        ticket.count = 0;
+      });
+
+      //座位
+      this.selectedSeats = [];
+
+      //購票人資料
+      this.buyer.name = "";
+      this.buyer.phone = "";
+      this.buyer.email = "";
+
+      //發票資料
+      this.invoice.type = "cloud";
+      this.invoice.carrier = "member";
+      this.invoice.mobileBarcode = "";
+      this.invoice.companyName = "";
+      this.invoice.companyTaxId = "";
+
+      //付款資料
+      this.payment.type = "credit";
+      this.payment.cardNumber = "";
+      this.payment.rawCardNumber = "";
+      this.payment.expMonth = "";
+      this.payment.expYear = "";
+      this.payment.cvc = "";
+
+      //其他狀態
+      this.agreeTerms = false;
+      this.paymentCompleted = false;
+      this.orderNo = "";
+    },
     generateOrderNo() {
       const now = new Date();
       return (

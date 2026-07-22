@@ -128,7 +128,9 @@
             <span class="orange-dotⅡ"></span>
             <span>ONLINE TICKET</span>
           </div>
-          <div class="title-zhⅡ">選擇票種</div>
+          <div class="title-zhⅡ">
+            {{ paymentCompleted ? "訂單完成" : "選擇票種" }}
+          </div>
         </div>
         <!--公用BookingTop-->
         <div class="booking-top">
@@ -608,10 +610,19 @@
               <button class="next-btn" @click="confirmPayment">確認付款</button>
             </div>
           </div>
-          <div v-else>
-            <h2>付款成功🎉🎉🎉</h2>
-            <p>訂單編號:{{ orderNo }}</p>
+          <div v-else class="payment-success">
+            <h2>訂單完成</h2>
+
             <p>付款成功，座位已為您保留</p>
+
+            <div class="success-detail">
+              <h2>付款成功🎉🎉🎉</h2>
+              <p>付款狀態 : 已付款</p>
+              <p>訂單編號 : {{ orderNo }}</p>
+              <p>電子票券將寄送至 : {{ buyer.email }}</p>
+            </div>
+
+            <button @click="goMovieList">返回首頁</button>
           </div>
         </div>
 

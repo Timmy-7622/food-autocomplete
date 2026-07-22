@@ -116,6 +116,27 @@ public class SessionController {
         movie4.put("formats", formats4);
         sessions.add(movie4);
 
+        Map<String, Object> movie5 = new HashMap<>();
+        movie5.put("id", 5);
+        movie5.put("movieName", "新劇場版 Keroro軍曹 復活後即面臨地球滅亡大危機是也！");
+        movie5.put("englishName", "KeroroSession");
+        movie5.put("poster", "images/keroro.jpg");
+        movie5.put("cinema", "泰順店");
+        movie5.put("date", "2026-07-22");
+        movie5.put("weekday", "星期三");
+        movie5.put("rating", "普遍級");
+        movie5.put("duration", "126分鐘");
+        movie5.put("director", "追崎史敏");
+
+        List<Map<String, Object>> formats5 = new ArrayList<>();
+
+        Map<String, Object> format8 = new HashMap<>();
+        format8.put("language", "數位/日文");
+        format8.put("times", List.of("08:00", "8:45", "10:25", "11:50", "12:10", "14:40", "15:30", "18:50", "20:15",
+                "21:30", "22:10"));
+        formats5.add(format8);
+        movie5.put("formats", formats5);
+        sessions.add(movie5);
         return sessions;
 
     }
