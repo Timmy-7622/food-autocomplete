@@ -1,113 +1,114 @@
-# Food AutoComplete
+# 電影院線上訂票系統
 
-使用 Vue + Spring Boot + Oracle 製作的餐點名稱自動補全系統。
+使用 Vue 3、Spring Boot 與 Oracle 開發的電影院線上訂票系統。
+
+使用者可以選擇電影場次、票種與座位，填寫購票人及付款資料，完成訂票後，訂單會儲存至 Oracle 資料庫。
+
+不同電影場次會根據資料庫中的訂單資料，顯示各自對應的已售座位。
 
 ---
 
-## 功能介紹
+## 專案功能
 
-- 餐點名稱自動補全
-- 即時搜尋（AJAX）
-- Vue 3 前端互動
-- Spring Boot REST API
-- Oracle Database
-- Spring Data JPA
-- Caffeine Cache 快取
-- 鍵盤上下選擇
-- 點外面自動關閉清單
-- UI 美化
+### 電影場次
+
+- 顯示電影名稱、海報、影城與日期
+- 顯示不同語言版本及播放時間
+- 點擊場次後進入訂票流程
+- 可預覽目前場次的座位狀態
+
+### 票種選擇
+
+- 選擇一般票與套票
+- 調整不同票種數量
+- 自動計算購票張數
+- 自動計算訂單總金額
+- 未選擇票種時禁止進入下一步
+
+### 座位選擇
+
+- 顯示影廳座位圖
+- 顯示一般座位、輪椅座位及已售座位
+- 限制選取座位數量不得超過購票張數
+- 顯示目前已選座位及剩餘待選數量
+- 不同電影、影城、日期與時間會顯示不同的已售座位
+
+### 購票人與發票資料
+
+- 填寫姓名、手機及電子信箱
+- 選擇雲端發票或公司發票
+- 支援會員載具與手機條碼載具
+- 驗證手機號碼、電子信箱及統一編號格式
+- 必須同意購票須知才能繼續
+
+### 付款功能
+
+- 支援信用卡付款介面
+- 信用卡號自動每四碼分組
+- 卡號離開輸入框後自動遮罩
+- 驗證有效期限與安全碼
+- 訂票成功後顯示訂單編號
+
+### 訂單與已售座位
+
+- 將訂單資料送至 Spring Boot
+- 使用 Oracle 儲存訂單
+- 從 `/booking/list` 取得歷史訂單
+- 根據電影、影城、日期及時間篩選目前場次
+- 將訂單中的座位更新為已售狀態
 
 ---
 
 ## 使用技術
 
-### Frontend
+### 前端
 
-- Vue 3
-- HTML
-- CSS
+- HTML5
+- CSS3
 - JavaScript
+- Vue 3 CDN
+- Fetch API
+- Font Awesome
 
-### Backend
+### 後端
 
+- Java
 - Spring Boot
-- Spring Data JPA
-- REST API
+- RESTful API
+- JDBC 或 Spring Data 存取資料
 
-### Database
+### 資料庫
 
 - Oracle Database
 
-### Cache
+### 開發工具
 
-- Caffeine Cache
-
-### Version Control
-
+- Visual Studio Code
+- Spring Tool Suite
 - Git
 - GitHub
+- Postman
 
 ---
 
-## 專案結構
+## 系統流程
 
-```text
-food_autocomplete
-├─ controller
-├─ service
-├─ repository
-├─ entity
-```
-
----
-
-## API
-
-### 搜尋餐點
-
-```http
-GET /foodcos/search?keyword=牛
-```
-
----
-
-## 啟動方式
-
-### 啟動 Spring Boot
-
-```bash
-.\mvnw.cmd spring-boot:run
-```
-
----
-
-## autocomplete 功能流程
-
-```text
-Vue Input
-↓
-AJAX Fetch
-↓
-Controller
-↓
-Service(Cache)
-↓
-Repository
-↓
-Oracle Database
-```
-
----
-
-## 畫面功能
-
-- autocomplete 下拉選單
-- hover 效果
-- focus 效果
-- click outside close
-
----
-
-## 作者
-
-Timmy Chen
+選擇電影場次
+        ↓
+選擇票種與數量
+        ↓
+選擇座位
+        ↓
+填寫購票人與發票資料
+        ↓
+填寫付款資料
+        ↓
+Vue 使用 Fetch 傳送訂單
+        ↓
+Spring Boot 接收訂單
+        ↓
+儲存至 Oracle
+        ↓
+回傳訂單編號
+        ↓
+顯示訂票完成頁面
