@@ -108,6 +108,14 @@ createApp({
     },
   },
   methods: {
+    // 每把座位表拿出只要不是輪椅座就先把狀態恢復成available
+    resetSeatStatus() {
+      this.seats.forEach((seat) => {
+        if (seat.status !== "wheelchair") {
+          seat.status = "available";
+        }
+      });
+    },
     goMovieList() {
       this.resetBooking();
       this.currentPage = "session";
@@ -121,7 +129,11 @@ createApp({
       });
 
       //座位
-      this.selectedSeats = [];
+      this.seats.forEach((seat) => {
+        if (seat.status === "selected") {
+          seat.status = "available";
+        }
+      });
 
       //購票人資料
       this.buyer.name = "";
@@ -136,12 +148,12 @@ createApp({
       this.invoice.companyTaxId = "";
 
       //付款資料
-      this.payment.type = "credit";
+      this.payment.cardholderName = "";
       this.payment.cardNumber = "";
       this.payment.rawCardNumber = "";
       this.payment.expMonth = "";
       this.payment.expYear = "";
-      this.payment.cvc = "";
+      this.payment.cvv = "";
 
       //其他狀態
       this.agreeTerms = false;
@@ -234,6 +246,7 @@ createApp({
           console.log("後端回傳結果:", result);
           this.orderNo = result.orderNo;
           this.paymentCompleted = true;
+          this.loadSoldSeatsOnStart();
         })
         .catch((error) => {
           this.showPaymentError("付款失敗,請稍後再試");
@@ -369,7 +382,7 @@ createApp({
       this.bookingInfo.language = format.language;
       this.bookingInfo.time = time;
 
-      this.currentStep = 2;
+      this.searchSoldSeatsFormOrders();
     },
     closeModal() {
       this.showModal = false;
@@ -382,18 +395,29 @@ createApp({
         .then((response) => response.json())
         .then((data) => {
           this.orders = data;
-          this.searchSoldSeatsFormOrders();
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    // 增加篩選場次條件，並更改座位狀態
     searchSoldSeatsFormOrders() {
-      this.orders.forEach((order) => {
+      this.resetSeatStatus();
+      // currentOrders是篩選過後符合條件的訂單
+      const currentOrders = this.orders.filter((order) => {
+        return (
+          order.movieName === this.bookingInfo.movieName &&
+          order.cinema === this.bookingInfo.cinema &&
+          order.movieDate === this.bookingInfo.date &&
+          order.movieTime === this.bookingInfo.time
+        );
+      });
+      currentOrders.forEach((order) => {
         const seatIds = order.seats.split(",");
 
         seatIds.forEach((seatId) => {
-          const seat = this.seats.find((s) => s.id === seatId);
+          const seat = this.seats.find((seat) => seat.id === seatId);
+
           if (seat) {
             seat.status = "sold";
           }
@@ -543,11 +567,6 @@ createApp({
           status: "available",
         });
       }
-    });
-    //模擬已售座位
-    ["D14", "D15", "D16", "E3", "E4", "F6", "F7", "G8", "G9"].forEach((id) => {
-      const seat = this.seats.find((s) => s.id === id);
-      if (seat) seat.status = "sold";
     });
 
     //模擬輪椅座
