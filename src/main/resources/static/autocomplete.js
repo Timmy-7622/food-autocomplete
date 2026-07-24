@@ -14,6 +14,10 @@ createApp({
       showOrders: false,
       currentPage: "session",
       currentStep: 1,
+      //自動產生日期:用來存未來四天
+      availableDates: [],
+      //使用者目前選擇的日期:用來記錄使用者現在選了哪一天
+      selectedDate: "",
       showSeatPreview: false,
       seatPreviewMode: false,
       bookingInfo: {
@@ -108,6 +112,79 @@ createApp({
     },
   },
   methods: {
+    isPastTime(time) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const todayValue = `${year}-${month}-${day}`;
+
+      //如果選的不是今天，場次就不算過期
+      if (this.selectedDate !== todayValue) {
+        return false;
+      }
+
+      // 把 "13:30" 拆成 13 和 30
+      //time => 去取得畫面點到的時間 然後把這個時間setHours裡面 最後比較
+      const [hour, minute] = time.split(":").map(Number);
+      const sessionTime = new Date();
+      sessionTime.setHours(hour, minute, 0, 0);
+      return sessionTime < today;
+    },
+    selectDate(date) {
+      this.selecedtDate = date.value;
+
+      //如果已經選擇場次
+      if (this.bookingInfo.time) {
+        const selectedDateInfo = this.availableDates.find(
+          (item) => item.value === this.selectedDate,
+        );
+        this.bookingInfo.date = selectedDateInfo.value;
+        this.bookingInfo.weekday = selectedDateInfo.weekday;
+
+        //重新查詢這一天已售出的座位
+        this.searchSoldSeatsFormOrders();
+      }
+    },
+    generateAvailableDates() {
+      const dates = [];
+      //取得今天
+      const today = new Date();
+      //產生今天開始的4天
+      for (let i = 0; i < 4; i++) {
+        const currentDate = new Date(today);
+
+        //今天 + i天  today.getDate()是取得今天幾"號"
+        currentDate.setDate(today.getDate() + i);
+        const year = currentDate.getFullYear();
+
+        const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+        const day = String(currentDate.getDate()).padStart(2, "0");
+        const weekday = this.getWeekday(currentDate);
+
+        dates.push({
+          value: `${year}-${month}-${day}`,
+          displayDate: `${month}/${day}`,
+          weekday: weekday,
+        });
+      }
+      this.availableDates = dates;
+      //預設選擇第一天，也就是今天
+      this.selectedDate = dates[0].value;
+    },
+    getWeekday(date) {
+      const weekdays = [
+        "星期日",
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四",
+        "星期五",
+        "星期六",
+      ];
+      //date.getDay是把"幾號"轉換成星期幾
+      return weekdays[date.getDay()];
+    },
     // 每把座位表拿出只要不是輪椅座就先把狀態恢復成available
     resetSeatStatus() {
       this.seats.forEach((seat) => {
@@ -323,7 +400,7 @@ createApp({
         ticket.count--;
       }
     },
-    goTicketStep(session, time) {
+    goTicketStep(session) {
       if (!this.bookingInfo.time) {
         this.showPaymentError("請先選擇場次時間");
         return;
@@ -332,8 +409,6 @@ createApp({
       this.bookingInfo.movieName = session.movieName;
       this.bookingInfo.englishName = session.englishName;
       this.bookingInfo.cinema = session.cinema;
-      this.bookingInfo.date = session.date;
-      this.bookingInfo.weekday = session.weekday;
 
       this.currentPage = "booking";
       this.currentStep = 1;
@@ -374,13 +449,18 @@ createApp({
       }
     },
     selectSession(session, format, time) {
+      const selectedDateInfo = this.availableDates.find(
+        (date) => date.value === this.selectedDate,
+      );
       this.bookingInfo.movieName = session.movieName;
       this.bookingInfo.englishName = session.englishName;
       this.bookingInfo.cinema = session.cinema;
-      this.bookingInfo.date = session.date;
-      this.bookingInfo.weekday = session.weekday;
+      this.bookingInfo.date = selectedDateInfo.value;
+      this.bookingInfo.weekday = selectedDateInfo.weekday;
       this.bookingInfo.language = format.language;
       this.bookingInfo.time = time;
+
+      console.log(selectedDateInfo);
 
       this.searchSoldSeatsFormOrders();
     },
@@ -580,5 +660,6 @@ createApp({
       this.seats = JSON.parse(savedSeats);
     }
     this.loadSoldSeatsOnStart();
+    this.generateAvailableDates();
   },
 }).mount("#app");

@@ -18,7 +18,7 @@ public class SessionController {
         movie.put("id", 1);
         movie.put("movieName", "名偵探柯南 高速公路的墮天使");
         movie.put("englishName", "Detective Conan the Movie : Fallen Angel of the Highway");
-        movie.put("poster", "images/conan.jpg");
+        movie.put("poster", "images/konan.jpg");
         movie.put("cinema", "泰順店");
         movie.put("date", "2026-06-24");
         movie.put("weekday", "星期三");

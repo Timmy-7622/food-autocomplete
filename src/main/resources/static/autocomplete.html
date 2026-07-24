@@ -33,6 +33,7 @@
           </div>
           <div class="title-zh">場次資訊</div>
         </div>
+        <!-- 電影場次卡片 -->
         <div class="session-card" v-for="session in sessions" :key="session.id">
           <div class="card-content">
             <!-- 左邊:電影海報 -->
@@ -55,6 +56,20 @@
             </div>
             <!-- 右邊:場次 -->
             <div class="time-area">
+              <!-- 日期選擇區塊 -->
+              <div class="date-selector">
+                <button
+                  v-for="date in availableDates"
+                  :key="date.value"
+                  type="button"
+                  class="date-button"
+                  :class="{ active: selectedDate === date.value }"
+                  @click="selectDate(date)"
+                >
+                  <span class="date-weekday">{{ date.weekday }}</span>
+                  <strong class="date-value">{{ date.displayDate }}</strong>
+                </button>
+              </div>
               <div
                 class="format-block"
                 v-for="format in session.formats"
@@ -65,6 +80,15 @@
                   class="time-btn"
                   v-for="time in format.times"
                   :key="time"
+                  :disabled="isPastTime(time)"
+                  :class="{
+                    active:
+                    bookingInfo.movieName === session.movieName &&
+                    bookingInfo.language === format.language &&
+                    bookingInfo.time === time,
+
+                    expired: isPastTime(time)
+                  }"
                   @click="selectSession(session,format,time)"
                 >
                   {{ time }}

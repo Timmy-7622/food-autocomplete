@@ -74,7 +74,7 @@
 
 - Java
 - Spring Boot
-- RESTful API
+- RESTful API：以前後端分離方式提供訂單新增與訂單查詢功能
 - JDBC 或 Spring Data 存取資料
 
 ### 資料庫
@@ -87,28 +87,27 @@
 - Spring Tool Suite
 - Git
 - GitHub
-- Postman
 
 ---
 
 ## 系統流程
 
 選擇電影場次
-        ↓
+↓
 選擇票種與數量
-        ↓
+↓
 選擇座位
-        ↓
+↓
 填寫購票人與發票資料
-        ↓
+↓
 填寫付款資料
-        ↓
+↓
 Vue 使用 Fetch 傳送訂單
-        ↓
+↓
 Spring Boot 接收訂單
-        ↓
+↓
 儲存至 Oracle
-        ↓
+↓
 回傳訂單編號
-        ↓
+↓
 顯示訂票完成頁面
