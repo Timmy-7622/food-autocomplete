@@ -132,7 +132,7 @@ createApp({
       return sessionTime < today;
     },
     selectDate(date) {
-      this.selecedtDate = date.value;
+      this.selectedtDate = date.value;
 
       //如果已經選擇場次
       if (this.bookingInfo.time) {
