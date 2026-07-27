@@ -132,7 +132,7 @@ createApp({
       return sessionTime < today;
     },
     selectDate(date) {
-      this.selectedtDate = date.value;
+      this.selectedDate = date.value;
 
       //如果已經選擇場次
       if (this.bookingInfo.time) {
@@ -152,6 +152,7 @@ createApp({
       const today = new Date();
       //產生今天開始的4天
       for (let i = 0; i < 4; i++) {
+        //每一次迴圈都會先複製一份今天的日期再去修改那一份
         const currentDate = new Date(today);
 
         //今天 + i天  today.getDate()是取得今天幾"號"
@@ -160,6 +161,7 @@ createApp({
 
         const month = String(currentDate.getMonth() + 1).padStart(2, "0");
         const day = String(currentDate.getDate()).padStart(2, "0");
+        //上面有寫getWeekday方法是在在判斷要轉星期幾
         const weekday = this.getWeekday(currentDate);
 
         dates.push({
