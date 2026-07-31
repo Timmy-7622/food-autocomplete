@@ -71,6 +71,7 @@ createApp({
   },
   // 計算後的資料 filter->篩選
   computed: {
+    //算還有多少座位扣打可以選
     remainingSeatCount() {
       return this.totalTicketCount - this.selectedSeats.length;
     },
@@ -219,7 +220,7 @@ createApp({
       this.buyer.phone = "";
       this.buyer.email = "";
 
-      //發票資料
+      //發票資料   把發票資料重設成指定的狀態
       this.invoice.type = "cloud";
       this.invoice.carrier = "member";
       this.invoice.mobileBarcode = "";
@@ -385,7 +386,10 @@ createApp({
 
       this.bookingInfo.ticketCount = this.totalTicketCount;
       this.bookingInfo.totalPrice = this.totalPrice;
-      this.currentStep = 2;
+      this.loadSoldSeatsOnStart().then(() => {
+        this.searchSoldSeatsFormOrders();
+        this.currentStep = 2;
+      });
     },
     goFoodStep() {
       if (this.remainingSeatCount > 0) {
@@ -451,6 +455,10 @@ createApp({
       }
     },
     selectSession(session, format, time) {
+      console.log(session);
+      console.log(format);
+      console.log(time);
+
       const selectedDateInfo = this.availableDates.find(
         (date) => date.value === this.selectedDate,
       );
@@ -473,7 +481,8 @@ createApp({
       }
     },
     loadSoldSeatsOnStart() {
-      fetch("http://localhost:18080/booking/list")
+      // 回傳promise
+      return fetch("http://localhost:18080/booking/list")
         .then((response) => response.json())
         .then((data) => {
           this.orders = data;
@@ -507,11 +516,13 @@ createApp({
       });
     },
     //生成row 1~20的座位
+    //this.seats => 座位row的A~G 找出該排的所有座位
     getSeatsByRow(row) {
       return this.seats.filter((seat) => seat.row === row);
     },
     selectSeat(seat) {
       if (
+        // 判斷現在的座位是不是有人選同時判斷現在點選的座位有沒有超過totalcount
         seat.status === "available" &&
         this.selectedSeats.length >= this.totalTicketCount
       ) {
@@ -526,6 +537,7 @@ createApp({
         return;
       }
       //selected true = available false = selected
+      // 目前這位使用者暫時選的座位（selected）
       seat.status = seat.status === "selected" ? "available" : "selected";
     },
     search() {

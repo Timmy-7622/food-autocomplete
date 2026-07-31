@@ -511,6 +511,7 @@
         font-size: 17px;
         white-space: nowrap;
       }
+      /* white-space: nowrap; => 文字不允許換行，一律顯示在同一行。 */
       .summary-icon {
         font-size: 25px;
         width: 24px;
@@ -641,6 +642,7 @@
         color: white;
         flex-shrink: 0;
       }
+      /* flex-shrink: 0; => 不要縮小 */
       .ticket-table {
         background: #d0d0d0;
         padding: 16px;
@@ -757,6 +759,7 @@
         line-height: 1.8;
         font-size: 15px;
       }
+      /* line-height: 1.8; => 設定文字每一行之間的高度（行高） */
       .ticket-actions {
         width: 70%;
         max-width: 1100px;
@@ -813,7 +816,7 @@
         padding: 3px 5px;
         background: #4a4a4a;
         display: flex;
-        justify-content: space-between;
+        /* justify-content: space-between; */
         align-items: center;
         color: white;
         font-size: 16px;
@@ -846,6 +849,7 @@
 
         align-items: center;
       }
+      /* justify-content:center => 水平置中 */
       .legend-box {
         width: 25px;
         height: 25px;
@@ -1046,6 +1050,7 @@
       .invoice-row {
         grid-template-columns: repeat(3,1fr);
       }
+      /* display:block => 上下排版 */
       .form-group label {
         display: block;
         margin-bottom: 8px;
@@ -1053,6 +1058,11 @@
         font-size: 15px;
         font-weight: bold;
       }
+      /* box-sizing: border-box; 的作用是：讓你設定的 width、height 已經包含 padding 和 border，元素大小不會因為加了內距或邊框而變大。
+      border: none; 不要顯示邊框 
+      padding:0 14px;  上下 左右px;
+      outline: none;
+      */
       .form-group input,
       .form-group select {
         width: 100%;
@@ -1157,6 +1167,7 @@
         border: 1px solid #555;
         color: white;
       }
+      /* width: fit-content;剛好包住 */
       .payment-row{
         display: grid;
         grid-template-columns: repeat(3,90px);
@@ -1273,6 +1284,7 @@
         align-items:center;
         z-index: 9999;
       }
+      /* z-index => 決定元素在畫面上"疊放的前後順序"。 數字越大通常就會顯示在最上面 */
 
       .seat-preview-box {
         width: 1200px;

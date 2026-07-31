@@ -2,7 +2,7 @@
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
-    <title>餐點自動補全</title>
+    <title>電影訂票流程</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <link rel="stylesheet" href="./autocomplete.css" />
     <link
@@ -76,6 +76,7 @@
                 :key="format.language"
               >
                 <p class="language-text">{{ format.language }}</p>
+                <!-- isPastTime在判斷選擇的時間是不是過期如果回傳是true就顯示expired的效果 -->
                 <button
                   class="time-btn"
                   v-for="time in format.times"
@@ -408,6 +409,7 @@
                 ]"
                     @click="clickSeat(seat)"
                   >
+                    <!-- 在js有判斷座位狀態對應的錯誤訊息 -->
                     <span v-if="seat.status === 'wheelchair'">♿</span>
                     <span v-else>{{ seat.number }}</span>
                   </div>
@@ -566,12 +568,15 @@
                   <div class="payment-group">
                     <label>付款方式</label>
                     <label class="payment-radio">
-                      <input type="radio" />
-                      信用卡
+                      <input type="radio" />信用卡
                     </label>
                   </div>
                   <div class="payment-group payment-card-number">
                     <label>信用卡號</label>
+                    <!-- blur:失去焦點
+                         focus:取得焦點
+                         inputmode="numeric" => 在告訴瀏覽器希望輸入數字 
+                    -->
                     <label class="payment-radio">
                       <input
                         type="text"
