@@ -1244,6 +1244,35 @@
         background:#ffcb45;
         transform:translateY(-2px);
       }
+      .card-input-wrapper{
+        /* 讓之後的logo在這個wrapper內*/
+        position:relative;
+        width: 100%;
+      }
+      .card-input-wrapper input{
+        width: 100%;
+        padding-right: 100px; 
+        /* 留空間給卡別 */
+        box-sizing: border-box;
+        /* 代表100%已經包含了padding */
+      }
+      .card-logo{
+        /* 讓logo可以浮在input上面 */
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        /* 把 Logo 再往上移自己高度的一半。 */
+        transform: translateY(-50%);
+        width: 42px;
+        max-height: 26px;
+        /* 滑鼠可以直接穿過 Logo。 點Logo
+                  ↓
+         游標直接進輸入框*/
+        pointer-events: none;
+        /* 讓圖片完整顯示在指定大小內，並保持原本的比例，不會被裁切或拉伸。 */
+        object-fit: contain;
+      }
+      
       /* =================================================================Step4 E============================================================= */
       /* ==============================================  預覽座位 S =========================================================================== */
       .section-titleⅠ {

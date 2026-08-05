@@ -58,12 +58,15 @@ createApp({
         companyTaxId: "",
       },
       payment: {
+        method: "credit",
+
         cardNumber: "",
         rawCardNumber: "",
         cardholderName: "",
         expMonth: "",
         expYear: "",
         cvv: "",
+        cardType: "",
       },
       paymentCompleted: false,
       orderNo: "",
@@ -113,6 +116,24 @@ createApp({
     },
   },
   methods: {
+    detectCardType() {
+      const number = this.payment.rawCardNumber;
+
+      if (/^4/.test(number)) {
+        this.payment.cardType = "VISA";
+      } else if (/^5[1-5]/.test(number)) {
+        this.payment.cardType = "Mastercard";
+      } else if (/^35/.test(number)) {
+        this.payment.cardType = "JCB";
+      } else {
+        this.payment.cardType = "";
+      }
+
+      if (!this.payment.cardType) {
+        this.showPaymentError("無法辨識卡片");
+        return;
+      }
+    },
     isPastTime(time) {
       const today = new Date();
       const year = today.getFullYear();
@@ -129,6 +150,7 @@ createApp({
       //time => 去取得畫面點到的時間 然後把這個時間setHours裡面 最後比較
       const [hour, minute] = time.split(":").map(Number);
       const sessionTime = new Date();
+      // setHours是把場次的時間設定進來
       sessionTime.setHours(hour, minute, 0, 0);
       return sessionTime < today;
     },
@@ -228,6 +250,8 @@ createApp({
       this.invoice.companyTaxId = "";
 
       //付款資料
+      this.payment.method = "credit";
+      this.payment.cardType = "";
       this.payment.cardholderName = "";
       this.payment.cardNumber = "";
       this.payment.rawCardNumber = "";
@@ -258,27 +282,33 @@ createApp({
       this.showModal = true;
     },
     confirmPayment() {
-      if (this.payment.rawCardNumber.length !== 16) {
-        this.showPaymentError("信用卡號必須為 16 碼");
-        return;
-      }
-      if (!this.payment.cardholderName.trim()) {
-        this.showPaymentError("請輸入持卡人姓名");
-        return;
-      }
-      const month = Number(this.payment.expMonth);
+      if (this.payment.method === "credit") {
+        if (this.payment.rawCardNumber.length !== 16) {
+          this.showPaymentError("信用卡號必須為 16 碼");
+          return;
+        }
+        if (!this.payment.cardholderName.trim()) {
+          this.showPaymentError("請輸入持卡人姓名");
+          return;
+        }
+        const month = Number(this.payment.expMonth);
 
-      if (!/^\d{2}$/.test(this.payment.expMonth) || month < 1 || month > 12) {
-        this.showPaymentError("有效月份請輸入 01～12");
-        return;
+        if (!/^\d{2}$/.test(this.payment.expMonth) || month < 1 || month > 12) {
+          this.showPaymentError("有效月份請輸入 01～12");
+          return;
+        }
+        if (!/^\d{2}$/.test(this.payment.expYear)) {
+          this.showPaymentError("有效年份必須為 2 碼數字");
+          return;
+        }
+        if (!/^\d{3}$/.test(this.payment.cvv)) {
+          this.showPaymentError("CVV 必須為 3 碼數字");
+          return;
+        }
       }
-      if (!/^\d{2}$/.test(this.payment.expYear)) {
-        this.showPaymentError("有效年份必須為 2 碼數字");
-        return;
-      }
-      if (!/^\d{3}$/.test(this.payment.cvv)) {
-        this.showPaymentError("CVV 必須為 3 碼數字");
-        return;
+
+      if (this.payment.method === "linepay") {
+        console.log("模擬導向 LINE Pay");
       }
       this.orderNo = this.generateOrderNo();
       const bookingData = {
@@ -306,10 +336,10 @@ createApp({
         companyName: this.invoice.companyName,
         companyTaxId: this.invoice.companyTaxId,
 
-        paymentMethod: "credit",
+        //不要再寫死credit
+        paymentMethod: this.payment.method,
         paymentStatus: "paid",
       };
-
       fetch("http://localhost:18080/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -345,6 +375,8 @@ createApp({
       this.payment.rawCardNumber = value;
       //每4碼加一個空格
       this.payment.cardNumber = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+      //判斷卡片種類
+      this.detectCardType();
     },
     maskCardNumber() {
       const value = this.payment.rawCardNumber;

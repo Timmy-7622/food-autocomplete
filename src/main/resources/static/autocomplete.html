@@ -77,6 +77,7 @@
               >
                 <p class="language-text">{{ format.language }}</p>
                 <!-- isPastTime在判斷選擇的時間是不是過期如果回傳是true就顯示expired的效果 -->
+                <!-- isPastTime(time)的值就是場次時間，最後會拿去塞setHours -->
                 <button
                   class="time-btn"
                   v-for="time in format.times"
@@ -568,67 +569,101 @@
                   <div class="payment-group">
                     <label>付款方式</label>
                     <label class="payment-radio">
-                      <input type="radio" />信用卡
+                      <input
+                        type="radio"
+                        value="credit"
+                        v-model="payment.method"
+                      />信用卡
+                    </label>
+                    <label class="payment-radio">
+                      <input
+                        type="radio"
+                        value="linepay"
+                        v-model="payment.method"
+                      />LINE Pay
                     </label>
                   </div>
-                  <div class="payment-group payment-card-number">
-                    <label>信用卡號</label>
-                    <!-- blur:失去焦點
+                  <div v-if="payment.method === 'credit'">
+                    <div class="payment-group payment-card-number">
+                      <label>信用卡號</label>
+                      <!-- blur:失去焦點
                          focus:取得焦點
                          inputmode="numeric" => 在告訴瀏覽器希望輸入數字 
                     -->
-                    <label class="payment-radio">
+                      <label class="card-input-wrapper">
+                        <input
+                          type="text"
+                          v-model="payment.cardNumber"
+                          @input="formatCardNumber"
+                          @blur="maskCardNumber"
+                          @focus="showCardNumber"
+                          maxlength="19"
+                          inputmode="numeric"
+                          placeholder="0000 0000 0000 0000"
+                        />
+                        <img
+                          v-if="payment.cardType === 'VISA'"
+                          src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/min/flat/visa.svg"
+                          class="card-logo"
+                          alt="VISA"
+                        />
+                        <img
+                          v-else-if="payment.cardType === 'Mastercard'"
+                          src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/min/flat/mastercard.svg"
+                          class="card-logo"
+                          alt="Mastercard"
+                        />
+                        <img
+                          v-else-if="payment.cardType === 'JCB'"
+                          src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/min/flat/jcb.svg"
+                          class="card-logo"
+                          alt="JCB"
+                        />
+                      </label>
+                    </div>
+                    <div class="payment-group payment-holder">
+                      <label>持卡人姓名</label>
                       <input
                         type="text"
-                        v-model="payment.cardNumber"
-                        @input="formatCardNumber"
-                        @blur="maskCardNumber"
-                        @focus="showCardNumber"
-                        maxlength="19"
-                        inputmode="numeric"
-                        placeholder="0000 0000 0000 0000"
+                        v-model="payment.cardholderName"
+                        placeholder="請輸入持卡人姓名"
                       />
-                    </label>
+                    </div>
+                    <div class="payment-row">
+                      <div class="payment-group">
+                        <label>有效月份</label>
+                        <input
+                          type="text"
+                          v-model="payment.expMonth"
+                          maxlength="2"
+                          inputmode="numeric"
+                          placeholder="MM"
+                        />
+                      </div>
+                      <div class="payment-group">
+                        <label>有效年分</label>
+                        <input
+                          type="text"
+                          v-model="payment.expYear"
+                          maxlength="2"
+                          inputmode="numeric"
+                          placeholder="YY"
+                        />
+                      </div>
+                      <div class="payment-group">
+                        <label>CVV</label>
+                        <input
+                          type="password"
+                          v-model="payment.cvv"
+                          maxlength="3"
+                          inputmode="numeric"
+                          placeholder="123"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div class="payment-group payment-holder">
-                    <label>持卡人姓名</label>
-                    <input
-                      type="text"
-                      v-model="payment.cardholderName"
-                      placeholder="請輸入持卡人姓名"
-                    />
-                  </div>
-                  <div class="payment-row">
-                    <div class="payment-group">
-                      <label>有效月份</label>
-                      <input
-                        type="text"
-                        v-model="payment.expMonth"
-                        maxlength="2"
-                        inputmode="numeric"
-                        placeholder="MM"
-                      />
-                    </div>
-                    <div class="payment-group">
-                      <label>有效年分</label>
-                      <input
-                        type="text"
-                        v-model="payment.expYear"
-                        maxlength="2"
-                        inputmode="numeric"
-                        placeholder="YY"
-                      />
-                    </div>
-                    <div class="payment-group">
-                      <label>CVV</label>
-                      <input
-                        type="password"
-                        v-model="payment.cvv"
-                        maxlength="3"
-                        inputmode="numeric"
-                        placeholder="123"
-                      />
-                    </div>
+                  <div v-if="payment.method === 'linepay'" class="linepay-info">
+                    付款時模擬導向LINE Pay
                   </div>
                 </div>
               </div>
