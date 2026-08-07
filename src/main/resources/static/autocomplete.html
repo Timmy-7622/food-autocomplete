@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <title>電影訂票流程</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <!-- Swiper 官方 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@14.0.1/swiper-bundle.min.css"
+    />
     <link rel="stylesheet" href="./autocomplete.css" />
     <link
       rel="stylesheet"
@@ -14,17 +19,91 @@
     <div id="app">
       <div class="hero">
         <div class="navbar">
-          <h1>MovieDay</h1>
+          <h1 class="navbar-logo" @click="goHome">MovieDay</h1>
           <div class="navlinks">
-            <a>線上訂票</a>
-            <a>電影介紹</a>
-            <a>最新消息</a>
-            <a>關於影城</a>
+            <a href="#" @click.prevent="goSession">線上訂票</a>
+            <a href="#" @click.prevent="goMovieIntroduction">電影介紹</a>
+            <a href="#" @click.prevent="goNews">最新消息</a>
+            <a href="#" @click.prevent="goAbout">關於影城</a>
           </div>
+        </div>
+      </div>
+      <!-- 官網首頁 -->
+      <div v-if="currentPage === 'home'" class="home-page">
+        <!-- 第一組：活動 Banner 輪播 -->
+        <div class="swiper movie-swiper">
+          <div class="swiper-wrapper">
+            <!-- 第一張 -->
+            <div class="swiper-slide">
+              <img src="./images/banner-1.png" alt="MovieDay 活動宣傳" />
+            </div>
+            <!-- 第二張 -->
+            <div class="swiper-slide">
+              <img src="./images/banner-2.png" alt="MovieDay 最新消息" />
+            </div>
+            <!-- 第三張 -->
+            <div class="swiper-slide">
+              <img src="./images/banner-3.png" alt="MovieDay 活動特價" />
+            </div>
+            <!-- 第四張 -->
+            <div class="swiper-slide">
+              <img src="./images/banner-4.png" alt="MovieDay 活動特價" />
+            </div>
+            <!-- 第五張 -->
+            <div class="swiper-slide">
+              <img src="./images/banner-5.png" alt="MovieDay 防詐宣導" />
+            </div>
+          </div>
+          <!-- Swiper 自動產生圓點的位置 -->
+          <div class="swiper-pagination"></div>
+        </div>
+        <!-- 標題 -->
+        <div class="syoukai-title">
+          <div class="syoukai-en">
+            <span class="red-dot"></span>
+            <span>NOW SHOWING</span>
+          </div>
+          <div class="syoukai-zh">現在熱映</div>
+        </div>
+        <!-- 第二組：電影海報輪播 -->
+        <div class="swiper poster-swiper">
+          <div class="swiper-wrapper">
+            <div
+              class="swiper-slide"
+              v-for="session in sessions"
+              :key="session.id"
+            >
+              <div class="poster-card">
+                <!-- Alternative Text（替代文字）=>  如果圖片不能顯示，就顯示這段文字。 -->
+                <img
+                  :src="session.poster"
+                  :alt="session.movieName"
+                  class="home-movie-poster"
+                />
+
+                <h3>{{ session.movieName }}</h3>
+                <p class="home-movie-english">{{ session.englishName }}</p>
+
+                <!-- Vue動態綁定getRatingClass(Js.) -->
+                <span
+                  class="home-rating"
+                  :class="getRatingClass(session.rating)"
+                  >{{ session.rating }}</span
+                >
+
+                <p class="home-release-date">上映日期 {{ session.date }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="poster-pagination"></div>
+        </div>
+        <div class="home-movie-action">
+          <button type="button" @click="goSession">查看電影場次</button>
         </div>
       </div>
 
       <!-- ======================================currentSession Start==============================================-->
+      <!-- 場次頁面 -->
       <div v-if="currentPage === 'session'" class="session-section">
         <div class="section-title">
           <div class="title-en">
@@ -752,6 +831,8 @@
 
       <!-- ======================================先讓 Modal 能跳出來 E============================================ -->
     </div>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@14.0.1/swiper-bundle.min.js"></script>
     <script src="./autocomplete.js"></script>
   </body>
 </html>

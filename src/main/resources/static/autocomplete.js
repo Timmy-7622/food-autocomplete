@@ -12,8 +12,10 @@ createApp({
       modalType: "error",
       orders: [],
       showOrders: false,
-      currentPage: "session",
+      currentPage: "home",
       currentStep: 1,
+      movieSwiperInstance: null,
+      posterSwiperInstance: null,
       //自動產生日期:用來存未來四天
       availableDates: [],
       //使用者目前選擇的日期:用來記錄使用者現在選了哪一天
@@ -116,6 +118,101 @@ createApp({
     },
   },
   methods: {
+    initPosterSwiper() {
+      if (this.posterSwiperInstance) {
+        this.posterSwiperInstance.destroy(true, true);
+        this.posterSwiperInstance = null;
+      }
+      this.posterSwiperInstance = new Swiper(".poster-swiper", {
+        loop: true,
+        // 目前選到的項目要不要放在中間
+        centeredSlides: true,
+        // 畫面一次要顯示幾張Slide
+        slidesPerView: 5,
+        //中間隔的空間
+        spaceBetween: 25,
+        speed: 600,
+        autoplay: {
+          //每張圖片要停留多久開始切換
+          delay: 3500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".poster-pagination",
+          //小圓點可不可以點
+          clickable: true,
+        },
+        //breakpoints:不同的螢幕大小用不同的設定
+        breakpoints: {
+          0: {
+            slidesPerView: 1.4,
+            spaceBetween: 14,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1200: {
+            slidesPerView: 5,
+            spaceBetween: 25,
+          },
+        },
+      });
+    },
+    initMovieSwiper() {
+      // 如果之前已經建立過Swiper
+      if (this.movieSwiperInstance) {
+        // 把舊的輪播清除，再建立新的。
+        this.movieSwiperInstance.destroy(true, true);
+        this.movieSwiperInstance = null;
+      }
+      // 找到 class 為 movie-swiper 的 HTML，並將它啟動成 Swiper 輪播圖。
+      this.movieSwiperInstance = new Swiper(".movie-swiper", {
+        // 無限循環
+        loop: true,
+
+        autoplay: {
+          delay: 4000,
+          // 使用者手動滑動或點圓點後，自動播放仍然繼續。
+          disableOnInteraction: false,
+        },
+        pagination: {
+          // 代表圓點要放進：
+          el: ".movie-swiper .swiper-pagination",
+          // 靠近目前頁面的圓點會比較明顯。
+          dynamicBullets: true,
+          // 代表下面的圓點可以點擊切換圖片。
+          clickable: true,
+        },
+      });
+    },
+    goHome() {
+      this.currentPage = "home";
+      // 如果使用者在 Step3 的時候點了 Logo：->回到首頁
+      // 那就有可能直接回到第三步，而不是重新開始。
+      this.currentStep = 1;
+      // 等 Vue 把首頁 HTML 顯示出來後，再啟動 Swiper。
+      this.$nextTick(() => {
+        this.initMovieSwiper();
+
+        if (this.sessions.length > 0) {
+          this.initPosterSwiper();
+        }
+      });
+    },
+    goSession() {
+      this.currentPage = "session";
+      this.currentStep = 1;
+    },
+    goMovieIntroduction() {
+      this.currentPage = "movieIntroduction";
+    },
+    goNews() {
+      this.currentPage = "news";
+    },
+    goAbout() {
+      this.currentPage = "about";
+    },
     detectCardType() {
       const number = this.payment.rawCardNumber;
 
@@ -673,10 +770,22 @@ createApp({
     },
   },
   mounted() {
+    if (this.currentPage === "home") {
+      this.$nextTick(() => {
+        this.initMovieSwiper();
+      });
+    }
     fetch("http://localhost:18080/sessions")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         this.sessions = data;
+
+        if (this.currentPage === "home") {
+          this.$nextTick(() => {
+            this.initPosterSwiper();
+          });
+        }
       })
       .catch((err) => {
         console.log(err);

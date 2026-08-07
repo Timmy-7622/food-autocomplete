@@ -137,6 +137,100 @@ public class SessionController {
         formats5.add(format8);
         movie5.put("formats", formats5);
         sessions.add(movie5);
+
+        Map<String, Object> movie6 = new HashMap<>();
+        movie6.put("id", 6);
+        movie6.put("movieName", "你的名字。");
+        movie6.put("englishName", "YOUR NAME.");
+        movie6.put("poster", "images/yourname.jpg");
+        movie6.put("cinema", "泰順店");
+        movie6.put("date", "2026-07-24");
+        movie6.put("weekday", "星期五");
+        movie6.put("rating", "普遍級");
+        movie6.put("duration", "106分鐘");
+        movie6.put("director", "新海誠");
+
+        List<Map<String, Object>> formats6 = new ArrayList<>();
+
+        Map<String, Object> format9 = new HashMap<>();
+        format9.put("language", "數位/日文");
+        format9.put("times", List.of("10:00", "15:45", "18:50", "20:15"));
+        Map<String, Object> format10 = new HashMap<>();
+        format10.put("language", "數位/中文");
+        format10.put("times", List.of("20:00"));
+        formats6.add(format9);
+        formats6.add(format10);
+        movie6.put("formats", formats6);
+        sessions.add(movie6);
+
+        Map<String, Object> movie7 = new HashMap<>();
+        movie7.put("id", 7);
+        movie7.put("movieName", "電影蠟筆小新：奇奇怪怪！我的妖怪假期");
+        movie7.put("englishName", "Crayon Shinchan the Movie：Spooky! My Yokai Vacation");
+        movie7.put("poster", "images/CrayonShinchan.jpg");
+        movie7.put("cinema", "泰順店");
+        movie7.put("date", "2026-08-07");
+        movie7.put("weekday", "星期五");
+        movie7.put("rating", "普遍級");
+        movie7.put("duration", "101分鐘");
+        movie7.put("director", "渡邊正樹");
+
+        List<Map<String, Object>> formats7 = new ArrayList<>();
+
+        Map<String, Object> format11 = new HashMap<>();
+        format11.put("language", "數位/日文");
+        format11.put("times", List.of("11:45", "19:25"));
+        Map<String, Object> format12 = new HashMap<>();
+        format12.put("language", "數位/中文");
+        format12.put("times", List.of("09:50", "13:40", "15:45", "17:30"));
+        formats7.add(format11);
+        formats7.add(format12);
+        movie7.put("formats", formats7);
+        sessions.add(movie7);
+
+        Map<String, Object> movie8 = new HashMap<>();
+        movie8.put("id", 8);
+        movie8.put("movieName", "蜘蛛人：重生日");
+        movie8.put("englishName", "Spider-Man: Brand New Day");
+        movie8.put("poster", "images/spiderman.jpg");
+        movie8.put("cinema", "泰順店");
+        movie8.put("date", "2026-07-29");
+        movie8.put("weekday", "星期三");
+        movie8.put("rating", "保護級");
+        movie8.put("duration", "145分鐘");
+        movie8.put("director", "達斯汀丹尼爾克雷頓");
+
+        List<Map<String, Object>> formats8 = new ArrayList<>();
+
+        Map<String, Object> format13 = new HashMap<>();
+        format13.put("language", "數位/英文");
+        format13.put("times", List.of("09:50", "10:20", "11:40", "12:10", "12:35", "13:10", "14:25", "15:00", "15:20",
+                "16:00", "16:30", "17:10", "17:45", "18:10", "18:45", "19:20", "20:00", "20:30", "21:00", "21:30"));
+        formats8.add(format13);
+        movie8.put("formats", formats8);
+        sessions.add(movie8);
+
+        Map<String, Object> movie9 = new HashMap<>();
+        movie9.put("id", 9);
+        movie9.put("movieName", "電影哆啦A夢：新‧大雄的海底鬼岩城");
+        movie9.put("englishName", "New Nobita and the Castle of the Undersea Devil");
+        movie9.put("poster", "images/doraemon.jpg");
+        movie9.put("cinema", "泰順店");
+        movie9.put("date", "2026-07-08");
+        movie9.put("weekday", "星期三");
+        movie9.put("rating", "普遍級");
+        movie9.put("duration", "102分鐘");
+        movie9.put("director", "矢嶋哲生");
+
+        List<Map<String, Object>> formats9 = new ArrayList<>();
+
+        Map<String, Object> format14 = new HashMap<>();
+        format14.put("language", "數位/日文");
+        format14.put("times", List.of("14:50", "15:30", "19:40", "21:10"));
+        formats9.add(format14);
+        movie9.put("formats", formats9);
+        sessions.add(movie9);
+
         return sessions;
 
     }
