@@ -215,6 +215,13 @@
         margin-right: 80px;
         font-size: 64px;
       }
+
+      .navlinks {
+      /* 因為中間包了一個div已經把原本<a>內容預設的排版inline破壞掉了，所以要加上221、222去校正 */
+      display: flex;
+      align-items: center;
+      }
+
       .navlinks a {
         margin-right:50px;
         color: white;
@@ -449,7 +456,221 @@
       .home-movie-action button:hover {
         background: #c53932;
       }
+
+      .nav-dropdown{
+        position:relative;
+      }
+
+      .nav-dropdown-menu{
+        /* 預設不顯示下拉選單。 */
+        display: none;
+        /* 讓這個下拉選單脫離原本正常的排版，自己定位。 */
+        position:absolute;
+        top:100%;
+        /* 水平置中定位的一種常見寫法  「下拉選單自己寬度的一半」往左拉*/
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        padding: 10px;
+        background-color: rgba(30, 30, 30, 0.95);
+        z-index: 1000;
+      }
+      /* 當滑鼠移到 .nav-dropdown 上面的時候，把它裡面的 .nav-dropdown-menu 顯示出來 */
+      .nav-dropdown:hover .nav-dropdown-menu{
+        display: block;
+      }
+
+      .nav-dropdown-menu a {
+        display: block;
+        padding: 10px 15px;
+        background-color: #999;
+        color: white;
+        text-align: center;
+        /* <a>標籤預設是超連結，通常會有底線...加了這個之後就是取消底線的效果 */
+        text-decoration: none;
+      }
+
+      .nav-dropdown-menu a:hover{
+        background-color: #777;
+      }
       /* ===============================================================  navbar E ============================================================*/
+      /* ===============================================================  電影介紹 S ===========================================================*/
+      .movie-introduction-container{
+        top: 70px;
+        left: 200px;
+      }
+      .movie-introduction-title{
+        margin-bottom: 35px;
+      }
+      .title-en{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .red-dot{
+        width: 6px;
+        height: 6px;
+        background: #e53935;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .title-zh{
+        margin-left: 16px;
+        margin-top: 8px;
+        color: #e53935;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .movie-introduction-page{
+        /* vh = Viewport Height，也就是「瀏覽器目前可視區域的高度」。 */
+        min-height: 100vh;
+        background: #252525;
+        color: white;
+        padding: 35px auto;
+      }
+      .movie-introduction-container{
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .movie-introduction-title{
+        margin-bottom: 50px;
+      }
+      .movie-introduction-title-en{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+      }
+      .movie-introduction-title-zh{
+        margin-left: 16px;
+        margin-top: 8px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #c53932;
+      }
+      .movie-introduction-list{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 50px 35px;
+      }
+      .movie-introduction-card{
+        /* 內容文字置中 */
+        text-align: center;
+      }
+      .movie-introduction-poster{
+        display: block;
+        width: 100%;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .movie-introduction-card h3 {
+        margin: 15px 0 5px;
+        font-size: 18px;
+        color: white;
+      }     
+      .movie-introduction-english {
+        margin: 0 0 12px;
+        color: #888;
+        font-size: 14px;
+      }     
+      .movie-introduction-rating {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 10px;      
+        color: #111;
+        font-weight: bold;
+      }
+      .movie-introduction-date {
+        margin-top: 5px;      
+        font-size: 14px;
+        color: white;
+      }
+      .movie-detail-page{
+        min-height: 100vh;
+        background: #252525;
+        color: white;
+        padding: 60px auto;
+      }
+      .movie-detail-container{
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .movie-detail-top{
+        display: flex;
+        gap:70px;
+        align-items: flex-start;
+      }
+      .movie-detail-poster{
+        width: 250px;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .movie-detail-info{
+        flex: 1;
+      }
+      .movie-detail-rating{
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 20px;
+        color: #111;
+        font-weight: bold;
+      }
+      .movie-detail-info h2{
+        margin: 0 0 5px;
+        font-size: 26px;
+      }
+      .movie-detail-english{
+        margin: 0;
+        color: #888;
+      }
+      .movie-detail-release{
+        color: #e53935;
+      }
+      .movie-detail-buy-btn{
+        margin: 20px 0;
+        padding: 12px 28px;
+        border: none;
+        border: 6px;
+        border-radius: 6px;
+        background: #5fa7d3;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .movie-detail-meta{
+        margin-top: 20px;
+        line-height: 1.8;
+      }
+      .movie-detail-description{
+        margin-top: 70px;
+      }
+      .movie-detail-description{
+        line-height: 2;
+      }
+      .movie-detail-trailer{
+        margin-top: 60px;
+        padding: 30px;
+        background: #3a3a3a;
+      }
+      .movie-detail-trailer iframe{
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        margin: 0 auto;
+        border: none;
+      }
+
+      /* ===============================================================  電影介紹 E ===========================================================*/
       /* =================================================================Step Start=========================================================== */
       .step-bar {
         display: flex;

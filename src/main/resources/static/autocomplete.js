@@ -72,6 +72,7 @@ createApp({
       },
       paymentCompleted: false,
       orderNo: "",
+      selectedMovie: null,
     };
   },
   // 計算後的資料 filter->篩選
@@ -118,6 +119,12 @@ createApp({
     },
   },
   methods: {
+    goMovieDetail(session) {
+      this.selectedMovie = session;
+      this.currentPage = "movieDetail";
+
+      history.pushState({ page: "movieDetail" }, "", "?page=movieDetail");
+    },
     initPosterSwiper() {
       if (this.posterSwiperInstance) {
         this.posterSwiperInstance.destroy(true, true);
@@ -199,19 +206,33 @@ createApp({
           this.initPosterSwiper();
         }
       });
+
+      history.pushState({ page: "home" }, "", "autocomplete.html");
     },
     goSession() {
       this.currentPage = "session";
       this.currentStep = 1;
+
+      history.pushState({ page: "session" }, "", "?page=session");
     },
     goMovieIntroduction() {
       this.currentPage = "movieIntroduction";
+      //history.pushState 我切換 Vue 畫面的同時，也幫瀏覽器新增一筆歷史紀錄。
+      history.pushState(
+        { page: "movieIntroduction" },
+        "",
+        "?page=movieIntroduction",
+      );
     },
     goNews() {
       this.currentPage = "news";
+
+      history.pushState({ page: "news" }, "", "?page=news");
     },
     goAbout() {
       this.currentPage = "about";
+
+      history.pushState({ page: "about" }, "", "?page=about");
     },
     detectCardType() {
       const number = this.payment.rawCardNumber;
@@ -226,10 +247,10 @@ createApp({
         this.payment.cardType = "";
       }
 
-      if (!this.payment.cardType) {
-        this.showPaymentError("無法辨識卡片");
-        return;
-      }
+      // if (!this.payment.cardType) {
+      //   this.showPaymentError("無法辨識卡片");
+      //   return;
+      // }
     },
     isPastTime(time) {
       const today = new Date();
@@ -318,6 +339,8 @@ createApp({
     goMovieList() {
       this.resetBooking();
       this.currentPage = "session";
+
+      history.pushState({ page: "session" }, "", "?page=session");
     },
     resetBooking() {
       this.tickets.forEach((ticket) => {
@@ -770,6 +793,14 @@ createApp({
     },
   },
   mounted() {
+    //確定history.pushState的page有沒有以及它的內容
+    window.addEventListener("popstate", (event) => {
+      if (event.state && event.state.page) {
+        this.currentPage = event.state.page;
+      } else {
+        this.currentPage = "home";
+      }
+    });
     if (this.currentPage === "home") {
       this.$nextTick(() => {
         this.initMovieSwiper();
