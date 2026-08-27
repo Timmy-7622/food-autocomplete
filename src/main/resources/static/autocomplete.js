@@ -35,6 +35,7 @@ createApp({
       },
       agreeTerms: false,
       sessions: [],
+      newsItems: [],
       packageTicket: [
         { name: "單人套票", price: 330, count: 0, seatCount: 1 },
         { name: "雙人套票", price: 640, count: 0, seatCount: 2 },
@@ -73,6 +74,7 @@ createApp({
       paymentCompleted: false,
       orderNo: "",
       selectedMovie: null,
+      selectedNews: null,
     };
   },
   // 計算後的資料 filter->篩選
@@ -119,6 +121,11 @@ createApp({
     },
   },
   methods: {
+    goNewsDetail(news) {
+      this.selectedNews = news;
+      this.currentPage = "newsDetail";
+      history.pushState({ page: "newsDetail" }, "", "?page=newsDetail");
+    },
     goMovieDetail(session) {
       this.selectedMovie = session;
       this.currentPage = "movieDetail";
@@ -793,10 +800,18 @@ createApp({
     },
   },
   mounted() {
+    //讀取網址上的 ?page=
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page");
+    if (page) {
+      this.currentPage = page;
+    }
     //確定history.pushState的page有沒有以及它的內容
-    window.addEventListener("popstate", (event) => {
-      if (event.state && event.state.page) {
-        this.currentPage = event.state.page;
+    window.addEventListener("popstate", () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page");
+      if (page) {
+        this.currentPage = page;
       } else {
         this.currentPage = "home";
       }
@@ -822,6 +837,19 @@ createApp({
         console.log(err);
       });
     document.addEventListener("click", this.closeWhenClickOutSide);
+
+    //去跟後端拿news的資料
+    fetch("http://localhost:18080/news")
+      //後端回來的是response物件還包含了HTTP狀態、headers等東西，所以要透過response.json把response裡面的json資料解析出來
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("後端 news 資料：", data);
+        this.newsItems = data;
+        console.log("Vue newsItems：", this.newsItems);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     const rows = ["A", "B", "C", "D", "E", "F", "G"];
     rows.forEach((row) => {

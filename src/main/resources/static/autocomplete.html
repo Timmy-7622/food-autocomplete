@@ -236,6 +236,72 @@
       </div>
       <!-- 電影明細 E -->
       <!-- ======================================MovieDetail E=====================================================-->
+      <!-- ======================================News S============================================================-->
+      <!-- 最新消息 S -->
+      <div v-if="currentPage === 'news'" class="news-page">
+        <div class="news-container">
+          <!-- 標題 -->
+          <div class="news-title">
+            <div class="news-title-en">
+              <span class="red-dot"></span>
+              <span>SPECIAL EVENT</span>
+            </div>
+            <div class="news-title-zh">影城活動</div>
+          </div>
+
+          <!-- 活動列表 -->
+          <div class="news-list">
+            <div
+              class="news-card"
+              v-for="news in newsItems"
+              :key="news.id"
+              @click="goNewsDetail(news)"
+            >
+              <img :src="news.images" :alt="news.title" class="news-image" />
+              <h3>{{ news.title }}</h3>
+              <p class="news-date">{{ news.date }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 最新消息 E -->
+      <!-- ======================================News E============================================================-->
+      <!-- ======================================NewsDetail S======================================================-->
+      <!-- 活動資訊 S -->
+      <div
+        v-if="currentPage === 'newsDetail' && selectedNews"
+        class="news-detail-page"
+      >
+        <div class="news-detail-container">
+          <!-- 上方 -->
+          <div class="news-detail-header">
+            <button @click="goNews">回上頁列表</button>
+            <span>{{ selectedNews.date }}</span>
+          </div>
+
+          <!-- 下方左右排版 -->
+          <div class="news-detail-content">
+            <div class="news-detail-image-area">
+              <img
+                :src="selectedNews.images"
+                :alt="selectedNews.title"
+                class="news-detail-image"
+              />
+            </div>
+
+            <!-- 右邊文字 -->
+            <div class="news-detail-info">
+              <h2>{{ selectedNews.title }}</h2>
+
+              <div class="news-detail-line"></div>
+
+              <p>{{ selectedNews.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 活動資訊 E -->
+      <!-- ======================================NewsDetail E======================================================-->
       <!-- ======================================currentSession Start==============================================-->
       <!-- 場次頁面 -->
       <div v-if="currentPage === 'session'" class="session-section">
