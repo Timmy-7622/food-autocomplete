@@ -222,7 +222,9 @@
       align-items: center;
       }
 
-      .navlinks a {
+      .navlinks > a,
+      .nav-dropdown > a {
+        text-decoration: none;
         margin-right:50px;
         color: white;
         font-weight: bold;       
@@ -462,18 +464,23 @@
       }
 
       .nav-dropdown-menu{
-        /* 預設不顯示下拉選單。 */
+        /* 預設把整個下拉選單隱藏起來 */
         display: none;
-        /* 讓這個下拉選單脫離原本正常的排版，自己定位。 */
-        position:absolute;
-        top:100%;
-        /* 水平置中定位的一種常見寫法  「下拉選單自己寬度的一半」往左拉*/
+        /* 跳脫 */
+        position: absolute;
+        top: 100%;
+        /* 把位置往左移 */
         left: 50%;
         transform: translateX(-50%);
-        width: 150px;
-        padding: 10px;
-        background-color: rgba(30, 30, 30, 0.95);
-        z-index: 1000;
+        /* 預設不顯示下拉選單。 */
+        background: transparent;
+        padding: 10px 0;
+        width: 120px;  
+        border-top: 2px solid #d63632;
+        border-radius: 0 0 5px 5px;
+        /* 水平方向 > 垂直方向 > 模糊程度 > rbga: 陰影顏色 */
+        box-shadow: 0 10px 25px rbga(0, 0, 0, 0.45);
+        z-index: 1000;     
       }
       /* 當滑鼠移到 .nav-dropdown 上面的時候，把它裡面的 .nav-dropdown-menu 顯示出來 */
       .nav-dropdown:hover .nav-dropdown-menu{
@@ -482,16 +489,32 @@
 
       .nav-dropdown-menu a {
         display: block;
-        padding: 10px 15px;
-        background-color: #999;
-        color: white;
-        text-align: center;
+        margin: 0;
+        padding: 11px 18px;
+        background: transparent;
+        color: #eeeeee;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: left;
+        /* 禁止文字自動換行 */
+        white-space: nowrap;
         /* <a>標籤預設是超連結，通常會有底線...加了這個之後就是取消底線的效果 */
         text-decoration: none;
+        /* 如果之後下面三個參數要發生變化，不要瞬間變化，要用0.2s慢慢變 */
+        transition: 
+          background-color 0.2s ease,
+          color 0.2s ease,
+          padding-left 0.2s ease;
       }
 
       .nav-dropdown-menu a:hover{
-        background-color: #777;
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #e53935;
+        padding-left: 25px;
+      }
+      /* 下拉選單兩個<a>中間的分隔線 */
+      .nav-dropdown-menu a + a {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
       }
       /* ===============================================================  navbar E ============================================================*/
       /* ===============================================================  電影介紹 S ===========================================================*/
@@ -679,8 +702,8 @@
         padding: 60px 0;
       }
       .new-container{
-        width: 80%;
-        max-width: 1100px;
+        width: 90%;
+        max-width: 1300px;
         margin: 0 auto;
       }
       .news-title{

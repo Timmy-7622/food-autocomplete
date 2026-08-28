@@ -121,6 +121,34 @@ createApp({
     },
   },
   methods: {
+    goMovieRatingSystem() {
+      this.currentPage = "movieRatingSystem";
+      history.pushState(
+        { page: "movieRatingSystem" },
+        "",
+        "?page=movieRatingSystem",
+      );
+      console.log("電影分級制度");
+    },
+    goOnlineBooking() {
+      this.currentPage = "onlineBooking";
+      history.pushState({ page: "onlineBooking" }, "", "?page=onlineBooking");
+      console.log("線上訂票");
+    },
+    goPrivacyPolicy() {
+      this.currentPage = "privacyPolicyivacy";
+      history.pushState(
+        { page: "privacyPolicyivacy" },
+        "",
+        "?page=privacyPolicyivacy",
+      );
+      console.log("隱私權政策");
+    },
+    goAboutTheater() {
+      this.currentPage = "aboutTheater";
+      history.pushState({ page: "aboutTheater" }, "", "?page=aboutTheater");
+      console.log("關於影城");
+    },
     goNewsDetail(news) {
       this.selectedNews = news;
       this.currentPage = "newsDetail";
