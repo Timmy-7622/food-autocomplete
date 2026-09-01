@@ -115,6 +115,8 @@ Oracle Database，不同電影場次也會根據既有訂單顯示對應的已�
 - Swiper
 - Font Awesome
 
+---
+
 ### 後端
 
 - Java
@@ -122,10 +124,14 @@ Oracle Database，不同電影場次也會根據既有訂單顯示對應的已�
 - RESTful API：以前後端分離方式提供訂單新增與訂單查詢功能
 - JDBC 或 Spring Data 存取資料
 
+---
+
 ### 資料庫
 
 - Oracle Database
 - 儲存訂單與訂票相關資料
+
+---
 
 ### 開發工具
 
