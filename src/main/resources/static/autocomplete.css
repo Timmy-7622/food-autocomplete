@@ -819,6 +819,184 @@
 
 
       /* ===============================================================  最新消息 E ==========================================================*/
+      /* ===============================================================  關於影城 S ==========================================================*/
+      .about-page {
+        min-height: 100vh;
+        background: #252525;
+        color: white;
+        padding: 60px 0 0 100px;
+      }
+      .about-container {
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .about-container h2 {
+        /* 上左右下 */
+        margin: 0 0 35px;
+        font-size: 26px;
+      }
+      .about-gallery{
+        margin-top: 70px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:35px;
+        /* 讓每一個 Grid 子元素在「上下方向」盡可能撐滿所在的 Grid 格子。 */
+        align-items: stretch;
+      }
+      .about-gallery-left{
+        width: 100%;
+      }
+      .about-main-image{
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .about-gallery-right{
+        display: grid;
+         /* 右邊上下兩排 */
+        grid-template-rows: 1fr 1fr;
+        gap: 5px;
+      }
+      .about-side-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .about-feature {
+        margin-top: 70px;
+      }
+      .about-feature h2{
+        margin: 0 0 25px;
+        font-size: 20px;
+        color: white;
+      }
+      .about-feature p {
+        margin: 0 0 10px;
+        font-size: 16px;
+        line-height: 1.8;
+        color: white;
+      }
+      .privacy-container {
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+        color: white;
+      }
+      .privacy-content {
+        padding: 40px 25px;
+        border: 1px solid #666;
+        border-radius: 5px;
+      }
+      .privacy-container .section-title {
+        margin-bottom: 40px;
+      }
+      .privacy-intro{
+        margin: 0 0 30px;
+        font-size: 15px;
+        line-height: 1.8;
+      }
+      .privacy-section h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: white;
+      }
+      .privacy-section p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.8;
+      }
+      .privacy-section ol {
+        margin: 0;
+        padding-left: 30px;
+      }    
+      .privacy-section li {
+        margin-bottom: 6px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .booking-rule-container{
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+        color: white;
+      }      
+      .booking-rule-content{
+        padding: 35px 35px;
+        border: 1px solid #666;
+        border-radius: 5px;
+      }
+      .booking-rule-section{
+        border-bottom: 30px;
+      }
+      .booking-rule-section:last-child {
+        margin-bottom: 0;
+      }
+      .booking-rule-section h3{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 15px;
+        font-size: 18px;
+        color: white;
+      }
+      .booking-rule-section h3 i {
+        font-size: 22px;
+        color: white;
+      }
+      .booking-rule-section ol {
+        margin: 0;
+        padding-left: 30px;
+      }
+      .booking-rule-section li {
+        margin-bottom: 6px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .rating-container{
+        width: 80%;
+        max-width: 1100px;
+        margin: 0 auto;
+        color: white;
+      }
+      .rating-content{
+        padding: 30px 35px;
+        border: 1px solid #666;
+        border-radius: 5px;
+      }
+      .rating-header{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .rating-header i {
+        font-size: 26px;
+        color: white;
+      }
+      .rating-header h3 {
+        margin: 4px;
+        font-size: 18px;
+        color: white;
+      }
+      .rating-list li{
+        margin-bottom: 6px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .rating-note{
+        margin-top: 25px;
+      }
+      .rating-p {
+        margin: 0 0 6px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      /* ===============================================================  關於影城 E ==========================================================*/
       /* =================================================================Step Start========================================================= */
       .step-bar {
         display: flex;

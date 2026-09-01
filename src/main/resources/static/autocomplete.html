@@ -315,6 +315,251 @@
       </div>
       <!-- 活動資訊 E -->
       <!-- ======================================NewsDetail E======================================================-->
+      <!-- ======================================關於影城 S=========================================================-->
+      <!-- 戲院介紹 S -->
+      <div v-if="currentPage === 'aboutTheater'" class="about-page">
+        <div class="about-container">
+          <!-- 標題 -->
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>ABOUT BROADWAY</span>
+            </div>
+            <div class="title-zh">影城介紹</div>
+          </div>
+          <!-- 上方圖片區 -->
+          <div class="about-gallery">
+            <div class="about-gallery-left">
+              <img
+                src="./images/taipei_img1.jpg"
+                alt="裝潢介紹"
+                class="about-main-image"
+              />
+            </div>
+            <!-- 右邊兩張圖 -->
+            <div class="about-gallery-right">
+              <img
+                src="./images/taipei_img2.jpg"
+                alt="影城環境"
+                class="about-side-image"
+              />
+              <img
+                src="./images/taipei_img3.jpg"
+                alt="影廳"
+                class="about-side-image"
+              />
+            </div>
+          </div>
+          <!-- 影城特色 -->
+          <div class="about-feature">
+            <h2>
+              <i class="fa-solid fa-film"> 電影特色 </i>
+            </h2>
+            <p>
+              MovieDay 影城致力提供舒適且優質的觀影環境，
+              影廳全面採用數位放映設備及高品質環繞音效，
+              搭配舒適座椅，讓觀眾能享受更完整的電影體驗。
+            </p>
+            <p>
+              館內空間以簡約電影風格設計，
+              無論是熱門商業電影、動畫電影或其他作品，
+              都希望帶給每位觀眾舒適的觀影體驗。
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- 戲院介紹 E -->
+
+      <!-- 隱私權保護政策 S -->
+      <div v-if="currentPage === 'privacyPolicy'" class="about-page">
+        <div class="privacy-container">
+          <!-- 標題 -->
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>Privacy Policy</span>
+            </div>
+            <div class="title-zh">隱私權保護政策</div>
+          </div>
+          <div class="privacy-content">
+            <p class="privacy-intro">
+              非常歡迎您光臨「MovieDay
+              影城網站」，為了讓您能夠安心的使用本網站的各項服務與資訊，
+              特此向您說明本網站的隱私權保護政策，以保障您的權益，請您詳閱下列內容：
+            </p>
+
+            <div class="privacy-section">
+              <h3>隱私權保護政策的適用範圍</h3>
+              <p>
+                隱私權保護政策內容，包括本網站如何處理在您使用網站服務時收集到的個人識別資料。
+                隱私權保護政策不適用於本網站以外的相關連結網站。
+              </p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>個人資料的蒐集與使用方式</h3>
+              <ol>
+                <li>
+                  當您使用本網站提供的各項服務時，我們可能依服務需求蒐集必要的個人資料。
+                </li>
+
+                <li>
+                  於一般瀏覽時，伺服器會自行記錄相關資訊，例如使用時間、瀏覽器及瀏覽紀錄等。
+                </li>
+
+                <li>
+                  除非取得您的同意或法律另有規定，本網站不會將您的個人資料提供給第三人。
+                </li>
+              </ol>
+            </div>
+
+            <div class="privacy-section">
+              <h3>資料之保護</h3>
+              <ol>
+                <li>本網站採取必要的資訊安全措施，以保護您的個人資料。</li>
+
+                <li>
+                  如因業務需要委託其他單位提供服務，本網站亦會要求其遵守相關保密義務。
+                </li>
+              </ol>
+            </div>
+
+            <div class="privacy-section">
+              <h3>個人應盡之義務</h3>
+              <ol>
+                <li>凡利用本網站提供個人資料者，應維護資料之正確及完整性。</li>
+                <li>若發現個人資料有誤，應適時進行更新。</li>
+                <li>請妥善保管您的個人資料及帳號資訊。</li>
+              </ol>
+            </div>
+
+            <div class="privacy-section">
+              <h3>網站對外的相關連結</h3>
+              <p>
+                本網站可能提供其他網站的網路連結，您也可經由本網站所提供的連結，
+                點選進入其他網站。
+              </p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>Cookie之使用</h3>
+              <p>
+                為了提供最佳的服務，本網站可能會在您的電腦中放置並取用 Cookie。
+              </p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>隱私權保護政策之修正</h3>
+              <p>
+                本網站隱私權保護政策將因應需求隨時進行修正，修正後的條款將刊登於本網站上。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 隱私權保護政策 E -->
+
+      <!-- 線上訂票須知 S -->
+      <div v-if="currentPage === 'onlineBooking'" class="about-page">
+        <div class="booking-rule-container">
+          <!-- 標題 -->
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>Online Booking Instructions</span>
+            </div>
+            <div class="title-zh">線上訂票須知</div>
+          </div>
+          <div class="booking-rule-content">
+            <div class="booking-rule-section">
+              <h3>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                線上訂票規則說明
+              </h3>
+              <ol>
+                <li>未滿 2 歲且不佔位之兒童無需購票，可免費入場觀賞。</li>
+                <li>若交易內含餐飲品項，須至購票影城櫃檯領取電影票與餐點。</li>
+                <li>網路訂票每張票需加收 NT$20 手續費。</li>
+                <li>片長 150 分鐘以上之電影需加價。</li>
+                <li>
+                  為維護顧客權益，惡意佔位或影響他人正常訂位使用者，影城保有取消訂位之權利。
+                </li>
+              </ol>
+            </div>
+            <div class="booking-rule-section">
+              <h3>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                退換票規定
+              </h3>
+              <ol>
+                <li>
+                  完成線上付款並取票者，若需退票請依影城規定於指定時間內辦理。
+                </li>
+                <li>尚未取票者，可於電影開演前依規定辦理退款。</li>
+                <li>電影票遺失恕不補發。</li>
+                <li>如遇特殊事故取消電影放映，將依影城公告辦理退換票。</li>
+              </ol>
+            </div>
+            <div class="booking-rule-section">
+              <h3>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                訂票取票注意事項
+              </h3>
+              <ol>
+                <li>完成線上訂票後，請依訂單資訊至影城取票。</li>
+                <li>請確認場次、日期、座位與票種資訊是否正確。</li>
+                <li>取票時請備妥訂單編號或相關證明。</li>
+                <li>開演後是否可入場，依影城現場規定辦理。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 線上訂票須知 E -->
+
+      <!-- 電影分級制度 S -->
+      <div v-if="currentPage === 'movieRatingSystem'" class="about-page">
+        <div class="rating-container">
+          <!-- 標題 -->
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>Movie Rating System</span>
+            </div>
+            <div class="title-zh">電影分級制度說明</div>
+          </div>
+          <div class="rating-content">
+            <div class="rating-header">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <h3>依照相關規定，電影分級制度如下：</h3>
+            </div>
+            <ol class="rating-list">
+              <li>普遍級 / G：一般觀眾皆可觀賞。</li>
+
+              <li>
+                保護級 /
+                P：未滿六歲之兒童不得觀賞，六歲以上未滿十二歲之兒童需由父母、師
+                長或成年親友陪伴觀賞。
+              </li>
+
+              <li>輔12級 / PG12：未滿十二歲不得觀賞。</li>
+
+              <li>輔15級 / PG15：未滿十五歲不得觀賞。</li>
+
+              <li>限制級 / R：未滿十八歲不得觀賞。</li>
+            </ol>
+            <div class="rating-note">
+              <p>入場驗票時請出示年齡符合之證明文件。</p>
+              <p>本網站電影介紹頁面皆會標示每部影片的正確級數。</p>
+              <p>購票及取票時請依分級制度出示相關證明文件。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 電影分級制度 E -->
+      <!-- ======================================關於影城 E=========================================================-->
       <!-- ======================================currentSession Start==============================================-->
       <!-- 場次頁面 -->
       <div v-if="currentPage === 'session'" class="session-section">

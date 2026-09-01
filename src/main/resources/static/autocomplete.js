@@ -136,12 +136,8 @@ createApp({
       console.log("線上訂票");
     },
     goPrivacyPolicy() {
-      this.currentPage = "privacyPolicyivacy";
-      history.pushState(
-        { page: "privacyPolicyivacy" },
-        "",
-        "?page=privacyPolicyivacy",
-      );
+      this.currentPage = "privacyPolicy";
+      history.pushState({ page: "privacyPolicy" }, "", "?page=privacyPolicy");
       console.log("隱私權政策");
     },
     goAboutTheater() {
