@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import food_autocomplete.BookingDTO.BookingDTO;
+import food_autocomplete.dto.BookingDTO;
 import food_autocomplete.entity.BookingOrder;
 import food_autocomplete.repository.BookingOrderRepository;
 

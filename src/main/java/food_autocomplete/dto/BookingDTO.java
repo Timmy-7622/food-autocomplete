@@ -1,4 +1,4 @@
-package food_autocomplete.BookingDTO;
+package food_autocomplete.dto;
 
 import java.util.List;
 
