@@ -22,13 +22,24 @@ public class SucurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/member/register")
-            )
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/member/register").permitAll()
-                    .anyRequest().permitAll());
-            return http.build();
+                // .csrf Spring Security 對某些「會修改資料的 Request」增加一道安全檢查。
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/member/register")
+                        .ignoringRequestMatchers("/member/login")
+                        .ignoringRequestMatchers("/member/logout"))
+                // .authorizeHttpRequests 設定誰可以進哪些網址
+                .authorizeHttpRequests(auth -> auth
+                        // .requestMatchers 指定那些網址
+                        .requestMatchers(
+                                "/member/register",
+                                "/member/login")
+                        .permitAll()
+                        .requestMatchers(
+                                "/member/me",
+                                "/member/logout")
+                        .authenticated()
+                        .anyRequest().permitAll());
+        return http.build();
     }
 
 }
