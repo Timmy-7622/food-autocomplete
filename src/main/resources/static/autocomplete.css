@@ -204,6 +204,9 @@
         background-size: cover;
         background-position: center;
       }
+      .hero.hero-member-center{
+        height: 180px;
+      }
       .navbar {
         height: 90px;
         display: flex;
@@ -230,6 +233,189 @@
         font-weight: bold;       
         cursor: pointer;
       }
+      .member-nav{
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+      }
+      .member-nav button{
+        padding: 7px 22px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      /* 會員登入 */
+      .member-login-btn{
+        background-color: #d83b3b;
+        color:white;
+        border: 1px solid #d83b3b;
+        border-radius: 25px 0 0 25px;
+      }
+      /* 加入會員 */
+      .member-register-btn{
+        background-color: transparent;
+        color:white;
+        border: 1px solid #d83b3b;
+        border-radius: 0 25px 25px 0;
+      }
+      .login-modal-overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .login-modal{
+        width: 500px;
+        background-color: #eeeeee;
+        color: #111;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .login-modal-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 25px;
+        background-color: #efbc06;
+        color: white;
+      }
+      .login-close-btn{
+        border: none;
+        background: none;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .login-modal-body{
+        display: flex;
+        flex-direction: column;
+        padding: 30px 40px;
+      }
+      .login-modal-body label{
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      .login-modal-body input{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        margin-bottom: 20;
+        font-size: 16px;
+      }
+      .login-submit-btn{
+        margin-top: 10px;
+        padding: 12px;
+        border: none;
+        background-color: #3c5def;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      /* ================= 會員中心 ================= */
+      .member-center-page{
+        min-height: 100vh;
+        background-color: #242424;
+        padding: 100px 100px 100px 100px;
+      }
+      /* 控制內容寬度並置中 */
+      .member-center-container{
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      /* 會員資訊卡片 */
+      .member-profile-card{
+        background-color: #303030;
+        border: 1px solid #444;
+        border-radius: 12px;
+        padding: 35px;
+        margin-top: 30px;
+      }
+      .member-profile-header{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #505050;
+
+      }
+      /* 會員姓名 */
+      .member-profile-name h2 {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 26px;
+      }
+
+      .member-profile-name p {
+        margin: 0;
+        color: #aaa;
+        font-size: 14px;
+      }
+
+      .member-avatar {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background-color: #444;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+      }
+      /* 基本資料區塊 */
+      .member-profile-body {
+        padding-top: 25px;
+      }
+      .member-profile-body h3{
+        color: #ffffff;
+        font-size: 20px;
+        margin-bottom: 25px;
+      }
+      .member-info-grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px 40px;
+      }
+      /* 每一筆會員資料 */
+      .member-info-item{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .member-info-item span {
+        color: #aaaaaa;
+        font-size: 14px;
+      }
+      .member-info-item p {
+        color: #ffffff;
+        font-size: 17px;
+        /* font-weight: 500;
+        margin: 0; */
+      }
+      /* 會員中心編輯輸入框 */
+      .member-edit-input {
+        width: 75%;
+        padding: 9px 12px;
+        box-sizing: border-box;
+        background-color: #252525;
+        border: 1px solid #555;
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .member-info-item .member-edit-input:focus {
+        border-color: #e53935;
+        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
+      }
+      
+      /* ================= 會員中心 ================= */
       .order-list {
         width: 900px;
         color :#eef6ff;

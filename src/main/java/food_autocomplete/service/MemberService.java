@@ -3,6 +3,7 @@ package food_autocomplete.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import food_autocomplete.dto.MemberUpdateDTO;
 import food_autocomplete.entity.Member;
 import food_autocomplete.repository.MemberRepository;
 
@@ -39,5 +40,20 @@ public class MemberService {
             throw new RuntimeException("密碼錯誤");
         }
         return member;    
+    }
+
+    public Member findByAccount(String account) {
+        return memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("會員不存在"));
+    }
+
+    public Member updateMember(String account, MemberUpdateDTO dto){
+         Member member = memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("會員不存在"));
+
+         member.setName(dto.getName());
+         member.setEmail(dto.getEmail());
+         member.setPhone(dto.getPhone());
+
+         return memberRepository.save(member);
+
     }
 }

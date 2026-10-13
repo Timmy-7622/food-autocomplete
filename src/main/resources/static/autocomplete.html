@@ -17,14 +17,17 @@
   </head>
   <body>
     <div id="app">
-      <div class="hero">
+      <div
+        class="hero"
+        :class="{ 'hero-member-center': currentPage === 'memberCenter' }"
+      >
         <div class="navbar">
           <h1 class="navbar-logo" @click="goHome">MovieDay</h1>
           <div class="navlinks">
             <a href="#" @click.prevent="goSession">線上訂票</a>
             <!-- <a href="#" @click.prevent="goMovieIntroduction">電影介紹</a> -->
             <div class="nav-dropdown">
-              <a href="#" class="nav-dropdown-title">電影介紹</a>
+              <a href="#" class="nav-dropdown-title" @click.prevent>電影介紹</a>
               <div class="nav-dropdown-menu">
                 <a href="#" @click.prevent="goMovieIntroduction">現在熱映</a>
                 <!-- <a href="#" @click.prevent=".....">近期上映</a> -->
@@ -32,7 +35,7 @@
             </div>
             <a href="#" @click.prevent="goNews">最新消息</a>
             <div class="nav-dropdown">
-              <a href="#" class="nav-dropdown-title">關於影城</a>
+              <a href="#" class="nav-dropdown-title" @click.prevent>關於影城</a>
               <div class="nav-dropdown-menu">
                 <a href="#" @click.prevent="goAboutTheater">戲院介紹</a>
                 <a href="#" @click.prevent="goPrivacyPolicy">隱私權保護政策</a>
@@ -44,8 +47,68 @@
             </div>
           </div>
           <!-- navlinks -->
+          <div class="member-nav">
+            <div v-if="!currentMember">
+              <button
+                type="button"
+                class="member-login-btn"
+                @click="showLoginModal=true"
+              >
+                會員登入
+              </button>
+              <button type="button" class="member-register-btn">
+                加入會員
+              </button>
+            </div>
+            <div v-else class="nav-dropdown member-dropdown">
+              <span href="#" class="nav-dropdown-title">
+                {{ currentMember.name }} ,您好
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+              <div class="nav-dropdown-menu">
+                <a href="#" @click.prevent="goMemberCenter">會員中心</a>
+                <a href="#">歷史訂單</a>
+                <a href="#" @click.prevent="logout">登出</a>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- navbar -->
+      </div>
+      <!-- 會員登入 Modal -->
+      <div v-if="showLoginModal" class="login-modal-overlay">
+        <div class="login-modal">
+          <div class="login-modal-header">
+            <h2>WELCOME TO MovieDay!</h2>
+            <button
+              type="button"
+              class="login-close-btn"
+              @click="showLoginModal = false"
+            >
+              X
+            </button>
+          </div>
+          <div class="login-modal-body">
+            <label>帳號</label>
+            <input
+              type="text"
+              placeholder="請輸入帳號"
+              v-model="loginForm.account"
+            />
+            <label>密碼</label>
+            <input
+              type="password"
+              placeholder="請輸入密碼"
+              v-model="loginForm.password"
+            />
+            <button type="button" class="login-submit-btn" @click="login">
+              Login...
+            </button>
+            <!-- <button type="button" class="login-submit-btn" @click="checkLogin">
+              測試登入使用者
+            </button> -->
+          </div>
+        </div>
       </div>
       <!-- hero -->
       <!-- 官網首頁 -->
@@ -560,6 +623,98 @@
 
       <!-- 電影分級制度 E -->
       <!-- ======================================關於影城 E=========================================================-->
+      <!-- ======================================會員下拉選單 S=====================================================-->
+      <!-- 會員中心 S -->
+      <div
+        v-if="currentPage === 'memberCenter' && currentMember"
+        class="member-center-page"
+      >
+        <div class="member-center-container">
+          <!-- 標題 -->
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>MEMBER CENTER</span>
+            </div>
+            <div class="title-zh">會員中心</div>
+          </div>
+
+          <!-- 會員資訊卡片 -->
+          <div class="member-profile-card">
+            <!-- 會員頭像與名稱 -->
+            <div class="member-profile-header">
+              <!-- 會員頭像與名稱 -->
+              <div class="member-avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div class="member-profile-name">
+                <h2>{{ currentMember.name }}</h2>
+                <p>MovieDay 會員</p>
+              </div>
+            </div>
+            <!-- 基本資料 -->
+            <div class="member-profile-body">
+              <h3>基本資料:</h3>
+
+              <div class="member-info-grid">
+                <div class="member-info-item">
+                  <span>會員編號</span>
+                  <p>{{ currentMember.memberId }}</p>
+                </div>
+
+                <div class="member-info-item">
+                  <span>登入帳號</span>
+                  <p>{{ currentMember.account }}</p>
+                </div>
+
+                <div class="member-info-item">
+                  <span>會員姓名</span>
+                  <p v-if="!isEditing">{{ currentMember.name }}</p>
+                  <input
+                    v-else
+                    type="text"
+                    v-model="editMemberForm.name"
+                    class="member-edit-input"
+                  />
+                </div>
+
+                <div class="member-info-item">
+                  <span>電子信箱</span>
+                  <p v-if="!isEditing">{{ currentMember.email }}</p>
+                  <input
+                    v-else
+                    type="email"
+                    v-model="editMemberForm.email"
+                    class="member-edit-input"
+                  />
+                </div>
+
+                <div class="member-info-item">
+                  <span>手機號碼</span>
+                  <p v-if="!isEditing">{{ currentMember.phone }}</p>
+                  <input
+                    v-else
+                    type="tel"
+                    v-model="editMemberForm.phone"
+                    class="member-edit-input"
+                  />
+                </div>
+              </div>
+              <button v-if="!isEditing" type="button" @click="startEditMember">
+                編輯會員
+              </button>
+              <div v-else class="member-edit-actions">
+                <button type="button" @click="saveEditMember">儲存修改</button>
+                <button type="button" @click="cancelEditMember">
+                  取消編輯
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 會員中心 E -->
+      <!-- ======================================會員下拉選單 E=====================================================-->
       <!-- ======================================currentSession Start==============================================-->
       <!-- 場次頁面 -->
       <div v-if="currentPage === 'session'" class="session-section">

@@ -26,7 +26,8 @@ public class SucurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/member/register")
                         .ignoringRequestMatchers("/member/login")
-                        .ignoringRequestMatchers("/member/logout"))
+                        .ignoringRequestMatchers("/member/logout")
+                        .ignoringRequestMatchers("/member/profile"))
                 // .authorizeHttpRequests 設定誰可以進哪些網址
                 .authorizeHttpRequests(auth -> auth
                         // .requestMatchers 指定那些網址
@@ -36,7 +37,8 @@ public class SucurityConfig {
                         .permitAll()
                         .requestMatchers(
                                 "/member/me",
-                                "/member/logout")
+                                "/member/logout",
+                                "/member/profile")
                         .authenticated()
                         .anyRequest().permitAll());
         return http.build();

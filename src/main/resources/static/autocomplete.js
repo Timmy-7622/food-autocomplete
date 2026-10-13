@@ -1,3 +1,4 @@
+console.log("最新 autocomplete.js 已載入");
 const { createApp } = Vue;
 createApp({
   data() {
@@ -75,6 +76,21 @@ createApp({
       orderNo: "",
       selectedMovie: null,
       selectedNews: null,
+      showLoginModal: false,
+      loginForm: {
+        account: "",
+        password: "",
+      },
+      //目前登入的會員
+      currentMember: null,
+      // 是否正在編輯會員資料
+      isEditing: false,
+      //暫時存放編輯會員資料
+      editMemberForm: {
+        name: "",
+        email: "",
+        phone: "",
+      },
     };
   },
   // 計算後的資料 filter->篩選
@@ -121,6 +137,102 @@ createApp({
     },
   },
   methods: {
+    async saveEditMember() {
+      try {
+        const response = await fetch("http://localhost:18080/member/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(this.editMemberForm),
+        });
+        if (!response.ok) {
+          console.log("修改失敗:", response.status);
+          return;
+        }
+        const data = await response.json();
+        console.log("後端回傳的會員資料:", data);
+        this.currentMember = data;
+        this.isEditing = false;
+      } catch (error) {
+        console.error("修改會員資料發生錯誤:", error);
+      }
+    },
+    cancelEditMember() {
+      this.isEditing = false;
+    },
+    startEditMember() {
+      this.editMemberForm = {
+        name: this.currentMember.name,
+        email: this.currentMember.email,
+        phone: this.currentMember.phone,
+      };
+      this.isEditing = true;
+    },
+    goMemberCenter() {
+      this.currentPage = "memberCenter";
+    },
+    login() {
+      console.log("login方法有進來");
+      console.log("帳號", this.loginForm.account);
+      // console.log("密碼", this.loginForm.password);
+
+      fetch("http://localhost:18080/member/login", {
+        method: "POST",
+        // 我下面送的資料是 JSON
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // 讓 fetch 可以帶著這個 Cookie 往來
+        credentials: "include",
+        // 我要送的實際資料是 loginForm,先把 JavaScript Object 轉成 JSON 字串
+        body: JSON.stringify(this.loginForm),
+      }).then((response) => {
+        console.log("status：", response.status);
+        console.log("ok：", response.ok);
+
+        if (response.ok) {
+          console.log("登入成功");
+          this.showLoginModal = false;
+          this.checkLogin();
+        } else {
+          console.log("登入失敗");
+        }
+      });
+    },
+    checkLogin() {
+      fetch("http://localhost:18080/member/me", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            this.currentMember = null;
+            return null;
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data !== null) {
+            console.log("目前登入會員:", data);
+            this.currentMember = data;
+          }
+        });
+    },
+    logout() {
+      fetch("http://localhost:18080/member/logout", {
+        method: "POST",
+        credentials: "include",
+      }).then((response) => {
+        if (response.ok) {
+          console.log("登出成功");
+          this.currentMember = null;
+        } else {
+          console.log("登出失敗");
+        }
+      });
+    },
     goMovieRatingSystem() {
       this.currentPage = "movieRatingSystem";
       history.pushState(
@@ -824,6 +936,7 @@ createApp({
     },
   },
   mounted() {
+    this.checkLogin();
     //讀取網址上的 ?page=
     const params = new URLSearchParams(window.location.search);
     const page = params.get("page");
