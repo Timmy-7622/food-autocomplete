@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import food_autocomplete.dto.MemberUpdateDTO;
 import food_autocomplete.entity.Member;
+import food_autocomplete.exception.DuplicateEmailException;
 import food_autocomplete.repository.MemberRepository;
+import food_autocomplete.exception.DuplicateEmailException;
 
 @Service
 public class MemberService {
@@ -33,27 +35,30 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member login(String account, String password){
+    public Member login(String account, String password) {
         Member member = memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("帳號不存在"));
 
-        if(!passwordEncoder.matches(password,member.getPassword())){
+        if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new RuntimeException("密碼錯誤");
         }
-        return member;    
+        return member;
     }
 
     public Member findByAccount(String account) {
         return memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("會員不存在"));
     }
 
-    public Member updateMember(String account, MemberUpdateDTO dto){
-         Member member = memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("會員不存在"));
+    public Member updateMember(String account, MemberUpdateDTO dto) {
+        Member member = memberRepository.findByAccount(account).orElseThrow(() -> new RuntimeException("會員不存在"));
+        boolean emailExists = memberRepository.existsByEmailAndMemberIdNot(dto.getEmail(), member.getMemberId());
+        if (emailExists) {
+            throw new DuplicateEmailException("此 Email 已被註冊，請使用其他 Email");
+        }
+        member.setName(dto.getName());
+        member.setEmail(dto.getEmail());
+        member.setPhone(dto.getPhone());
 
-         member.setName(dto.getName());
-         member.setEmail(dto.getEmail());
-         member.setPhone(dto.getPhone());
-
-         return memberRepository.save(member);
+        return memberRepository.save(member);
 
     }
 }

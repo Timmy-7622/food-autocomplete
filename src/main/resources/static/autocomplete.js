@@ -138,7 +138,38 @@ createApp({
   },
   methods: {
     async saveEditMember() {
+      console.log("1. 進入 saveEditMember");
       try {
+        this.editMemberForm.name = this.editMemberForm.name.trim();
+        this.editMemberForm.email = this.editMemberForm.email.trim();
+        this.editMemberForm.phone = this.editMemberForm.phone.trim();
+
+        if (!this.editMemberForm.name) {
+          this.modalType = "error";
+          this.modalMessage = "請輸入會員姓名";
+          this.showModal = true;
+          return;
+        }
+
+        // [^\s@] 裡面，^ 代表「排除」
+        // test是正規表示式提供的方法。它會檢查字串，並回傳布林值：true：符合格式。false：不符合格式。
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.editMemberForm.email)) {
+          this.modalType = "error";
+          this.modalMessage = "Email格式錯誤";
+          this.showModal = true;
+          return;
+        }
+
+        const phoneRegex = /^09\d{8}$/;
+        if (!phoneRegex.test(this.editMemberForm.phone)) {
+          this.modalType = "error";
+          this.modalMessage = "手機號碼格式錯誤";
+          this.showModal = true;
+          return;
+        }
+        console.log("2. 準備送出的會員資料:", this.editMemberForm);
+        console.log("3. 準備送出的姓名:", this.editMemberForm.name);
         const response = await fetch("http://localhost:18080/member/profile", {
           method: "PUT",
           headers: {
@@ -147,14 +178,30 @@ createApp({
           credentials: "include",
           body: JSON.stringify(this.editMemberForm),
         });
+        console.log("4. 完整 Response:", response);
+        console.log("5. HTTP 狀態碼:", response.status);
+        console.log("6. response.ok:", response.ok);
+        console.log("2. 準備送出的會員資料:", this.editMemberForm);
+        console.log("3. 準備送出的姓名:", this.editMemberForm.name);
         if (!response.ok) {
-          console.log("修改失敗:", response.status);
+          console.log("7. 進入錯誤處理");
+          const errorData = await response.json();
+          console.log("8. 後端回傳的錯誤資料:", errorData);
+          console.log("9. 錯誤訊息:", errorData.message);
+          this.modalType = "error";
+          this.modalMessage = errorData.message || "修改會員資料失敗";
+          this.showModal = true;
+          console.log("10. Modal 顯示狀態:", this.showModal);
+          console.log("11. Modal 訊息:", this.modalMessage);
           return;
         }
         const data = await response.json();
         console.log("後端回傳的會員資料:", data);
         this.currentMember = data;
         this.isEditing = false;
+        this.modalType = "success";
+        this.modalMessage = "會員資料修改成功";
+        this.showModal = true;
       } catch (error) {
         console.error("修改會員資料發生錯誤:", error);
       }
@@ -771,7 +818,7 @@ createApp({
     },
     closeModal() {
       this.showModal = false;
-      if (this.modalType === "success") {
+      if (this.currentPage === "booking" && this.modalType === "success") {
         this.currentStep = 3;
       }
     },

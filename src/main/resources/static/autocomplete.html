@@ -1383,16 +1383,16 @@
         </div>
 
         <!-- ===========================================currentStep4 E=========================================================== -->
-        <!-- ===========================================modal-overlay S=========================================================== -->
-        <div v-if="showModal" class="modal-overlay">
-          <div class="modal-box">
-            <div class="modal-icon" :class="modalType">
-              {{ modalType === 'success' ? '✓' : '✖' }}
-            </div>
-            <h2>提醒您</h2>
-            <p>{{ modalMessage }}</p>
-            <button class="modal-btn" @click="closeModal">OK</button>
+      </div>
+      <!-- ===========================================modal-overlay S=========================================================== -->
+      <div v-if="showModal" class="modal-overlay">
+        <div class="modal-box">
+          <div class="modal-icon" :class="modalType">
+            {{ modalType === 'success' ? '✓' : '✖' }}
           </div>
+          <h2>提醒您</h2>
+          <p>{{ modalMessage }}</p>
+          <button class="modal-btn" @click="closeModal">OK</button>
         </div>
       </div>
       <!-- ===========================================modal-overlay E=========================================================== -->

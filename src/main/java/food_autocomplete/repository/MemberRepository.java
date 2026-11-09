@@ -10,4 +10,6 @@ public interface MemberRepository
 
     Optional<Member> findByAccount(String account);
 
+    boolean existsByEmailAndMemberIdNot(String email, Long memberId);
+
 }

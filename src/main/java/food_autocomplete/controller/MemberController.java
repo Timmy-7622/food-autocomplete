@@ -22,6 +22,8 @@ import food_autocomplete.dto.MemberResponseDTO;
 import food_autocomplete.entity.Member;
 import food_autocomplete.service.MemberService;
 import jakarta.servlet.http.HttpSession;
+// 請 Spring 在接收 Request Body 並轉成 MemberUpdateDTO 後，執行 DTO 上設定的驗證規則。
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/member")
@@ -101,12 +103,12 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public MemberResponseDTO  getCurrentMember() {
+    public MemberResponseDTO getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //authentication.getName取得timmy003 是因為authentication是 Spring Security 定義的介面
-        //當 principal 是字串 "timmy003" 時，getName() 就會取得這個字串。
-        //credentials = null
-        //authorities = ROLE_MEMBER
+        // authentication.getName取得timmy003 是因為authentication是 Spring Security 定義的介面
+        // 當 principal 是字串 "timmy003" 時，getName() 就會取得這個字串。
+        // credentials = null
+        // authorities = ROLE_MEMBER
         String account = authentication.getName();
         Member member = memberService.findByAccount(account);
         MemberResponseDTO response = new MemberResponseDTO();
@@ -125,9 +127,9 @@ public class MemberController {
         session.invalidate();// 讓目前這個 HttpSession 失效
         return "登出成功";
     }
-    
-    @PutMapping ("/profile")
-    public MemberResponseDTO updateProfile(@RequestBody MemberUpdateDTO dto, Authentication authentication){
+
+    @PutMapping("/profile")
+    public MemberResponseDTO updateProfile(@Valid @RequestBody MemberUpdateDTO dto, Authentication authentication) {
         // 1. 取得目前登入會員的帳號
         String account = authentication.getName();
         // 2. 呼叫 Service 更新會員資料
@@ -142,6 +144,6 @@ public class MemberController {
         response.setPhone(member.getPhone());
         response.setRole(member.getRole());
 
-        return  response;
+        return response;
     }
 }
