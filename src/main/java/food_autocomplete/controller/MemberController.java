@@ -38,7 +38,7 @@ public class MemberController {
     @PostMapping("/register")
     // Http RequestBody Body → JSON → 透過@RequestBody →
     // 轉成MemberRegisterDTO的格式後面才可以dto.getxxx
-    public MemberResponseDTO register(@RequestBody MemberRegisterDTO request) {
+    public MemberResponseDTO register(@Valid @RequestBody MemberRegisterDTO request) {
 
         Member member = new Member();
 

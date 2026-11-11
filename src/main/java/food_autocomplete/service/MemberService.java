@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import food_autocomplete.dto.MemberUpdateDTO;
 import food_autocomplete.entity.Member;
 import food_autocomplete.exception.DuplicateEmailException;
+import food_autocomplete.exception.MemberAlreadyExistsException;
 import food_autocomplete.repository.MemberRepository;
-import food_autocomplete.exception.DuplicateEmailException;
 
 @Service
 public class MemberService {
@@ -23,7 +23,7 @@ public class MemberService {
     public Member register(Member member) {
         // 1. 檢查帳號是否已存在
         if (memberRepository.findByAccount(member.getAccount()).isPresent()) {
-            throw new RuntimeException("帳號已存在");
+            throw new MemberAlreadyExistsException("帳號已存在");
         }
 
         // encode把密碼用亂碼處理...

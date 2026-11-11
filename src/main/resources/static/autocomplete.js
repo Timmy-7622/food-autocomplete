@@ -91,6 +91,14 @@ createApp({
         email: "",
         phone: "",
       },
+      showRegisterModal: false,
+      registerForm: {
+        account: "",
+        password: "",
+        name: "",
+        email: "",
+        phone: "",
+      },
     };
   },
   // 計算後的資料 filter->篩選
@@ -137,6 +145,76 @@ createApp({
     },
   },
   methods: {
+    register() {
+      const { account, password, name, email, phone } = this.registerForm;
+      if (
+        !account.trim() ||
+        !password.trim() ||
+        !name.trim() ||
+        !email.trim() ||
+        !phone.trim()
+      ) {
+        this.modalType = "error";
+        this.modalMessage = "請填寫所有欄位";
+        this.showModal = true;
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.registerForm.email)) {
+        this.modalType = "error";
+        this.modalMessage = "Email格式錯誤";
+        this.showModal = true;
+        return;
+      }
+
+      const phoneRegex = /^09\d{8}$/;
+      if (!phoneRegex.test(this.registerForm.phone)) {
+        this.modalType = "error";
+        this.modalMessage = "手機號碼格式錯誤";
+        this.showModal = true;
+        return;
+      }
+      fetch("http://localhost:18080/member/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(this.registerForm),
+      })
+        //async(response)的response是瀏覽器收到的http response物件
+        //例如: HTTP/1.1 200 OK
+        //      Content-Type: application/json
+        //以及 JSON 內容：
+        //{
+        //    "message": "會員註冊成功"
+        // }
+        // async 代表這是一個非同步函式
+        .then(async (response) => {
+          const data = await response.json();
+          //await response.json()就是等待回應內容解析完成，才繼續執行下面的程式。
+          if (!response.ok) {
+            this.modalType = "error";
+            this.modalMessage = data.message;
+            this.showModal = true;
+            return;
+          }
+          console.log("註冊成功:", data);
+
+          this.registerForm = {
+            account: "",
+            password: "",
+            name: "",
+            email: "",
+            phone: "",
+          };
+          this.showRegisterModal = false;
+          this.showLoginModal = true;
+        })
+        .catch((error) => {
+          console.error("註冊發生錯誤:", error);
+        });
+    },
     async saveEditMember() {
       console.log("1. 進入 saveEditMember");
       try {

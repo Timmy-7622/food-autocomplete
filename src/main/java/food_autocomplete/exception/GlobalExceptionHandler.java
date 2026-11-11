@@ -6,7 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Map;
-import food_autocomplete.exception.DuplicateEmailException;
 
 // RestControllerAdvice 常用於集中處理 Controller 的例外 ，並將結果寫入回應 Body
 @RestControllerAdvice
@@ -39,4 +38,12 @@ public class GlobalExceptionHandler {
                                 .body(Map.of("message", ex.getMessage()));
         }
 
+        @ExceptionHandler(MemberAlreadyExistsException.class)
+        public ResponseEntity<Map<String, String>> handleMemberAlreadyExists(
+                        MemberAlreadyExistsException ex) {
+
+                return ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .body(Map.of("message", ex.getMessage()));
+        }
 }

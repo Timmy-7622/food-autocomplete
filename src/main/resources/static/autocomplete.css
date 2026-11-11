@@ -75,21 +75,15 @@
       .modal-overlay {
       /*  */
         position: fixed;
-
         top: 0;
         left: 0;
-
         width: 100%;
         height: 100%;
-
         background: rgba(0, 0, 0, 0.5);
-
         display: flex;
-
         justify-content: center;
         align-items: center;
-
-        z-index: 999;
+        z-index: 10000;
       }
 
       /* Modal 本體 */
@@ -316,6 +310,31 @@
         font-size: 16px;
         cursor: pointer;
       }
+      /* 註冊 Modal */
+      .register-modal{
+        display: flex;
+        flex-direction: column;
+      }
+      .register-modal-header{
+        display: flex;
+        box-sizing: border-box;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+      .register-modal-header .login-close-btn{
+        position: static;
+        margin-left: 16px;
+      }
+      .register-form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      .register-form-group label{
+        font-weight: 600;
+      }
       /* ================= 會員中心 ================= */
       .member-center-page{
         min-height: 100vh;
@@ -414,7 +433,38 @@
         border-color: #e53935;
         box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
       }
-      
+      .member-action-btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .member-primary-btn{
+        background-color: #c99c59;
+        color: #1e1e1e;
+        border: 1px solid #c99c59;
+      }
+      .member-primary-btn:hover{
+        background-color: #e0b77a;
+        transform: translateY(-2px);
+      }
+      /* 取消編輯 */
+      .member-secondary-btn{
+        background-color: transparent;
+        color: #ffffff;
+        border: 1px solid #777;
+      }
+      .member-secondary-btn:hover{
+        background-color: #414141;
+      }
+      /* 編輯狀態下兩個按鈕的排列 */
+      .member-edit-actions {
+        margin-top: 25px;
+        display: flex;
+        gap: 12px;
+      }
       /* ================= 會員中心 ================= */
       .order-list {
         width: 900px;

@@ -52,11 +52,15 @@
               <button
                 type="button"
                 class="member-login-btn"
-                @click="showLoginModal=true"
+                @click="showLoginModal = true"
               >
                 會員登入
               </button>
-              <button type="button" class="member-register-btn">
+              <button
+                type="button"
+                class="member-register-btn"
+                @click="showRegisterModal = true"
+              >
                 加入會員
               </button>
             </div>
@@ -89,24 +93,74 @@
             </button>
           </div>
           <div class="login-modal-body">
-            <label>帳號</label>
-            <input
-              type="text"
-              placeholder="請輸入帳號"
-              v-model="loginForm.account"
-            />
-            <label>密碼</label>
-            <input
-              type="password"
-              placeholder="請輸入密碼"
-              v-model="loginForm.password"
-            />
+            <div class="register-form-group">
+              <label>帳號</label>
+              <input
+                type="text"
+                placeholder="請輸入帳號"
+                v-model="loginForm.account"
+              />
+            </div>
+            <div class="register-form-group">
+              <label>密碼</label>
+              <input
+                type="password"
+                placeholder="請輸入密碼"
+                v-model="loginForm.password"
+              />
+            </div>
+
             <button type="button" class="login-submit-btn" @click="login">
               Login...
             </button>
             <!-- <button type="button" class="login-submit-btn" @click="checkLogin">
               測試登入使用者
             </button> -->
+          </div>
+        </div>
+      </div>
+      <!-- 會員註冊 Modal -->
+      <div v-if="showRegisterModal" class="login-modal-overlay">
+        <div class="login-modal register-modal">
+          <div class="login-modal-header register-modal-header">
+            <h2>JOIN MovieDay!</h2>
+            <button
+              type="button"
+              class="login-close-btn"
+              @click="showRegisterModal = false"
+            >
+              X
+            </button>
+          </div>
+
+          <div class="login-modal-body">
+            <h3>會員註冊</h3>
+            <div class="register-form-group">
+              <label>帳號</label>
+              <input type="text" v-model="registerForm.account" />
+            </div>
+
+            <div class="register-form-group">
+              <label>密碼</label>
+              <input type="password" v-model="registerForm.password" />
+            </div>
+
+            <div class="register-form-group">
+              <label>會員姓名</label>
+              <input type="text" v-model="registerForm.name" />
+            </div>
+
+            <div class="register-form-group">
+              <label>電子信箱</label>
+              <input type="email" v-model="registerForm.email" />
+            </div>
+
+            <label>手機號碼</label>
+            <input type="tel" v-model="registerForm.phone" />
+
+            <button type="button" class="login-submit-btn" @click="register">
+              會員註冊
+            </button>
           </div>
         </div>
       </div>
@@ -700,12 +754,27 @@
                   />
                 </div>
               </div>
-              <button v-if="!isEditing" type="button" @click="startEditMember">
+              <button
+                v-if="!isEditing"
+                type="button"
+                class="member-action-btn member-primary-btn"
+                @click="startEditMember"
+              >
                 編輯會員
               </button>
               <div v-else class="member-edit-actions">
-                <button type="button" @click="saveEditMember">儲存修改</button>
-                <button type="button" @click="cancelEditMember">
+                <button
+                  type="button"
+                  class="member-action-btn member-primary-btn"
+                  @click="saveEditMember"
+                >
+                  儲存修改
+                </button>
+                <button
+                  type="button"
+                  class="member-action-btn member-secondary-btn"
+                  @click="cancelEditMember"
+                >
                   取消編輯
                 </button>
               </div>
