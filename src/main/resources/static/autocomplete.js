@@ -99,6 +99,7 @@ createApp({
         email: "",
         phone: "",
       },
+      myBookings: [],
     };
   },
   // 計算後的資料 filter->篩選
@@ -298,6 +299,31 @@ createApp({
     goMemberCenter() {
       this.currentPage = "memberCenter";
     },
+    goBookingHistory() {
+      this.myBookings = [];
+      this.currentPage = "bookingHistory";
+      this.loadMyBookings();
+    },
+    loadMyBookings() {
+      fetch("http://localhost:18080/booking/my", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("查詢歷史訂單失敗");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          this.myBookings = data;
+          console.log("會員歷史訂單:", this.myBookings);
+        })
+        .catch((error) => {
+          console.error("取得歷史訂單失敗:", error);
+          this.showPaymentError("無法取得歷史訂單,請稍後再試");
+        });
+    },
     login() {
       console.log("login方法有進來");
       console.log("帳號", this.loginForm.account);
@@ -319,7 +345,18 @@ createApp({
 
         if (response.ok) {
           console.log("登入成功");
+
+          // 先清除可能殘留的舊會員資料
+          this.currentMember = null;
+          this.myBookings = [];
+          this.isEditing = false;
+          // 清空登入表單
+          this.loginForm = {
+            account: "",
+            password: "",
+          };
           this.showLoginModal = false;
+          //重新取得目前登入會員的資料
           this.checkLogin();
         } else {
           console.log("登入失敗");
@@ -349,14 +386,35 @@ createApp({
       fetch("http://localhost:18080/member/logout", {
         method: "POST",
         credentials: "include",
-      }).then((response) => {
-        if (response.ok) {
-          console.log("登出成功");
-          this.currentMember = null;
-        } else {
-          console.log("登出失敗");
-        }
-      });
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("登出成功");
+            this.currentMember = null;
+            //清除上一位會員的歷史訂單
+            this.myBookings = [];
+            //清除登入表單
+            this.loginForm = {
+              account: "",
+              password: "",
+            };
+            //清除會員編輯資料
+            this.editMemberForm = {
+              name: "",
+              email: "",
+              phone: "",
+            };
+            //關閉編輯狀態
+            this.isEditing = false;
+            //回到首頁
+            this.goHome();
+          } else {
+            console.log("登出失敗");
+          }
+        })
+        .catch((error) => {
+          console.error("登出發生錯誤:", error);
+        });
     },
     goMovieRatingSystem() {
       this.currentPage = "movieRatingSystem";
@@ -730,6 +788,7 @@ createApp({
       };
       fetch("http://localhost:18080/booking", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
       })
@@ -827,6 +886,10 @@ createApp({
       }
     },
     goTicketStep(session) {
+      if (!this.currentMember) {
+        this.showLoginModal = true;
+        return;
+      }
       if (!this.bookingInfo.time) {
         this.showPaymentError("請先選擇場次時間");
         return;
@@ -878,6 +941,10 @@ createApp({
       console.log(session);
       console.log(format);
       console.log(time);
+      if (!this.currentMember) {
+        this.showLoginModal = true;
+        return;
+      }
 
       const selectedDateInfo = this.availableDates.find(
         (date) => date.value === this.selectedDate,

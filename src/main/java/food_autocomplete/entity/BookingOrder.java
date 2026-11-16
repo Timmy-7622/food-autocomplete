@@ -61,72 +61,11 @@ public class BookingOrder {
     @Column(name = "COMPANYNAME")
     private String companyName;
 
+    @Column(name = "MEMBER_ID")
+    private Long memberId;
+
     public String getOrderNo() {
         return orderNo;
-    }
-
-    public String getMovieName() {
-        return movieName;
-    }
-
-    public String getCinema() {
-        return cinema;
-    }
-
-    public String getMovieDate() {
-        return movieDate;
-    }
-
-    public String getMovieTime() {
-        return movieTime;
-    }
-
-    public String getSeats() {
-        return seats;
-    }
-
-    public Integer getTicketCount() {
-        return ticketCount;
-    }
-
-    public Integer getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public Integer getServiceFee() {
-        return serviceFee;
-    }
-
-    public Integer getTotalPrice() {
-        return totalPrice;
-    }
-
-    public String getBuyerName() {
-        return buyerName;
-    }
-
-    public String getBuyerPhone() {
-        return buyerPhone;
-    }
-
-    public String getBuyerEmail() {
-        return buyerEmail;
-    }
-
-    public String getInvoiceType() {
-        return invoiceType;
-    }
-
-    public String getInvoiceCarrier() {
-        return invoiceCarrier;
-    }
-
-    public String getMobileBarcode() {
-        return mobileBarcode;
-    }
-
-    public String getCompanyName() {
-        return companyName;
     }
 
     public void setOrderNo(String orderNo) {
@@ -195,6 +134,78 @@ public class BookingOrder {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public String getCinema() {
+        return cinema;
+    }
+
+    public String getMovieDate() {
+        return movieDate;
+    }
+
+    public String getMovieTime() {
+        return movieTime;
+    }
+
+    public String getSeats() {
+        return seats;
+    }
+
+    public Integer getTicketCount() {
+        return ticketCount;
+    }
+
+    public Integer getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public Integer getServiceFee() {
+        return serviceFee;
+    }
+
+    public Integer getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public String getBuyerPhone() {
+        return buyerPhone;
+    }
+
+    public String getBuyerEmail() {
+        return buyerEmail;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public String getInvoiceCarrier() {
+        return invoiceCarrier;
+    }
+
+    public String getMobileBarcode() {
+        return mobileBarcode;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public Long getMemberId() {
+        return memberId;
     }
 
 }

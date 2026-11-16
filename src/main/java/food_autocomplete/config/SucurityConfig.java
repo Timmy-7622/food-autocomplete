@@ -39,7 +39,10 @@ public class SucurityConfig {
                                                 .requestMatchers(
                                                                 "/member/me",
                                                                 "/member/logout",
-                                                                "/member/profile")
+                                                                "/member/profile",
+                                                                "/booking",
+                                                                "/booking/my")
+
                                                 .authenticated()
                                                 .anyRequest().permitAll());
                 return http.build();

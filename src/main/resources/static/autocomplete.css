@@ -2259,7 +2259,7 @@
       }
       
       /* =================================================================Step4 E============================================================= */
-      /* ==============================================  預覽座位 S =========================================================================== */
+      /* ==============================================  預覽座位 S ===========================================================================*/
       .section-titleⅠ {
         margin-bottom: 35px;
 
@@ -2368,3 +2368,69 @@
         margin-top: 10px;
       }
       /* ==============================================  預覽座位 E ======================================================================= */
+      /* ===================================================  Oederdetail S ==============================================================*/
+      /* 歷史訂單列表 */
+      .booking-history-list{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      /* 單筆訂單卡片 */
+      .booking-history-card{
+        background-color: #303030;
+        border: 1px solid #484848;
+        border-radius: 12px;
+        padding: 25px 30px;
+        color: #ffffff;
+      }
+      /* 電影名稱 */
+      .booking-history-movie{
+        font-size: 22px;
+        font-weight: bold;
+        color: #ffffff;
+        margin: 0 0 10px;
+      }
+      .booking-history-order-no{
+        font-size: 14px;
+        color: #aaaaaa;
+        margin: 0;
+      }
+      /* 中間資訊區域 */
+      .booking-history-info{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        padding: 25px 0;
+        margin-top: 20px;
+        border-top: 1px solid #484848;
+      }
+      /* 單一資訊項目 */
+      .booking-history-item{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow-wrap: anywhere;
+        font-size: 16px;
+      }
+      /* 資訊標籤 */
+      .booking-history-label {
+        color: #aaaaaa;
+        font-size: 14px;
+      } 
+      /* 卡片底部 */
+      .booking-history-footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding-top: 20px;
+        border-top: 1px solid #484848;
+        color: #aaaaaa;
+      }   
+      /* 金額 */
+      .booking-history-footer strong{
+        font-size: 22px;
+        color: #f04444;
+      }
+      /* ===================================================  Oederdetail E ==============================================================*/

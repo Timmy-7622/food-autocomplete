@@ -12,4 +12,6 @@ public interface MemberRepository
 
     boolean existsByEmailAndMemberIdNot(String email, Long memberId);
 
+    boolean existsByEmail(String email);
+
 }

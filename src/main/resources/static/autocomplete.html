@@ -71,7 +71,7 @@
               </span>
               <div class="nav-dropdown-menu">
                 <a href="#" @click.prevent="goMemberCenter">會員中心</a>
-                <a href="#">歷史訂單</a>
+                <a href="#" @click.prevent="goBookingHistory">歷史訂單</a>
                 <a href="#" @click.prevent="logout">登出</a>
               </div>
             </div>
@@ -783,6 +783,70 @@
         </div>
       </div>
       <!-- 會員中心 E -->
+      <!-- 歷史訂單 S -->
+      <div
+        v-if="currentPage === 'bookingHistory' && currentMember"
+        class="member-center-page"
+      >
+        <div class="member-center-container">
+          <div class="section-title">
+            <div class="title-en">
+              <span class="red-dot"></span>
+              <span>BOOKING HISTORY</span>
+            </div>
+            <div class="title-zh">歷史訂單</div>
+          </div>
+
+          <div v-if="myBookings.lenght == 0">
+            <p>目前沒有訂單</p>
+          </div>
+
+          <div v-else class="booking-history-list">
+            <div
+              v-for="order in myBookings"
+              :key="order.orderNo"
+              class="booking-history-card"
+            >
+              <!-- 訂單上方：電影名稱、訂單編號 -->
+              <div class="booking-history-header">
+                <div>
+                  <h3 class="booking-history-movie">{{ order.movieName }}</h3>
+                  <p class="booking-history-order-no">
+                    訂單編號：{{ order.orderNo }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- 訂單資訊 -->
+              <div class="booking-history-info">
+                <div class="booking-history-item">
+                  <span class="booking-history-label">影城</span>
+                  <span>{{ order.cinema }}</span>
+                </div>
+                <div class="booking-history-item">
+                  <span class="booking-history-label">觀影日期</span>
+                  <span>{{ order.movieDate }}</span>
+                </div>
+                <div class="booking-history-item">
+                  <span class="booking-history-label">觀影時間</span>
+                  <span>{{ order.movieTime }}</span>
+                </div>
+                <div class="booking-history-item">
+                  <span class="booking-history-label">座位</span>
+                  <span>{{ order.seats }}</span>
+                </div>
+              </div>
+
+              <!-- 訂單下方：金額 -->
+              <div class="booking-history-footer">
+                <span>訂單總金額</span>
+                <strong>NT$ {{ order.totalPrice }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 歷史訂單 E -->
       <!-- ======================================會員下拉選單 E=====================================================-->
       <!-- ======================================currentSession Start==============================================-->
       <!-- 場次頁面 -->

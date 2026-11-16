@@ -25,6 +25,10 @@ public class MemberService {
         if (memberRepository.findByAccount(member.getAccount()).isPresent()) {
             throw new MemberAlreadyExistsException("帳號已存在");
         }
+        // 1. 檢查Email是否已存在
+        if (memberRepository.existsByEmail(member.getEmail())) {
+            throw new DuplicateEmailException("此 Email 已被註冊，請使用其他 Email");
+        }
 
         // encode把密碼用亂碼處理...
         String encodedPassword = passwordEncoder.encode(member.getPassword());

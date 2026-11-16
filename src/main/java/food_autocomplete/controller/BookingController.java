@@ -5,14 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import food_autocomplete.dto.BookingDTO;
 import food_autocomplete.entity.BookingOrder;
+import food_autocomplete.entity.Member;
 import food_autocomplete.repository.BookingOrderRepository;
+import food_autocomplete.service.MemberService;
 
 // 當你在一個類別的上方加上 @RestController，這個類別就變成了一個 Web 伺服器的後端接口，可以接收前端發送過來的 HTTP 請求
 @RestController
@@ -20,9 +25,12 @@ public class BookingController {
 
     @Autowired
     private BookingOrderRepository bookingOrderRepository;
+    @Autowired
+    private MemberService memberService;
 
     @PostMapping("/booking")
-    public Map<String, Object> booking(@RequestBody BookingDTO dto) {
+    // 這裡的 Authentication 是 Spring Security 提供的登入身分資訊。
+    public Map<String, Object> booking(@RequestBody BookingDTO dto, Authentication authentication) {
         System.out.println("===========接收到訂單=============");
         System.out.println(dto.getOrderNo());
         System.out.println(dto.getMovieName());
@@ -69,6 +77,15 @@ public class BookingController {
         order.setMobileBarcode(dto.getMobileBarcode());
         order.setCompanyName(dto.getCompanyName());
 
+        // 確認目前有已登入的會員
+        if (authentication == null || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "請先登入會員");
+        }
+        String account = authentication.getName();
+        Member member = memberService.findByAccount(account);
+        order.setMemberId(member.getMemberId());
         System.out.println("準備存資料庫");
         bookingOrderRepository.save(order);
         System.out.println("存資料庫完成");
@@ -85,6 +102,13 @@ public class BookingController {
     public List<BookingOrder> getAll() {
 
         return bookingOrderRepository.findAll();
+    }
+
+    @GetMapping("/booking/my")
+    public List<BookingOrder> getMyBookings(Authentication authentication) {
+        String account = authentication.getName();
+        Member member = memberService.findByAccount(account);
+        return bookingOrderRepository.findByMemberId(member.getMemberId());
     }
 
 }
