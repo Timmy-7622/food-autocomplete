@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import food_autocomplete.dto.BookingDTO;
+import food_autocomplete.dto.SoldSeatResponseDTO;
 import food_autocomplete.entity.BookingOrder;
 import food_autocomplete.entity.Member;
 import food_autocomplete.repository.BookingOrderRepository;
@@ -99,9 +100,19 @@ public class BookingController {
     }
 
     @GetMapping("/booking/list")
-    public List<BookingOrder> getAll() {
-
-        return bookingOrderRepository.findAll();
+    public List<SoldSeatResponseDTO> getAll() {
+        List<BookingOrder> orders = bookingOrderRepository.findAll();
+        // stream() 是 Java 提供的資料處理功能，可以對集合中的元素進行轉換、篩選等操作。
+        // 你可以先把它理解成： 準備依序處理 orders 裡面的每一筆資料。
+        return orders.stream()
+                .map(order -> new SoldSeatResponseDTO(
+                        order.getMovieName(),
+                        order.getCinema(),
+                        order.getMovieDate(),
+                        order.getMovieTime(),
+                        order.getSeats()))
+                .toList();
+        // 最後的 toList() 就是把轉換結果收集成一個新的 List。
     }
 
     @GetMapping("/booking/my")
